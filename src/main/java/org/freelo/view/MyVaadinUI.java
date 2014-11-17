@@ -16,6 +16,7 @@ public class MyVaadinUI extends UI {
     @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired
     SpringViewProvider viewProvider;
+
     Navigator navigator;
     protected static final String LOGINVIEW = "LoginView";
     @Autowired
@@ -27,7 +28,6 @@ public class MyVaadinUI extends UI {
         navigator = new Navigator(this,this);
         navigator.addProvider(viewProvider);
         navigator.addView("",viewProvider.getView(LOGINVIEW));
-        //navigator.addView("", new LoginView(navigator));
     }
 
 }

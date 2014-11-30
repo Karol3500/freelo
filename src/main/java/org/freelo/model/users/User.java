@@ -2,7 +2,8 @@ package org.freelo.model.users;
 
 import javax.persistence.*;
 import javax.persistence.GeneratedValue;
-import java.sql.Date;
+import java.util.Date;
+
 
 @Entity
 @Table
@@ -27,17 +28,25 @@ public class User {
 	@Column
 	private Date _created; // user's register time
 
+	public User ()	{}
 
+	public User(String fname, String lname, String email, String password){
+		_firstName = fname;
+		_lastName = lname;
+		_email = email;
+		_password = password;
+		_created = new Date();
+	}
 
 	public int getId() {
 		return _ID;
 	}
-	public void setId(int id) { this._ID = id; }
+	//public void setId(int id) { this._ID = id; }
 
 	public String getEmail() { return _email; }
 	public void setEmail(String email) { this._email = email; }
 
-	public String getName() { return _firstName; }
+	public String getFirstName() { return _firstName; }
 	public void setName(String name) { this._firstName = name; }
 
 	public String getLastName() { return _lastName; }
@@ -47,6 +56,6 @@ public class User {
 	public void setPassword(String password) { this._password = password; }
 
 	public Date getDate() { return _created; }
-	public void setDate(Date createdDate) { this._created = createdDate; }
+	//public void setDate(Date createdDate) { this._created = createdDate; }
 
 }

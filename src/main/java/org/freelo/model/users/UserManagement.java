@@ -1,25 +1,23 @@
 package org.freelo.model.users;
 
 
+import org.freelo.model.SessionFactoryBean;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class UserManagement {
 
-    private static SessionFactory factory;
-
-    public UserManagement() {
-        factory = new Configuration().configure().buildSessionFactory();
-    }
-
+    @Autowired
+    SessionFactoryBean factoryBean;
 
 
     // change basic information about the user if ID is known
     public void testDisplay(int ID){
-        Session session = factory.openSession();
+        Session session = factoryBean.getSession();
         Transaction tx = null;
         try{
             tx = session.beginTransaction();
@@ -43,7 +41,7 @@ public class UserManagement {
 
     // add a new user
     public Integer userAdd(String fname, String lname, String email, String password){
-        Session session = factory.openSession();
+        Session session = factoryBean.getSession();
         Transaction tx = null;
         Integer employeeID = null;
         try{
@@ -64,7 +62,7 @@ public class UserManagement {
 
     // delete user from DB
     public void deleteUser(Integer EmployeeID){
-        Session session = factory.openSession();
+        Session session = factoryBean.getSession();
         Transaction tx = null;
         try{
             tx = session.beginTransaction();
@@ -82,7 +80,7 @@ public class UserManagement {
 
     // change basic information about the user if ID is known
     public void userUpdate(int ID, String fname, String lname, String email, String password){
-        Session session = factory.openSession();
+        Session session = factoryBean.getSession();
         Transaction tx = null;
         try{
             tx = session.beginTransaction();

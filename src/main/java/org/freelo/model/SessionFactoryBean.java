@@ -21,7 +21,7 @@ public class SessionFactoryBean {
     @PostConstruct
     void construct(){
         Configuration configuration = new Configuration();
-        configuration.configure();
+        configuration.configure("/META-INF/hibernate.cfg.xml");
         ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
         sessionFactory = configuration.buildSessionFactory(serviceRegistry);
     }

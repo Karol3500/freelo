@@ -70,7 +70,12 @@
             <artifactId>commons-io</artifactId>
             <version>2.4</version>
         </dependency>
-	</dependencies>
+        <dependency>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+            <version>1</version>
+        </dependency>
+    </dependencies>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -83,6 +88,9 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>org.freelo.Application</mainClass>
+                </configuration>
 			</plugin>
 		</plugins>
 	</build>

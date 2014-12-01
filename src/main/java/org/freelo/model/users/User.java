@@ -28,7 +28,13 @@ public class User {
 	@Column
 	private Date _created; // user's register time
 
-	public User ()	{}
+	public User(){
+		_firstName = "";
+		_lastName = "";
+		_email = "";
+		_password = "";
+		_created = new Date();
+	}
 
 	public User(String fname, String lname, String email, String password){
 		_firstName = fname;

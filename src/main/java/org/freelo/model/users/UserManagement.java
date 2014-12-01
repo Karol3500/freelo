@@ -4,8 +4,10 @@ package org.freelo.model.users;
 import org.freelo.model.SessionFactoryBean;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
+//import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
+import java.util.Iterator;
 
 public class UserManagement {
 
@@ -13,22 +15,24 @@ public class UserManagement {
     SessionFactoryBean factoryBean;
 
 
-    // change basic information about the user if ID is known
-    public void testDisplay(int ID){
+
+    public void testDisplay(){
         Session session = factoryBean.getSession();
         try{
             session.beginTransaction();
-            User user =
-                    (User)session.get(User.class, ID);
 
-            //jak to kurwa wyswietlic...
             System.out.println();
             System.out.println();
             System.out.println();
+            //System.out.println(user.getId()+" "+user.getFirstName()+" "+user.getLastName()+" "+user.getEmail()+" "+user.getPassword()+" "+user.getDate());
+
+            List users = session.createQuery("FROM User").list();
             System.out.println();
             System.out.println("/n/nID/t name/t lastname/t email/t password/t date/t time/t/n");
-            System.out.println(user.getId()+" "+user.getFirstName()+" "+user.getLastName()+" "+user.getEmail()+" "+user.getPassword()+" "+user.getDate());
-
+            for (Iterator iterator = users.iterator(); iterator.hasNext();){
+                User user = (User) iterator.next();
+                System.out.println(user.getId()+" "+user.getFirstName()+" "+user.getLastName()+" "+user.getEmail()+" "+user.getPassword()+" "+user.getDate());
+            }
 
         }catch (HibernateException e) {
             e.printStackTrace();
@@ -38,6 +42,31 @@ public class UserManagement {
     }
 
 
+    public User getUserByMail(String email){
+        Session session = factoryBean.getSession();
+        User user = new User();
+        try{
+            session.beginTransaction();
+
+            List users = session.createQuery("FROM User").list();
+            for (Iterator iterator = users.iterator(); iterator.hasNext();){
+
+                User temp = (User) iterator.next();
+                if (email.equals(temp.getEmail())) {
+                    user = temp;
+                    break;
+                }
+
+            }
+
+            session.getTransaction().commit();
+        }catch (HibernateException e) {
+            e.printStackTrace();
+        }finally {
+            session.close();
+        }
+        return user;
+    }
 
 
     // add a new user

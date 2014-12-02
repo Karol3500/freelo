@@ -3,15 +3,11 @@ package org.freelo.model.tasks;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import org.freelo.model.users.User;
 
+@Entity
 @Table(name="NOTES")
 public class Note {
 	@Id

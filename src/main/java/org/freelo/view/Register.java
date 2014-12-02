@@ -1,19 +1,34 @@
 package org.freelo.view;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Page;
 import com.vaadin.shared.Position;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.PasswordField;
+import com.vaadin.ui.TextField;
+import com.vaadin.ui.VerticalLayout;
 
 
 /**
  * Created by Konrad on 2014-11-16.
  */
+@Component
+@Scope("prototype")
 public class Register extends VerticalLayout implements View {
 
-    public static final String NAME = "Registration";
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 645144581199267137L;
+	public static final String NAME = "Registration";
     protected final PasswordField password = new PasswordField("Password");
     protected final Label title = new Label("Registration");
     protected final TextField username = new TextField("Username");
@@ -32,14 +47,24 @@ public class Register extends VerticalLayout implements View {
 
         setSizeFull();
         BackButton = new Button("Back", new Button.ClickListener() {
-            @Override
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = -2456226905721789089L;
+
+			@Override
         public void buttonClick(Button.ClickEvent clickEvent) {
                 getUI().getNavigator().navigateTo(SimpleLoginView.NAME);
 
             }
         });
         RegisterMe = new Button("Proceed", new Button.ClickListener() {
-            @Override
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = -3960519875593438075L;
+
+			@Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 String username = mail.getValue();
                 //Add some controller handler to obtain data from method

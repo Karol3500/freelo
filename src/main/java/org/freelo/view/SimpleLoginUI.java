@@ -1,5 +1,8 @@
 package org.freelo.view;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.vaadin.spring.VaadinUI;
+
 import com.vaadin.annotations.Theme;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.ViewChangeListener;
@@ -10,9 +13,21 @@ import com.vaadin.ui.UI;
  * Created by Konrad on 2014-11-17.
  */
 @Theme("themefreelo")
+@VaadinUI
 public class SimpleLoginUI extends UI {
 
-    @Override
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3048506907544622091L;
+	@Autowired
+	public SimpleLoginView loginView;
+	@Autowired
+	public TaskPage taskPageView;
+	@Autowired
+	public Register registerView;
+	
+	@Override
     protected void init(VaadinRequest request) {
 
         //
@@ -24,21 +39,26 @@ public class SimpleLoginUI extends UI {
         //
         // The initial log view where the user can login to the application
         //
-        getNavigator().addView(SimpleLoginView.NAME, SimpleLoginView.class);//
+        getNavigator().addView(SimpleLoginView.NAME, loginView);
 
         //
         // Add the main view of the application
         //
-        getNavigator().addView(TaskPage.NAME, TaskPage.class);
+        getNavigator().addView(TaskPage.NAME, taskPageView);
 
         //
-        getNavigator().addView(Register.NAME, Register.class);
+        getNavigator().addView(Register.NAME, registerView);
         // We use a view change handler to ensure the user is always redirected
         // to the login view if the user is not logged in.
         //
         getNavigator().addViewChangeListener(new ViewChangeListener() {
 
-            @Override
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = 7439433006285214464L;
+
+			@Override
             public boolean beforeViewChange(ViewChangeEvent event) {
 
                 // Check if a user has logged in

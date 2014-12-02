@@ -1,139 +1,187 @@
 package org.freelo.view;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import com.vaadin.data.validator.AbstractValidator;
 import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.CustomComponent;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.PasswordField;
+import com.vaadin.ui.TextField;
+import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.Reindeer;
 
+
+@Component
+@Scope("prototype")
 public class SimpleLoginView extends CustomComponent implements View,
-        Button.ClickListener {
+Button.ClickListener {
 
-    public static final String NAME = "login";
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4241677791091569418L;
 
-    private final TextField user;
+	public static final String NAME = "login";
+	
+	private static final String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+	private static final String PASSWORD_PATTERN = "^.{8,}$";
 
-    private final PasswordField password;
+	private Pattern loginPattern = Pattern.compile(EMAIL_PATTERN);
+	private Pattern passwordPattern = Pattern.compile(PASSWORD_PATTERN);
+	
+	private final TextField textFieldUser;
 
-    private final Button loginButton;
+	private final PasswordField textFieldPassword;
 
-    private final Button registerButton;
+	public final Button loginButton;
 
-    public SimpleLoginView() {
-        setSizeFull();
+	public final Button registerButton;
 
-        // Create the user input field
-        user = new TextField("User:");
-        user.setWidth("300px");
-        user.setRequired(true);
-        user.setInputPrompt("Your username (eg. joe@email.com)");
-        user.addValidator(new EmailValidator(
-                "Username must be an email address"));
-        user.setInvalidAllowed(false);
+	public SimpleLoginView() {
+		setSizeFull();
 
-        // Create the password input field
-        password = new PasswordField("Password:");
-        password.setWidth("300px");
-        password.addValidator(new PasswordValidator());
-        password.setRequired(true);
-        password.setValue("");
-        password.setNullRepresentation("");
+		// Create the user input field
+		textFieldUser = new TextField("User:");
+		textFieldUser.setWidth("300px");
+		textFieldUser.setRequired(true);
+		textFieldUser.setInputPrompt("Your username (eg. joe@email.com)");
+		textFieldUser.addValidator(new EmailValidator(
+				"Username must be an email address"));
+		textFieldUser.setInvalidAllowed(false);
 
-        // Create login button
-        loginButton = new Button("Login", this);
-        // Create register button
-        registerButton = new Button("Register", new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                getUI().getNavigator().navigateTo(Register.NAME);
-            }
-        });
-        // Add both to a panel
-        VerticalLayout fields = new VerticalLayout(user, password, loginButton, registerButton);
-        fields.setCaption("Please login to access the application. (test@test.com/passw0rd)");
-        fields.setSpacing(true);
-        fields.setMargin(new MarginInfo(true, true, true, true));
-        fields.setSizeUndefined();
+		// Create the password input field
+		textFieldPassword = new PasswordField("Password:");
+		textFieldPassword.setWidth("300px");
+		textFieldPassword.addValidator(new PasswordValidator());
+		textFieldPassword.setRequired(true);
+		textFieldPassword.setValue("");
+		textFieldPassword.setNullRepresentation("");
 
-        // The view root layout
-        VerticalLayout viewLayout = new VerticalLayout(fields);
-        viewLayout.setSizeFull();
-        viewLayout.setComponentAlignment(fields, Alignment.MIDDLE_CENTER);
-        viewLayout.setStyleName(Reindeer.LAYOUT_BLUE);
-        setCompositionRoot(viewLayout);
-    }
+		// Create login button
+		loginButton = new Button("Login");
+		loginButton.addClickListener(this);
+		// Create register button
+		registerButton = new Button("Register", new Button.ClickListener() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -7173240164416449514L;
 
-    @Override
-    public void enter(ViewChangeListener.ViewChangeEvent event) {
-        // focus the username field when user arrives to the login view
-        user.focus();
-    }
+			@Override
+			public void buttonClick(Button.ClickEvent clickEvent) {
+				getUI().getNavigator().navigateTo(Register.NAME);
+			}
+		});
+		// Add both to a panel
+		VerticalLayout fields = new VerticalLayout(textFieldUser, textFieldPassword, loginButton, registerButton);
+		fields.setCaption("Please login to access the application. (test@test.com/passw0rd)");
+		fields.setSpacing(true);
+		fields.setMargin(new MarginInfo(true, true, true, true));
+		fields.setSizeUndefined();
 
-    // Validator for validating the passwords
-    private static final class PasswordValidator extends
-            AbstractValidator<String> {
+		// The view root layout
+		VerticalLayout viewLayout = new VerticalLayout(fields);
+		viewLayout.setSizeFull();
+		viewLayout.setComponentAlignment(fields, Alignment.MIDDLE_CENTER);
+		viewLayout.setStyleName(Reindeer.LAYOUT_BLUE);
+		setCompositionRoot(viewLayout);
+	}
 
-        public PasswordValidator() {
-            super("The password provided is not valid");
-        }
+	@Override
+	public void enter(ViewChangeListener.ViewChangeEvent event) {
+		// focus the username field when user arrives to the login view
+		textFieldUser.focus();
+	}
 
-        @Override
-        protected boolean isValidValue(String value) {
-            //
-            // Password must be at least 8 characters long and contain at least
-            // one number
-            //
-            if (value != null
-                    && (value.length() < 8 || !value.matches(".*\\d.*"))) {
-                return false;
-            }
-            return true;
-        }
+	private static final class PasswordValidator extends
+	AbstractValidator<String> {
 
-        @Override
-        public Class<String> getType() {
-            return String.class;
-        }
-    }
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -5461407030697310024L;
 
-    @Override
-    public void buttonClick(Button.ClickEvent event) {
+		public PasswordValidator() {
+			super("The password provided is not valid");
+		}
 
-        //
-        // Validate the fields using the navigator. By using validors for the
-        // fields we reduce the amount of queries we have to use to the database
-        // for wrongly entered passwords
-        //
-        if (!user.isValid() || !password.isValid()) {
-            return;
-        }
+		@Override
+		protected boolean isValidValue(String value) {
+			//
+			// Password must be at least 8 characters long and contain at least
+			// one number
+			//
+			Pattern pattern = Pattern.compile(PASSWORD_PATTERN);
+			Matcher m = pattern.matcher(value);
+			if(m.matches()){
+				return true;
+			}
+			return false;
+		}
 
-        String username = user.getValue();
-        String password = this.password.getValue();
+		@Override
+		public Class<String> getType() {
+			return String.class;
+		}
+	}
 
-        //
-        // Validate username and password with database here. For examples sake
-        // I use a dummy username and password.
-        //
-        boolean isValid = username.equals("test@test.com")
-                && password.equals("passw0rd");
+	private boolean validateLogin(){
+		
+		Matcher m = loginPattern.matcher(textFieldUser.getValue());
+		if(m.matches()){
+			return true;
+		}
+		return false;
+	}
+	
+	private boolean validatePassword(){
+		Matcher m = passwordPattern.matcher(textFieldPassword.getValue());
+		if(m.matches()){
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean validateLoginAndPassword(){
+		if(validateLogin()&&validatePassword()){
+			return true;
+		}
+		return false;
+	}
 
-        if (isValid) {
+	public void storeCurrentUserInServiceSession(){
+		String username = textFieldUser.getValue();
+		getSession().setAttribute("user", username);
+	}
+	
+	public void navigateToMainView(){
+		getUI().getNavigator().navigateTo(TaskPage.NAME);
+	}
 
-            // Store the current user in the service session
-            getSession().setAttribute("user", username);
-
-            // Navigate to main view
-            getUI().getNavigator().navigateTo(TaskPage.NAME);//
-
-        } else {
-
-            // Wrong password clear the password field and refocuses it
-            this.password.setValue(null);
-            this.password.focus();
-
-        }
-    }
+	@Override
+	public void buttonClick(ClickEvent event) {
+		if(!validateLogin()){
+			textFieldUser.setValue(null);
+			textFieldUser.focus();
+		}
+		if(!validatePassword()){
+			this.textFieldPassword.setValue(null);
+			this.textFieldPassword.focus();
+		}
+	}
+	
+	public void showNotification(String n){
+		Notification.show(n);
+	}
 }

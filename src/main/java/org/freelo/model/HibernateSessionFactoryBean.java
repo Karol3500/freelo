@@ -16,7 +16,7 @@ import javax.annotation.PostConstruct;
  */
 @Component
 @Scope("singleton")
-public class SessionFactoryBean {
+public class HibernateSessionFactoryBean {
     static SessionFactory sessionFactory;
     @PostConstruct
     void construct(){

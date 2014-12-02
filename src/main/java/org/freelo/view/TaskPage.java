@@ -1,17 +1,34 @@
 package org.freelo.view;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Page;
 import com.vaadin.shared.Position;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.Panel;
+import com.vaadin.ui.TextField;
+import com.vaadin.ui.VerticalLayout;
+
 
 /**
  * Created by Jan on 2014-11-08.
  */
-
+@Component
+@Scope("prototype")
 public class TaskPage extends HorizontalLayout implements View{
-    public static final String NAME = "";
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -906274928780939032L;
+	public static final String NAME = "";
     public TaskPage() {
         setSizeFull();
         addStyleName("taskpage");
@@ -61,7 +78,12 @@ public class TaskPage extends HorizontalLayout implements View{
         final Button button1 = new Button("Add Card");
         button1.addStyleName("button1");
         button1.addClickListener(new Button.ClickListener() {
-            public void buttonClick(Button.ClickEvent event) {
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = 2181474159749123339L;
+
+			public void buttonClick(Button.ClickEvent event) {
                 todo.addComponent(new TaskCard());
                 todo.addComponent(new TaskCard2());
 
@@ -70,7 +92,12 @@ public class TaskPage extends HorizontalLayout implements View{
         });
         Button logout = new Button("Logout", new Button.ClickListener() {
 
-            @Override
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = -3494334621547144379L;
+
+			@Override
             public void buttonClick(Button.ClickEvent event) {
 
                 // "Logout" the user
@@ -102,7 +129,12 @@ public class TaskPage extends HorizontalLayout implements View{
 
     public class TaskCard extends VerticalLayout {
 
-        public TaskCard() {
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 4924234591401040269L;
+
+		public TaskCard() {
             final CssLayout taskCard = new CssLayout();
             taskCard.addStyleName("task-card");
             taskCard.setWidth("90%");
@@ -123,7 +155,12 @@ public class TaskPage extends HorizontalLayout implements View{
 
     public class TaskCard2 extends VerticalLayout {
 
-        public TaskCard2() {
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 88181197949105415L;
+
+		public TaskCard2() {
             final CssLayout taskCard = new CssLayout();
             taskCard.addStyleName("task-card");
             taskCard.setWidth("90%");

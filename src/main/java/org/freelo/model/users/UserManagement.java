@@ -1,7 +1,7 @@
 package org.freelo.model.users;
 
 
-import org.freelo.model.SessionFactoryBean;
+import org.freelo.model.HibernateSessionFactoryBean;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 //import org.hibernate.Transaction;
@@ -10,14 +10,8 @@ import java.util.List;
 import java.util.Iterator;
 
 public class UserManagement {
-
-    @Autowired
-    SessionFactoryBean factoryBean;
-
-
-
     public void testDisplay(){
-        Session session = factoryBean.getSession();
+        Session session = HibernateSessionFactoryBean.getSession();
         try{
             session.beginTransaction();
 
@@ -42,8 +36,8 @@ public class UserManagement {
     }
 
 
-    public User getUserByMail(String email){
-        Session session = factoryBean.getSession();
+    public static User getUserByMail(String email){
+        Session session = HibernateSessionFactoryBean.getSession();
         User user = new User();
         try{
             session.beginTransaction();
@@ -70,8 +64,8 @@ public class UserManagement {
 
 
     // add a new user
-    public Integer userAdd(String fname, String lname, String email, String password){
-        Session session = factoryBean.getSession();
+    public static Integer userAdd(String fname, String lname, String email, String password){
+        Session session = HibernateSessionFactoryBean.getSession();
         Integer employeeID = null;
         try{
             session.beginTransaction();
@@ -89,8 +83,8 @@ public class UserManagement {
 
 
     // delete user from DB
-    public void deleteUser(Integer EmployeeID){
-        Session session = factoryBean.getSession();
+    public static void deleteUser(Integer EmployeeID){
+        Session session = HibernateSessionFactoryBean.getSession();
         try{
             session.beginTransaction();
             User user =
@@ -105,8 +99,8 @@ public class UserManagement {
     }
 
     // change basic information about the user if ID is known
-    public void userUpdate(int ID, String fname, String lname, String email, String password){
-        Session session = factoryBean.getSession();
+    public static void userUpdate(int ID, String fname, String lname, String email, String password){
+        Session session = HibernateSessionFactoryBean.getSession();
         try{
             session.beginTransaction();
             User user =

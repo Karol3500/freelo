@@ -1,5 +1,7 @@
 package org.freelo.view;
 
+import com.vaadin.data.validator.AbstractValidator;
+import com.vaadin.data.validator.EmailValidator;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +18,9 @@ import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 
 /**
  * Created by Konrad on 2014-11-16.
@@ -28,6 +33,11 @@ public class Register extends VerticalLayout implements View {
 	 * 
 	 */
 	private static final long serialVersionUID = 645144581199267137L;
+    private static final String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+    private static final String PASSWORD_PATTERN = "^.{8,}$";
+    private Pattern loginPattern = Pattern.compile(EMAIL_PATTERN);
+    private Pattern passwordPattern = Pattern.compile(PASSWORD_PATTERN);
+
 	public static final String NAME = "Registration";
     protected final PasswordField password = new PasswordField("Password");
     protected final Label title = new Label("Registration");
@@ -40,8 +50,10 @@ public class Register extends VerticalLayout implements View {
     public Register(){
         password.setInputPrompt("Please use big letters and numbers !");
         password.isRequired();
+        password.addValidator(new PasswordValidator());
         username.isRequired();
         mail.isRequired();
+        mail.addValidator(new EmailValidator("Wrong mail format !"));
         Button RegisterMe;
         Button BackButton;
 
@@ -73,9 +85,15 @@ public class Register extends VerticalLayout implements View {
                 Notification welcome = new Notification(username + " registered !");
                 welcome.setDelayMsec(20000);
                 welcome.setPosition(Position.MIDDLE_CENTER);
-                boolean password_status = check_the_password();
-                getUI().getNavigator().navigateTo(SimpleLoginView.NAME);
-                welcome.show(Page.getCurrent());
+//                boolean password_status = check_the_password();
+                if(!validateEMAILandPassword()) {
+                    getUI().getNavigator().navigateTo(NAME);
+
+                } else {
+                    getUI().getNavigator().navigateTo(SimpleLoginView.NAME);
+                    welcome.show(Page.getCurrent());
+                }
+
 
             }
 
@@ -103,35 +121,89 @@ public class Register extends VerticalLayout implements View {
         return user_data;
     }
 
-    private boolean check_the_password() {
+    private static final class PasswordValidator extends
+            AbstractValidator<String> {
 
-        String pass = password.getValue();
-        boolean digit_stat;
-        boolean Upstatus = false;
-        boolean len_stat;
-        int pass_length = pass.length();
+        /**
+         *
+         */
+        private static final long serialVersionUID = -5461407030697310024L;
 
-        if(pass_length >=8){
-            len_stat = true;
-        } else {
-            len_stat = false;
+        public PasswordValidator() {
+            super("The password provided is not valid");
         }
 
-        for(int i = 0; i < pass_length; i++){
-            if(Character.isUpperCase(i)){
-                Upstatus = true;
-            } else {
-                Upstatus = false;
+        @Override
+        protected boolean isValidValue(String value) {
+            //
+            // Password must be at least 8 characters long and contain at least
+            // one number
+            //
+            Pattern pattern = Pattern.compile(PASSWORD_PATTERN);
+            Matcher m = pattern.matcher(value);
+            if(m.matches()){
+                return true;
             }
-        }
-        if(pass.matches(".*\\d.*")){
-            digit_stat = true;
-        } else {
-            digit_stat = false;
-        }
-        if(len_stat && Upstatus && digit_stat){
-        return true;
-        } else {
             return false;
         }
-    }}
+
+        @Override
+        public Class<String> getType() {
+            return String.class;
+        }
+    }
+    private boolean validateEmail(){
+
+        Matcher m = loginPattern.matcher(mail.getValue());
+        if(m.matches()){
+            return true;
+        }
+        return false;
+    }
+
+    private boolean validatePassword(){
+        Matcher m = passwordPattern.matcher(password.getValue());
+        if(m.matches()){
+            return true;
+        }
+        return false;
+    }
+    public boolean validateEMAILandPassword() {
+        if(validateEmail()&&validatePassword()) {
+            return true;
+        }
+        return false;
+    }
+//    private boolean check_the_password() {
+//
+//        String pass = password.getValue();
+//        boolean digit_stat;
+//        boolean Upstatus = false;
+//        boolean len_stat;
+//        int pass_length = pass.length();
+//
+//        if(pass_length >=8){
+//            len_stat = true;
+//        } else {
+//            len_stat = false;
+//        }
+//
+//        for(int i = 0; i < pass_length; i++){
+//            if(Character.isUpperCase(i)){
+//                Upstatus = true;
+//            } else {
+//                Upstatus = false;
+//            }
+//        }
+//        if(pass.matches(".*\\d.*")){
+//            digit_stat = true;
+//        } else {
+//            digit_stat = false;
+//        }
+//        if(len_stat && Upstatus && digit_stat){
+//        return true;
+//        } else {
+//            return false;
+//        }
+//    }
+}

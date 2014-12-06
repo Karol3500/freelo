@@ -1,5 +1,6 @@
 package org.freelo.view;
 
+import org.freelo.controller.users.LoginController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.vaadin.spring.VaadinUI;
 
@@ -8,6 +9,8 @@ import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.UI;
+
+import javax.annotation.PostConstruct;
 
 /**
  * Created by Konrad on 2014-11-17.
@@ -26,7 +29,14 @@ public class SimpleLoginUI extends UI {
 	public TaskPage taskPageView;
 	@Autowired
 	public Register registerView;
-	
+
+    public LoginController controller;
+
+    @PostConstruct
+    void setupController(){
+        controller = new LoginController(this);
+    }
+
 	@Override
     protected void init(VaadinRequest request) {
 

@@ -184,4 +184,12 @@ Button.ClickListener {
 	public void showNotification(String n){
 		Notification.show(n);
 	}
+
+	public String getUsername(){
+		return textFieldUser.getValue();
+	}
+
+	public String getPassword(){
+		return textFieldPassword.getValue();
+	}
 }

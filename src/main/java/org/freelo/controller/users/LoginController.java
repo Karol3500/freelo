@@ -41,6 +41,9 @@ public class LoginController {
         public void buttonClick(Button.ClickEvent event) {
         	if(!loginUI.loginView.validateLoginAndPassword())
         		return;
+			userName = loginUI.loginView.getUsername();
+			password = loginUI.loginView.getPassword();
+
         	User user = UserManagement.getUserByMail(userName);
         	if(user == null){
         		loginUI.loginView.showNotification(NO_SUCH_USER_NOTIFICATION);

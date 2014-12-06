@@ -9,7 +9,6 @@ import javax.persistence.Lob;
 import javax.persistence.Table;
 
 @Entity
-@Table
 public class Component {
 	
 	@Id

@@ -11,7 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table
 public class Priority {
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE)

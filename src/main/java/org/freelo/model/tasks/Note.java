@@ -8,7 +8,6 @@ import javax.persistence.*;
 import org.freelo.model.users.User;
 
 @Entity
-@Table(name="NOTES")
 public class Note {
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE)
@@ -20,7 +19,7 @@ public class Note {
 	@OneToOne
 	private Priority priority;
 	
-	@ElementCollection
+	@OneToMany
 	private List<Component> components = new ArrayList<>();
 
 	public int getId() {

@@ -5,6 +5,8 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
+import org.freelo.model.HibernateSessionFactoryBean;
+import org.hibernate.Session;
 import org.springframework.context.annotation.Scope;
 
 /**
@@ -13,37 +15,56 @@ import org.springframework.context.annotation.Scope;
 @org.springframework.stereotype.Component
 @Scope("singleton")
 public class NoteDAO {
-    @Inject
-    static EntityManager em;
 
     public static Note getNote(int id){
-        Note n;
+        Session session = HibernateSessionFactoryBean.getSession();
+        Note n = null;
         try{
-            n = em.find(Note.class,id);
-            return n;
+            session.beginTransaction();
+            n = (Note)session.get(Note.class,id);
         }
         catch(Exception ex){
             ex.printStackTrace();
+            session.getTransaction().rollback();
         }
-        return null;
+        finally{
+            session.close();
+        }
+        return n;
     }
 
     public static boolean saveNote(Note note){
+        Session session = HibernateSessionFactoryBean.getSession();
         try{
-            em.persist(note);
+            session.save(note);
             return true;
         }
         catch(Exception ex){
             ex.printStackTrace();
+            session.getTransaction().rollback();
+            return false;
         }
-        return false;
+        finally{
+            session.close();
+        }
     }
 
     public static List<Note> getNotesBelongingToUser(int userId){
-        List<Note> notes = em.createQuery(
-                            "SELECT n FROM Note n WHERE n.USER_ID = :userId")
-                            .setParameter("userId", userId)
-                            .getResultList();
+        Session session = HibernateSessionFactoryBean.getSession();
+        List<Note> notes = null;
+        try {
+            notes = session.createQuery(
+                    "FROM Note WHERE User.id = :userId")
+                    .setParameter("userId", userId)
+                    .list();
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+            session.getTransaction().rollback();
+        }
+        finally{
+            session.close();
+        }
         return notes;
     }
 }

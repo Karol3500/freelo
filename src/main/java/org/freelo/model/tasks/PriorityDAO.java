@@ -2,6 +2,9 @@ package org.freelo.model.tasks;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+
+import org.freelo.model.HibernateSessionFactoryBean;
+import org.hibernate.Session;
 import org.springframework.stereotype.Component;
 import org.springframework.context.annotation.Scope;
 
@@ -11,25 +14,36 @@ import org.springframework.context.annotation.Scope;
 @Component
 @Scope("singleton")
 public class PriorityDAO {
-    @Inject
-    private static EntityManager em;
-
-
     public static boolean savePriority(Priority p){
-        em.persist(p);
-        return true;
+        Session session = HibernateSessionFactoryBean.getSession();
+        try{
+            session.save(p);
+            return true;
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+            session.getTransaction().rollback();
+            return false;
+        }
+        finally{
+            session.close();
+        }
     }
 
     public static Priority getPriority(int id){
-        Priority p;
+        Session session = HibernateSessionFactoryBean.getSession();
+        Priority p = null;
         try {
-            p = em.find(Priority.class, 0);
-            return p;
+            p = (Priority) session.get(Priority.class, id);
         }
         catch(Exception e){
             e.printStackTrace();
+            session.getTransaction().rollback();
         }
-        return null;
+        finally{
+            session.close();
+        }
+        return p;
     }
 
 }

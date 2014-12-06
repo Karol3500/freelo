@@ -14,16 +14,18 @@ import com.vaadin.ui.Button;
 /**
  * Created by karol on 02.12.14.
  */
-@Component
-@Scope("prototype")
+
 public class LoginController {
 	private static final String NO_SUCH_USER_NOTIFICATION = "User with given e-mail doesn't exist.";
 	private static final String INCORRECT_PASSWORD_NOTIFICATION = "Incorrect password";
-	
-    @Autowired
+
     private SimpleLoginUI loginUI;
 
-    @PostConstruct
+	public LoginController(SimpleLoginUI loginUI){
+		this.loginUI = loginUI;
+		setLoginButtonListener();
+	}
+
     public void setLoginButtonListener(){
     	loginUI.loginView.loginButton.addClickListener(new loginButtonClickListenerEventHandler());
     }

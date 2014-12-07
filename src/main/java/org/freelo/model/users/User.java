@@ -49,6 +49,11 @@ public class User {
 	}
 	//public void setId(int id) { this._ID = id; }
 
+	// please use this function to compare passwords
+	public boolean passwordCompare(String passwordToCompare) {
+		return password.equals(passwordToCompare);
+	}
+
 	public String getEmail() { return email; }
 	public void setEmail(String email) { this.email = email; }
 

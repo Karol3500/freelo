@@ -122,6 +122,28 @@ public class UserManagement {
         return userID;
     }
 
+    // add a new user, return user ID, null if adding user failed (eg. user with such email exist in DB)
+    public static Integer userAdd(User user){
+        Session session = HibernateSessionFactoryBean.getSession();
+        Integer userID = null;
+        try{
+            session.beginTransaction();
+
+            List users = session.createQuery("FROM User U WHERE U.email = '"+user.getEmail()+"'").list();
+            if (users.isEmpty()) {
+                userID = (Integer) session.save(user);
+            }
+
+            session.getTransaction().commit();
+        }catch (HibernateException e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        }finally {
+            session.close();
+        }
+        return userID;
+    }
+
     // delete user from DB
     public static void deleteUser(String email){
         Session session = HibernateSessionFactoryBean.getSession();

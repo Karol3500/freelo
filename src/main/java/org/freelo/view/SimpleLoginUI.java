@@ -30,11 +30,11 @@ public class SimpleLoginUI extends UI {
 	@Autowired
 	public Register registerView;
 
-    public LoginController controller;
+    public LoginController loginController;
 
     @PostConstruct
     void setupController(){
-        controller = new LoginController(this);
+        loginController = new LoginController(this);
     }
 
 	@Override

@@ -44,7 +44,7 @@ public class LoginController {
 			userName = loginUI.loginView.getUsername();
 			password = loginUI.loginView.getPassword();
 
-        	User user = UserManagement.getUserByMail(userName);
+        	User user = UserManagement.getUser(userName);
         	if(user == null){
         		loginUI.loginView.showNotification(NO_SUCH_USER_NOTIFICATION);
         		return;	

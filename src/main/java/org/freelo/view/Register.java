@@ -2,6 +2,7 @@ package org.freelo.view;
 
 import com.vaadin.data.validator.AbstractValidator;
 import com.vaadin.data.validator.EmailValidator;
+import org.freelo.model.users.UserManagement;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -46,9 +47,9 @@ public class Register extends VerticalLayout implements View {
     protected final TextField mail = new TextField("E-mail Address");
     protected final TextField name = new TextField("Name");
     protected final TextField surname = new TextField("Surname");
+    UserManagement manage = new UserManagement();
 
     public Register(){
-        password.setInputPrompt("Please use big letters and numbers !");
         password.isRequired();
         password.addValidator(new PasswordValidator());
         username.isRequired();
@@ -85,11 +86,13 @@ public class Register extends VerticalLayout implements View {
                 Notification welcome = new Notification(username + " registered !");
                 welcome.setDelayMsec(20000);
                 welcome.setPosition(Position.MIDDLE_CENTER);
+                String[] userdata = RegisterNewUser();
 //                boolean password_status = check_the_password();
                 if(!validateEMAILandPassword()) {
                     getUI().getNavigator().navigateTo(NAME);
 
                 } else {
+                    manage.userAdd(userdata[3],userdata[4],userdata[2],userdata[1]);
                     getUI().getNavigator().navigateTo(SimpleLoginView.NAME);
                     welcome.show(Page.getCurrent());
                 }
@@ -174,36 +177,4 @@ public class Register extends VerticalLayout implements View {
         }
         return false;
     }
-//    private boolean check_the_password() {
-//
-//        String pass = password.getValue();
-//        boolean digit_stat;
-//        boolean Upstatus = false;
-//        boolean len_stat;
-//        int pass_length = pass.length();
-//
-//        if(pass_length >=8){
-//            len_stat = true;
-//        } else {
-//            len_stat = false;
-//        }
-//
-//        for(int i = 0; i < pass_length; i++){
-//            if(Character.isUpperCase(i)){
-//                Upstatus = true;
-//            } else {
-//                Upstatus = false;
-//            }
-//        }
-//        if(pass.matches(".*\\d.*")){
-//            digit_stat = true;
-//        } else {
-//            digit_stat = false;
-//        }
-//        if(len_stat && Upstatus && digit_stat){
-//        return true;
-//        } else {
-//            return false;
-//        }
-//    }
 }

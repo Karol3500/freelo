@@ -29,4 +29,8 @@ public class Group {
     public String getGroupName() { return groupName; }
     public void setGroupName(String newName) { groupName = newName; }
 
+    public void addPrivilege(int privilegeID) {}
+    public void deletePrivilege(int privilegeID) {}
+    public List<Privilege> getPrivileges() { return privileges; }
+
 }

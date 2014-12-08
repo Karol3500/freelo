@@ -2,6 +2,7 @@ package org.freelo.model.users;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
@@ -12,7 +13,7 @@ import javax.persistence.Table;
 @Table
 public class UserPrivileges {
 
-    @Column
+    @Id
     private int userID;
 
     @Column

@@ -1,4 +1,4 @@
-package org.freelo.model.Projects;
+package org.freelo.model.projects;
 
 import javax.persistence.*;
 import java.util.Date;

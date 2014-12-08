@@ -1,6 +1,10 @@
 package org.freelo.model.users;
 
+import org.freelo.model.tasks.Component;
+
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Artur on 12/8/2014.
@@ -17,7 +21,8 @@ public class Group {
     @Column
     private String groupName;
 
-    //todo list of privileges for group
+    @OneToMany
+    private List<Privilege> privileges = new ArrayList<>();
 
     public int getID() { return ID; }
 

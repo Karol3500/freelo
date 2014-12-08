@@ -18,7 +18,6 @@ import javax.annotation.PostConstruct;
 @Theme("themefreelo")
 @VaadinUI
 public class SimpleLoginUI extends UI {
-
     /**
 	 * 
 	 */

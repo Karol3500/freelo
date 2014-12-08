@@ -21,8 +21,8 @@ public class Group {
     @Column
     private String groupName;
 
-    @OneToMany
-    private List<Privilege> privileges = new ArrayList<>();
+    //@OneToMany
+    //private List<Privilege> privileges = new ArrayList<>();
 
 
 
@@ -32,8 +32,8 @@ public class Group {
     public void setGroupName(String newName) { groupName = newName; }
 
     //todo write code for below functions
-    public void addPrivilege(int privilegeID) {}
+    /*public void addPrivilege(int privilegeID) {}
     public void deletePrivilege(int privilegeID) {}
-    public List<Privilege> getPrivileges() { return privileges; }
+    public List<Privilege> getPrivileges() { return privileges; }*/
 
 }

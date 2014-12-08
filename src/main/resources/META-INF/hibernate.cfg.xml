@@ -41,9 +41,7 @@
         <mapping class="org.freelo.model.tasks.Component"/>
         <mapping class="org.freelo.model.tasks.Note"/>
         <mapping class="org.freelo.model.tasks.Priority"/>
-        <mapping class="org.freelo.model.files.dbFile"/>
-        <mapping class="org.freelo.model.files.FileRepository"/>
-        <mapping class="org.freelo.model.files.multipartFile"/>
+        <mapping class="org.freelo.model.files.UserFile"/>
         <mapping class="org.freelo.model.projects.Project"/>
         <mapping class="org.freelo.model.projects.ProjectInformation"/>
     </session-factory>

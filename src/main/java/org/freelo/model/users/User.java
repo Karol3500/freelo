@@ -28,6 +28,8 @@ public class User {
 	@Column
 	private Date created; // user's register time
 
+    //todo make list of privileges for user
+
 	public User(){
 		firstName = "";
 		lastName = "";

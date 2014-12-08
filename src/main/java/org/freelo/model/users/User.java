@@ -30,8 +30,8 @@ public class User {
 	@Column
 	private Date created; // user's register time
 
-    //@OneToMany
-    //private List<Privilege> privileges = new ArrayList<>();
+    @OneToMany
+    private List<Privilege> privileges = new ArrayList<>();
 
 	public User(){
 		firstName = "";

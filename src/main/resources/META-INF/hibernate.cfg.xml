@@ -37,9 +37,7 @@
         <property name="hbm2ddl.auto">create</property>
         <mapping class="org.freelo.model.users.User"/>
         <mapping class="org.freelo.model.users.Group"/>
-        <mapping class="org.freelo.model.users.GroupPrivileges"/>
         <mapping class="org.freelo.model.users.Privilege"/>
-        <mapping class="org.freelo.model.users.UserPrivileges"/>
         <mapping class="org.freelo.model.tasks.Component"/>
         <mapping class="org.freelo.model.tasks.Note"/>
         <mapping class="org.freelo.model.tasks.Priority"/>

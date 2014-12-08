@@ -24,11 +24,14 @@ public class Group {
     @OneToMany
     private List<Privilege> privileges = new ArrayList<>();
 
+
+
     public int getID() { return ID; }
 
     public String getGroupName() { return groupName; }
     public void setGroupName(String newName) { groupName = newName; }
 
+    //todo write code for below functions
     public void addPrivilege(int privilegeID) {}
     public void deletePrivilege(int privilegeID) {}
     public List<Privilege> getPrivileges() { return privileges; }

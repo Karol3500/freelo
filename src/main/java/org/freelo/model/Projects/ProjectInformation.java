@@ -1,8 +1,13 @@
 package org.freelo.model.Projects;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
 /**
  * Created by piotr on 2014-12-08.
  */
+@Entity
+@Table
 public class ProjectInformation {
 
     @Id

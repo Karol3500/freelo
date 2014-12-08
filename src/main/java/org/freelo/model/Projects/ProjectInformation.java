@@ -1,7 +1,6 @@
 package org.freelo.model.Projects;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Created by piotr on 2014-12-08.

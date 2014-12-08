@@ -1,7 +1,7 @@
 package org.freelo.model.Projects;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Date;
 
 /**
  * Created by piotr on 2014-12-08.
@@ -37,19 +37,19 @@ public class Project {
     }
     public void setId(int id) { this._ID = id; }
 
-    public String getEndDate() { return _endDate; }
-    public void setEndDate(String enddate) { this._endDate = enddate; }
+    public Date getEndDate() { return _endDate; }
+    public void setEndDate(Date enddate) { this._endDate = enddate; }
 
-    public String getStartDate() { return _startDate; }
-    public void setStartDate(String startdate) { this._startDate = startdate; }
+    public Date getStartDate() { return _startDate; }
+    public void setStartDate(Date startdate) { this._startDate = startdate; }
 
     public String getLeader() { return _leader; }
     public void setLeader(String leader) { this._leader = leader; }
 
-    public String getProjectId() { return _projectId; }
-    public void setProjectId(String projectid) { this._projectId = projectid; }
+    public int getProjectId() { return _projectId; }
+    public void setProjectId(int projectid) { this._projectId = projectid; }
 
-    public Date getProjectDate() { return _projectName; }
+    public String getProjectDate() { return _projectName; }
     public void setProjectDate(String projectname) { this._projectName = projectname; }
 
 }

@@ -30,24 +30,35 @@ public class TaskPage extends HorizontalLayout implements View {
         setSizeFull();
         addStyleName("taskpage");
 
-
+        // the layout of task page is divided into 2 parts
         //containers
+        //also used for popup windows
         final HorizontalLayout container = new HorizontalLayout();
         container.addStyleName("container");
         container.setWidth("100%");
-        container.setHeight("80%");
+        container.setHeight("100%");
         addComponent(container);
 
-        final VerticalLayout container2 = new VerticalLayout();
-        container2.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
-        container2.addStyleName("container2");
-        container2.setWidth("100%");
-        addComponent(container2);
+//        final VerticalLayout container2 = new VerticalLayout();
+//        container2.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+//        container2.addStyleName("container2");
+//        container2.setWidth("100%");
+//        addComponent(container2);
 
-        VerticalLayout side_container = new VerticalLayout();
+        final VerticalLayout side_container = new VerticalLayout();
         side_container.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
         side_container.addStyleName("side_container");
 
+
+        // NEW TASK PAGE
+        final Panel panel = new Panel("New Task Page");
+        panel.addStyleName("panel");
+        panel.setWidth("100%");
+
+        // SIDE MENU
+        Panel sidepanel = new Panel("Menu");
+        sidepanel.addStyleName("sidepanel");
+        sidepanel.setWidth("50%");
 
 
 
@@ -68,27 +79,13 @@ public class TaskPage extends HorizontalLayout implements View {
         titleDone.addStyleName("title");
         done.addComponent(titleDone);
 */
-        // NEW TASK PAGE
-        final Panel panel = new Panel("New Task Page");
-        panel.addStyleName("panel");
-        panel.setWidth("50%");
-        //container2.setHeight("80%");
-        // SIDE MENU
-        Panel sidepanel = new Panel("Menu");
-        sidepanel.addStyleName("sidepanel");
+
+
         // ELEMENTS
-        final TextField tasktitle = new TextField("Task title");
-        final TextField tasksssignee = new TextField("Assignee");
-        tasksssignee.setInputPrompt("Search by Name");
-        final Button addcomponent_button = new Button("Add Card");
-//        addcomponent_button.addStyleName("button1");
-//        addcomponent_button.addClickListener(new Button.ClickListener() {
-//            private static final long serialVersionUID = 2181474159749123339L;
-//
-//            public void buttonClick(Button.ClickEvent event) {
-//                todo.addComponent(new TaskCard());
-//            }
-//        });
+//        final TextField tasktitle = new TextField("Task title");
+//        final TextField tasks_note = new TextField("Notes");
+//        tasks_note.setInputPrompt("");
+
         Button logout = new Button("Logout", new Button.ClickListener() {
             private static final long  serialVersionUID = -3494334621547144379L;
 
@@ -107,13 +104,10 @@ public class TaskPage extends HorizontalLayout implements View {
             private static final long serialVersionUID = -2385924589892359849L;
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                Window CreateNewProj = new Subwindow(container);
+                Window CreateNewProj = new Subwindow(container, side_container);
                 UI.getCurrent().addWindow(CreateNewProj);
             }
         });
-        PopupDateField create_prompt = new PopupDateField("Create Project");
-        create_prompt.setInputPrompt("Set project parameters");
-
 
         //adding elements to containers
 
@@ -121,7 +115,6 @@ public class TaskPage extends HorizontalLayout implements View {
         side_container.addComponent(CreateNewProject);
         side_container.addComponent(logout);
         sidepanel.setContent(side_container);
-        addComponent(panel);
         addComponent(sidepanel);
     }
 
@@ -138,23 +131,14 @@ public class TaskPage extends HorizontalLayout implements View {
     public class TaskCard extends VerticalLayout {
         private static final long serialVersionUID = 4924234591401040269L;
 
-        public TaskCard() {
-            String UserName = String.valueOf(getSession().getAttribute("user"));
-
+        public TaskCard(String name, String data) {
             final CssLayout taskCard = new CssLayout();
             taskCard.addStyleName("task-card");
-            taskCard.setWidth("90%");
             taskCard.setHeight("100px");
             addComponent(taskCard);
 
-            Label taskTitle = new Label("Test");
-            taskTitle.addStyleName("taskTitle");
-            taskCard.addComponent(taskTitle);
-
-            Label taskAssignee = new Label(UserName);
-            taskTitle.addStyleName("taskAssignee");
-            taskCard.addComponent(taskAssignee);
-
+            taskCard.addComponent(new Label(name));
+            taskCard.addComponent(new Label(data));
 
             final Button claimButton = new Button("Claim");
             claimButton.addStyleName("claimButton");
@@ -175,7 +159,7 @@ public class TaskPage extends HorizontalLayout implements View {
     public class Subwindow extends Window {
         private static final long serialVersionUID = 5678234591401040269L;
 //        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        public Subwindow(final HorizontalLayout omg) {
+        public Subwindow(final HorizontalLayout omg, final VerticalLayout sub) {
             super("OMG");
 
             center();
@@ -211,6 +195,17 @@ public class TaskPage extends HorizontalLayout implements View {
             donepanel.setHeight("100%");
             donepanel.setContent(done);
 //        container.addComponent(donepanel);
+            final Button addcomponent_button = new Button("Add Task");
+            addcomponent_button.addStyleName("button1");
+            addcomponent_button.addClickListener(new Button.ClickListener() {
+                private static final long serialVersionUID = 2181474159749123339L;
+
+                public void buttonClick(Button.ClickEvent event) {
+
+                    Window CreateComponent = new Subwindow(todo);
+                    UI.getCurrent().addWindow(CreateComponent);
+                }
+            });
 
             final TextField ProjectName = new TextField("Enter project name");
             // todo.add date
@@ -221,6 +216,7 @@ public class TaskPage extends HorizontalLayout implements View {
                     omg.addComponent(todopanel);
                     omg.addComponent(ongoingpanel);
                     omg.addComponent(donepanel);
+                    sub.addComponent(addcomponent_button);
                     close();
                 }
             });
@@ -231,9 +227,40 @@ public class TaskPage extends HorizontalLayout implements View {
             main.addComponent(itemplacement);
 
         }
+        public Subwindow(final CssLayout todo) {
+        //Appearance of the popup window
+            super("OMG 2");
+            VerticalLayout menu = new VerticalLayout();
+            menu.setSizeFull();
+            setContent(menu);
+            setHeight("300px");
+            setWidth("300px");
+            setPositionX(200);
+            setPositionY(150);
+            //---
+            TextField TaskName = new TextField();
+            TaskName.setInputPrompt("Name your Task");
+            final String T_name = TaskName.getValue();
 
+            TextField data = new TextField();
+            data.setInputPrompt("Type what you want");
+            final String task_data = data.getValue();
+
+            final Button CreateTaskButton = new Button("Create Task", new Button.ClickListener() {
+               private static final long serialVersionUID = -1181474151239122119L;
+                @Override
+                public void buttonClick(Button.ClickEvent event) {
+                    todo.addComponent(new TaskCard(T_name, task_data));
+                    close();
+                }
+            });
+            menu.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+            menu.addComponent(TaskName);
+            menu.addComponent(data);
+            menu.addComponent(CreateTaskButton);
+
+        }
     }
-
 
 }
 

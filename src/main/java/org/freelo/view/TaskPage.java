@@ -1,21 +1,18 @@
 package org.freelo.view;
 
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Page;
 import com.vaadin.shared.Position;
-import com.vaadin.ui.Alignment;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+import com.vaadin.ui.Window;
+
 
 
 /**
@@ -23,81 +20,51 @@ import com.vaadin.ui.VerticalLayout;
  */
 @Component
 @Scope("prototype")
-public class TaskPage extends HorizontalLayout implements View{
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -906274928780939032L;
-	public static final String NAME = "";
+public class TaskPage extends HorizontalLayout implements View {
+
+    private static final long serialVersionUID = -906274928780939032L;
+    public static final String NAME = "";
+
     public TaskPage() {
         setSizeFull();
         addStyleName("taskpage");
 
-
-        HorizontalLayout container = new HorizontalLayout();
+        // the layout of task page is divided into 2 parts
+        //containers
+        //also used for popup windows
+        final HorizontalLayout container = new HorizontalLayout();
         container.addStyleName("container");
         container.setWidth("100%");
-        container.setHeight("80%");
+        container.setHeight("100%");
         addComponent(container);
+//        final VerticalLayout container2 = new VerticalLayout();
+//        container2.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+//        container2.addStyleName("container2");
+//        container2.setWidth("100%");
+//        addComponent(container2);
 
-        final CssLayout todo = new CssLayout();
-        todo.addStyleName("content");
-        container.addComponent(todo);
-        Label titleTodo = new Label("TODO");
-        titleTodo.addStyleName("title");
-        todo.addComponent(titleTodo);
-
-
-        CssLayout ongoing = new CssLayout();
-        ongoing.addStyleName("content");
-        container.addComponent(ongoing);
-        Label titleOngoing = new Label("ON GOING");
-        titleOngoing.addStyleName("title");
-        ongoing.addComponent(titleOngoing);
-
-        CssLayout done = new CssLayout();
-        done.addStyleName("content");
-        container.addComponent(done);
-        Label titleDone = new Label("DONE");
-        titleDone.addStyleName("title");
-        done.addComponent(titleDone);
+        final VerticalLayout side_container = new VerticalLayout();
+        side_container.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+        side_container.addStyleName("side_container");
 
 
-        Panel panel = new Panel("New Task Page");
+        // NEW TASK PAGE
+        final Panel panel = new Panel("New Task Page");
         panel.addStyleName("panel");
-        VerticalLayout container2 = new VerticalLayout();
-        container2.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
-        container2.addStyleName("container2");
-        panel.setWidth("50%");
-        //container2.setHeight("80%");
+        panel.setWidth("100%");
+
+        // SIDE MENU
+        Panel sidepanel = new Panel("Menu");
+        sidepanel.addStyleName("sidepanel");
+        sidepanel.setWidth("50%");
+
+        // -------------------------------------
 
 
-        final TextField tasktitle = new TextField("Task title");
-        final TextField tasksssignee = new TextField("Assignee");
-        tasksssignee.setInputPrompt("Search by Name");
-        final Button button1 = new Button("Add Card");
-        button1.addStyleName("button1");
-        button1.addClickListener(new Button.ClickListener() {
-            /**
-			 * 
-			 */
-			private static final long serialVersionUID = 2181474159749123339L;
-
-			public void buttonClick(Button.ClickEvent event) {
-                todo.addComponent(new TaskCard());
-                todo.addComponent(new TaskCard2());
-
-
-            }
-        });
         Button logout = new Button("Logout", new Button.ClickListener() {
+            private static final long  serialVersionUID = -3494334621547144379L;
 
-            /**
-			 * 
-			 */
-			private static final long serialVersionUID = -3494334621547144379L;
-
-			@Override
+            @Override
             public void buttonClick(Button.ClickEvent event) {
 
                 // "Logout" the user
@@ -108,13 +75,23 @@ public class TaskPage extends HorizontalLayout implements View{
             }
         });
 
-        container2.addComponent(tasktitle);
-        container2.addComponent(tasksssignee);
-        container2.addComponent(button1);
-        container2.addComponent(logout);
-        panel.setContent(container2);
 
-        addComponent(panel);
+        final Button CreateNewProject = new Button("Create Project", new Button.ClickListener() {
+            private static final long serialVersionUID = -2385924589892359849L;
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                Window CreateNewProj = new Subwindow(container, side_container);
+                UI.getCurrent().addWindow(CreateNewProj);
+            }
+        });
+
+        //adding elements to containers
+
+        container.addComponent(new Table());
+        side_container.addComponent(CreateNewProject);
+        side_container.addComponent(logout);
+        sidepanel.setContent(side_container);
+        addComponent(sidepanel);
     }
 
     @Override
@@ -128,55 +105,140 @@ public class TaskPage extends HorizontalLayout implements View{
     }
 
     public class TaskCard extends VerticalLayout {
+        private static final long serialVersionUID = 4924234591401040269L;
 
-        /**
-		 * 
-		 */
-		private static final long serialVersionUID = 4924234591401040269L;
-
-		public TaskCard() {
+        public TaskCard(String name, String data) {
             final CssLayout taskCard = new CssLayout();
             taskCard.addStyleName("task-card");
-            taskCard.setWidth("90%");
             taskCard.setHeight("100px");
             addComponent(taskCard);
 
-            Label taskTitle = new Label("Task example 1");
-            taskTitle.addStyleName("taskTitle");
-            taskCard.addComponent(taskTitle);
+            taskCard.addComponent(new Label(name));
+            taskCard.addComponent(new Label(data));
 
-            Label taskAssignee = new Label("Jan Dziergwa");
-            taskTitle.addStyleName("taskAssignee");
-            taskCard.addComponent(taskAssignee);
+            final Button claimButton = new Button("Claim");
+            claimButton.addStyleName("claimButton");
+            /*
+            claimButton.addClickListener(new Button.ClickListener() {
 
+            public void buttonClick(Button.ClickEvent event) {
+            todo.removeComponent(new TaskCard());
+                }
+           });
+            taskCard.addComponent(claimButton);
+        */
         }
+
 
     }
 
-    public class TaskCard2 extends VerticalLayout {
+    public class Subwindow extends Window {
+        private static final long serialVersionUID = 5678234591401040269L;
+//        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        public Subwindow(final HorizontalLayout omg, final VerticalLayout sub) {
+            super("OMG");
 
-        /**
-		 * 
-		 */
-		private static final long serialVersionUID = 88181197949105415L;
+            center();
+            HorizontalLayout main = new HorizontalLayout();
+            main.setSizeFull();
+            setContent(main);
+            setHeight("200px");
+            setWidth("300px");
+            setPositionY(50);
+            setPositionX(50);
 
-		public TaskCard2() {
-            final CssLayout taskCard = new CssLayout();
-            taskCard.addStyleName("task-card");
-            taskCard.setWidth("90%");
-            taskCard.setHeight("100px");
-            addComponent(taskCard);
+            //making panels
+            final Panel todopanel = new Panel("TODO");
+            final CssLayout todo = new CssLayout();
+            todo.addStyleName("content");
+            todopanel.addStyleName("todopanel");
+            todopanel.setHeight("100%");
+            todopanel.setContent(todo);
+            //        container.addComponent(todopanel);
+            // ONGOING
+            final Panel ongoingpanel = new Panel("ON GOING");
+            final CssLayout ongoing = new CssLayout();
+            ongoing.addStyleName("content");
+            ongoingpanel.addStyleName("ongoingpanel");
+            ongoingpanel.setHeight("100%");
+            ongoingpanel.setContent(ongoing);
+            //        container.addComponent(ongoingpanel);
+            // DONE
+            final Panel donepanel = new Panel("DONE");
+            final CssLayout done = new CssLayout();
+            done.addStyleName("content");
+            donepanel.addStyleName("donepanel");
+            donepanel.setHeight("100%");
+            donepanel.setContent(done);
+//        container.addComponent(donepanel);
+            final Button addcomponent_button = new Button("Add Task");
+            addcomponent_button.addStyleName("button1");
+            addcomponent_button.addClickListener(new Button.ClickListener() {
+                private static final long serialVersionUID = 2181474159749123339L;
 
-            Label taskTitle = new Label("Task example 2");
-            taskTitle.addStyleName("taskTitle");
-            taskCard.addComponent(taskTitle);
+                public void buttonClick(Button.ClickEvent event) {
 
-            Label taskAssignee = new Label("Konrad Jażownik");
-            taskTitle.addStyleName("taskAssignee");
-            taskCard.addComponent(taskAssignee);
+                    Window CreateComponent = new Subwindow(todo);
+                    UI.getCurrent().addWindow(CreateComponent);
+                }
+            });
+
+            final TextField ProjectName = new TextField("Enter project name");
+            // todo.add date
+            final Button CreateButton = new Button("Create", new Button.ClickListener() {
+                private static final long serialVersionUID = 2181474159749122119L;
+                @Override
+                public void buttonClick(Button.ClickEvent event) {
+                    omg.addComponent(todopanel);
+                    omg.addComponent(ongoingpanel);
+                    omg.addComponent(donepanel);
+                    sub.addComponent(addcomponent_button);
+                    close();
+                }
+            });
+            VerticalLayout itemplacement = new VerticalLayout();
+            itemplacement.setSizeFull();
+            itemplacement.addComponent(ProjectName);
+            itemplacement.addComponent(CreateButton);
+            main.addComponent(itemplacement);
+
+        }
+        public Subwindow(final CssLayout todo) {
+        //Appearance of the popup window
+            super("OMG 2");
+            VerticalLayout menu = new VerticalLayout();
+            menu.setSizeFull();
+            setContent(menu);
+            setHeight("300px");
+            setWidth("300px");
+            setPositionX(200);
+            setPositionY(150);
+            //---
+            final TextField TaskName = new TextField();
+            TaskName.setInputPrompt("Name your Task");
+
+
+            final TextField data = new TextField();
+            data.setInputPrompt("Type what you want");
+
+
+            final Button CreateTaskButton = new Button("Create Task", new Button.ClickListener() {
+               private static final long serialVersionUID = -1181474151239122119L;
+                @Override
+                public void buttonClick(Button.ClickEvent event) {
+                    final String task_data = data.getValue();
+                    final String T_name = TaskName.getValue();
+                    todo.addComponent(new TaskCard(T_name, task_data));
+                    close();
+                }
+            });
+            menu.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+            menu.addComponent(TaskName);
+            menu.addComponent(data);
+            menu.addComponent(CreateTaskButton);
 
         }
     }
-
 
 }
+

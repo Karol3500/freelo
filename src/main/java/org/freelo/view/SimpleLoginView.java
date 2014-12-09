@@ -1,18 +1,8 @@
 package org.freelo.view;
 
-import com.vaadin.server.ClassResource;
-import com.vaadin.server.FileDownloader;
-import com.vaadin.server.FileResource;
-import com.vaadin.server.Resource;
-import com.vaadin.ui.themes.BaseTheme;
-import org.freelo.model.files.FileDownload;
-import org.freelo.model.files.FileUploader;
-
-import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.vaadin.ui.*;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +11,14 @@ import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.CustomComponent;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.PasswordField;
+import com.vaadin.ui.TextField;
+import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.Reindeer;
 
 
@@ -50,6 +47,9 @@ Button.ClickListener {
 	public final Button loginButton;
 
 	public final Button registerButton;
+
+    //Method checking if user is enrolled to be implemented - boolean hardcoded to false to display project management page after login
+    //public static boolean isAssigned = false;
 
 	public SimpleLoginView() {
 		setSizeFull();
@@ -86,18 +86,6 @@ Button.ClickListener {
 				getUI().getNavigator().navigateTo(Register.NAME);
 			}
 		});
-
-        //**************** Example of Uploading file
-        //FileUploader receiver = new FileUploader();
-        //Upload upload = new Upload("Upload File Here", receiver);
-        //****************
-
-        //**************** Example of Uploading file
-        /*Button btn = new Button("Download");
-        FileDownload fileDownload = new FileDownload();
-        fileDownload.downloadFile(2).extend(btn);*/
-        //********************
-
 		// Add both to a panel
 		VerticalLayout fields = new VerticalLayout(textFieldUser, textFieldPassword, loginButton, registerButton);
 		fields.setCaption("Please login to access the application. (test@test.com/passw0rd)");
@@ -111,9 +99,7 @@ Button.ClickListener {
 		viewLayout.setComponentAlignment(fields, Alignment.MIDDLE_CENTER);
 		viewLayout.setStyleName(Reindeer.LAYOUT_BLUE);
 		setCompositionRoot(viewLayout);
-
 	}
-
 
 	@Override
 	public void enter(ViewChangeListener.ViewChangeEvent event) {
@@ -183,7 +169,14 @@ Button.ClickListener {
 	}
 	
 	public void navigateToMainView(){
-		getUI().getNavigator().navigateTo(TaskPage.NAME);
+
+        //if (!isAssigned) {
+            getUI().getNavigator().navigateTo(ProjectManagementPage.NAME);
+        //}
+        //else {
+        //    getUI().getNavigator().navigateTo(TaskPage.NAME);
+        //}
+
 	}
 
 	@Override

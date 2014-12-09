@@ -29,6 +29,8 @@ public class SimpleLoginUI extends UI {
 	public TaskPage taskPageView;
 	@Autowired
 	public Register registerView;
+    @Autowired
+    public ProjectManagementPage ProjectManagementView;
 
     public LoginController loginController;
 
@@ -58,6 +60,14 @@ public class SimpleLoginUI extends UI {
 
         //
         getNavigator().addView(Register.NAME, registerView);
+
+        //
+        // Project management view displayed when user is not enrolled to any project
+        //
+        getNavigator().addView(ProjectManagementPage.NAME, ProjectManagementView);
+
+
+
         // We use a view change handler to ensure the user is always redirected
         // to the login view if the user is not logged in.
         //
@@ -76,8 +86,9 @@ public class SimpleLoginUI extends UI {
                 boolean isLoginView = event.getNewView() instanceof SimpleLoginView;
                 boolean isRegisterView = event.getNewView() instanceof Register;
                 boolean isTaskView = event.getNewView() instanceof TaskPage;
+                boolean isProjectManagementView = event.getNewView() instanceof ProjectManagementPage;
 
-                if (!isLoggedIn && !isLoginView && !isRegisterView && isTaskView) {
+                if (!isLoggedIn && !isLoginView && !isRegisterView && (isTaskView || isProjectManagementView)) {
                     // Redirect to login view always if a user has not yet
                     // logged in
                     getNavigator().navigateTo(SimpleLoginView.NAME);
@@ -88,7 +99,7 @@ public class SimpleLoginUI extends UI {
                     // then cancel
                     return false;
 
-                } else if (!isRegisterView && !isLoginView && !isTaskView) {
+                } else if (!isRegisterView && !isLoginView && !isTaskView && !isProjectManagementView) {
                     getNavigator().navigateTo(Register.NAME);
                     return false;
 

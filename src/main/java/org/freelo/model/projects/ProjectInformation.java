@@ -11,7 +11,7 @@ public class ProjectInformation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
-    private int _ID;
+    private int ID;
 
     @OneToOne
     private Project project;
@@ -20,17 +20,17 @@ public class ProjectInformation {
     private org.freelo.model.tasks.Note note;
 
     @Column
-    private String _statusOfTask;
+    private String statusOfTask;
 
     @Column
-    private String _taskList;
+    private String taskList;
 
 
 
     public int getId() {
-        return _ID;
+        return ID;
     }
-    public void setId(int id) { this._ID = id; }
+    public void setId(int id) { this.ID = id; }
 
     public Project getProject() { return project; }
     public void setProject(Project project) { this.project = project; }
@@ -38,10 +38,10 @@ public class ProjectInformation {
     public org.freelo.model.tasks.Note getNote() { return note; }
     public void setNote(org.freelo.model.tasks.Note note) { this.note = note; }
 
-    public String getStatusOfTask() { return _statusOfTask; }
-    public void setStatusOfTask(String statusOfTask) { this._statusOfTask = statusOfTask; }
+    public String getStatusOfTask() { return statusOfTask; }
+    public void setStatusOfTask(String statusOfTask) { this.statusOfTask = statusOfTask; }
 
-    public String getTaskList() { return _taskList; }
-    public void setTaskList(String taskList) { this._taskList = taskList; }
+    public String getTaskList() { return taskList; }
+    public void setTaskList(String taskList) { this.taskList = taskList; }
 
 }

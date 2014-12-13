@@ -48,6 +48,9 @@ Button.ClickListener {
 
 	public final Button registerButton;
 
+    //Method checking if user is enrolled to be implemented - boolean hardcoded to false to display project management page after login
+    //public static boolean isAssigned = false;
+
 	public SimpleLoginView() {
 		setSizeFull();
 
@@ -166,7 +169,14 @@ Button.ClickListener {
 	}
 	
 	public void navigateToMainView(){
-		getUI().getNavigator().navigateTo(TaskPage.NAME);
+
+        //if (!isAssigned) {
+            getUI().getNavigator().navigateTo(ProjectManagementPage.NAME);
+        //}
+        //else {
+        //    getUI().getNavigator().navigateTo(TaskPage.NAME);
+        //}
+
 	}
 
 	@Override

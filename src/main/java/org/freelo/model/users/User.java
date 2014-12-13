@@ -2,7 +2,9 @@ package org.freelo.model.users;
 
 import javax.persistence.*;
 import javax.persistence.GeneratedValue;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 @Entity
@@ -27,6 +29,9 @@ public class User {
 
 	@Column
 	private Date created; // user's register time
+
+    @OneToMany
+    private List<Privilege> privileges = new ArrayList<>();
 
 	public User(){
 		firstName = "";
@@ -68,5 +73,15 @@ public class User {
 
 	public Date getDate() { return created; }
 	//public void setDate(Date createdDate) { this._created = createdDate; }
+
+    //todo write code for below functions
+    /*public void addPrivilege(int privilegeID) {
+        for (Privilege element : privileges) {
+            ;
+        }
+        //privileges.add()
+    }
+    public void deletePrivilege(int privilegeID) {}
+    public List<Privilege> getPrivileges() { return privileges; }*/
 
 }

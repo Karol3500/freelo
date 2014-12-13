@@ -1,5 +1,7 @@
 package org.freelo.view;
 
+import com.sun.javafx.tk.Toolkit;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 
 /**
@@ -8,9 +10,25 @@ import com.vaadin.ui.*;
 public class Subwindow extends Window {
     private static final long serialVersionUID = 5678234591401040269L;
     //        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
+    public Subwindow(final String taskname, final String taskdata) {
+        super(taskname);
+        center();
+        setHeight("300px");
+        setWidth("400px");
+        setPositionY(150);
+        setPositionX(150);
+        VerticalLayout menu = new VerticalLayout();
+        menu.setSizeFull();
+        Label TaskNotes = new Label(taskdata, ContentMode.HTML);
+        TaskNotes.setReadOnly(true);
+        menu.addComponent(TaskNotes);
+        this.setContent(menu);
+
+    }
+
     public Subwindow(final HorizontalLayout omg, final VerticalLayout sub) {
         super("OMG");
-
         center();
         HorizontalLayout main = new HorizontalLayout();
         main.setSizeFull();
@@ -79,21 +97,19 @@ public class Subwindow extends Window {
     public Subwindow(final CssLayout todo) {
         //Appearance of the popup window
         super("OMG 2");
+        center();
         VerticalLayout menu = new VerticalLayout();
         menu.setSizeFull();
         setContent(menu);
-        setHeight("300px");
-        setWidth("300px");
+        setHeight("450px");
+        setWidth("450px");
         setPositionX(200);
         setPositionY(150);
         //---
         final TextField TaskName = new TextField();
         TaskName.setInputPrompt("Name your Task");
 
-
-        final TextField data = new TextField();
-        data.setInputPrompt("Type what you want");
-
+        final RichTextArea data = new RichTextArea();
 
         final Button CreateTaskButton = new Button("Create Task", new Button.ClickListener() {
             private static final long serialVersionUID = -1181474151239122119L;
@@ -101,14 +117,19 @@ public class Subwindow extends Window {
             public void buttonClick(Button.ClickEvent event) {
                 final String task_data = data.getValue();
                 final String T_name = TaskName.getValue();
-                todo.addComponent(new TaskCard(T_name, task_data));
+                TaskCard tc = new TaskCard(T_name, task_data);
+                todo.addComponent(tc);
                 close();
             }
         });
         menu.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+        menu.setSpacing(true);
         menu.addComponent(TaskName);
         menu.addComponent(data);
         menu.addComponent(CreateTaskButton);
 
     }
+
+
 }
+

@@ -47,15 +47,15 @@ public class Register extends VerticalLayout implements View {
     protected final TextField name = new TextField("Name");
     protected final TextField surname = new TextField("Surname");
 
+    Button RegisterMe;
+    Button BackButton;
+
     public Register(){
-        password.setInputPrompt("Please use big letters and numbers !");
         password.isRequired();
         password.addValidator(new PasswordValidator());
         username.isRequired();
         mail.isRequired();
         mail.addValidator(new EmailValidator("Wrong mail format !"));
-        Button RegisterMe;
-        Button BackButton;
 
         setSizeFull();
         BackButton = new Button("Back", new Button.ClickListener() {
@@ -99,17 +99,20 @@ public class Register extends VerticalLayout implements View {
 
         });
 
-
-        VerticalLayout mainregpage = new VerticalLayout(title, username, password, mail, name, surname, RegisterMe, BackButton);
-        mainregpage.setMargin(new MarginInfo(true, true, true, true));
-        mainregpage.setSpacing(true);
+        this.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+        VerticalLayout mainregpage = new VerticalLayout();
         mainregpage.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
-        VerticalLayout viewLayout = new VerticalLayout();
-        viewLayout.setSizeFull();
-        viewLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
-        viewLayout.addComponent(mainregpage);
-        setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
-        addComponent(viewLayout);
+        mainregpage.setSpacing(true);
+        mainregpage.addComponent(title);
+        mainregpage.addComponent(username);
+        mainregpage.addComponent(password);
+        mainregpage.addComponent(mail);
+        mainregpage.addComponent(name);
+        mainregpage.addComponent(surname);
+        mainregpage.addComponent(RegisterMe);
+        mainregpage.addComponent(BackButton);
+        mainregpage.setMargin(new MarginInfo(true, true, true, true));
+        addComponent(mainregpage);
     }
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
@@ -174,36 +177,5 @@ public class Register extends VerticalLayout implements View {
         }
         return false;
     }
-//    private boolean check_the_password() {
-//
-//        String pass = password.getValue();
-//        boolean digit_stat;
-//        boolean Upstatus = false;
-//        boolean len_stat;
-//        int pass_length = pass.length();
-//
-//        if(pass_length >=8){
-//            len_stat = true;
-//        } else {
-//            len_stat = false;
-//        }
-//
-//        for(int i = 0; i < pass_length; i++){
-//            if(Character.isUpperCase(i)){
-//                Upstatus = true;
-//            } else {
-//                Upstatus = false;
-//            }
-//        }
-//        if(pass.matches(".*\\d.*")){
-//            digit_stat = true;
-//        } else {
-//            digit_stat = false;
-//        }
-//        if(len_stat && Upstatus && digit_stat){
-//        return true;
-//        } else {
-//            return false;
-//        }
-//    }
+
 }

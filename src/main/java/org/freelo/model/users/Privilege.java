@@ -17,9 +17,9 @@ public class Privilege {
     @Column
     private String description;
 
-    private int getID() { return ID; }
+    public int getID() { return ID; }
 
-    private String getDescription() { return description; }
-    private void setDescription(String newDescription) { description = newDescription; }
+    public String getDescription() { return description; }
+    public void setDescription(String newDescription) { description = newDescription; }
 
 }

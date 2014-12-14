@@ -51,7 +51,6 @@ public class Register extends VerticalLayout implements View {
     Button BackButton;
 
     public Register(){
-        password.setInputPrompt("Please use big letters and numbers !");
         password.isRequired();
         password.addValidator(new PasswordValidator());
         username.isRequired();
@@ -103,6 +102,7 @@ public class Register extends VerticalLayout implements View {
         this.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
         VerticalLayout mainregpage = new VerticalLayout();
         mainregpage.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+        mainregpage.setSpacing(true);
         mainregpage.addComponent(title);
         mainregpage.addComponent(username);
         mainregpage.addComponent(password);
@@ -112,7 +112,6 @@ public class Register extends VerticalLayout implements View {
         mainregpage.addComponent(RegisterMe);
         mainregpage.addComponent(BackButton);
         mainregpage.setMargin(new MarginInfo(true, true, true, true));
-        mainregpage.setSpacing(true);
         addComponent(mainregpage);
     }
     @Override

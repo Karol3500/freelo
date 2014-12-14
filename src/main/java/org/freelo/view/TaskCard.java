@@ -16,7 +16,9 @@ public class TaskCard extends VerticalLayout {
     private static final long serialVersionUID = 4924234591401040269L;
     public String gname;
     public String gdata;
-    public User Creator = getUser();
+    public String Creator = getUser();
+    public CssLayout currentContainer;
+
     public TaskCard(final String name, final String data) {
         gname = name;
         gdata = data;
@@ -28,7 +30,7 @@ public class TaskCard extends VerticalLayout {
         taskCard.addLayoutClickListener(new LayoutEvents.LayoutClickListener() {
             @Override
             public void layoutClick(LayoutEvents.LayoutClickEvent event) {
-                Window CreateComponent = new Subwindow(getTaskName(), getTaskNotes(), Creator);
+                Window CreateComponent = new Subwindow(TaskCard.this);
                 UI.getCurrent().addWindow(CreateComponent);
             }
         });
@@ -55,12 +57,11 @@ public class TaskCard extends VerticalLayout {
         taskCard.addComponent(new Label(name, ContentMode.HTML));
         taskCard.addComponent(leftButton);
         taskCard.addComponent(rightButton);
-
         setSpacing(true);
         addComponent(taskCard);
     }
 
-    public User getUser() {
+    public String getUser() {
 //        String username = String.valueOf(getSession().getAttribute("user"));
 //        User usrId = UserManagement.getUser(username);
         return null;

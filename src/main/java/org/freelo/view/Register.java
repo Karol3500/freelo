@@ -47,6 +47,9 @@ public class Register extends VerticalLayout implements View {
     protected final TextField name = new TextField("Name");
     protected final TextField surname = new TextField("Surname");
 
+    Button RegisterMe;
+    Button BackButton;
+
     public Register(){
         password.setInputPrompt("Please use big letters and numbers !");
         password.isRequired();
@@ -54,8 +57,6 @@ public class Register extends VerticalLayout implements View {
         username.isRequired();
         mail.isRequired();
         mail.addValidator(new EmailValidator("Wrong mail format !"));
-        Button RegisterMe;
-        Button BackButton;
 
         setSizeFull();
         BackButton = new Button("Back", new Button.ClickListener() {

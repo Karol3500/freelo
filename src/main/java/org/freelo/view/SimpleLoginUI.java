@@ -1,6 +1,8 @@
 package org.freelo.view;
 
+import com.vaadin.server.VaadinSession;
 import org.freelo.controller.users.LoginController;
+import org.freelo.model.users.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.vaadin.spring.VaadinUI;
 
@@ -67,7 +69,6 @@ public class SimpleLoginUI extends UI {
         getNavigator().addView(ProjectManagementPage.NAME, ProjectManagementView);
 
 
-
         // We use a view change handler to ensure the user is always redirected
         // to the login view if the user is not logged in.
         //
@@ -104,7 +105,6 @@ public class SimpleLoginUI extends UI {
                     return false;
 
                 }
-
 
                 return true;
             }

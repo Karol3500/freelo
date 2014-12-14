@@ -12,7 +12,7 @@ public class Subwindow extends Window {
 
     private static final long serialVersionUID = 5678234591401040269L;
 
-    public Subwindow(final String taskname, final String taskdata, final String Creator) {
+    public Subwindow(final String taskname, final String taskdata, final User Creator) {
         super(taskname + " by " + Creator);
         center();
         setHeight("300px");

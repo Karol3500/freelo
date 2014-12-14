@@ -15,7 +15,7 @@ public class TaskCard extends VerticalLayout {
     private static final long serialVersionUID = 4924234591401040269L;
     public String gname;
     public String gdata;
-    public String Creator = getUser();
+    public User Creator = getUser();
     public TaskCard(final String name, final String data) {
         gname = name;
         gdata = data;
@@ -51,15 +51,10 @@ public class TaskCard extends VerticalLayout {
         addComponent(taskCard);
     }
 
-    public String getCreatorName() {
-        String username = String.valueOf(getSession().getAttribute("user"));
-        return username;
-    }
-
-    public String getUser() {
-        String username = String.valueOf(getSession().getAttribute("user"));
-        Integer usrId = UserManagement.getUserID(username);
-        return username;
+    public User getUser() {
+//        String username = String.valueOf(getSession().getAttribute("user"));
+//        User usrId = UserManagement.getUser(username);
+        return null;
     }
 
     public String getTaskName() {

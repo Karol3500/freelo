@@ -36,17 +36,28 @@ public class TaskCard extends VerticalLayout {
             }
         });
 
-        final Button claimButton = new Button("Claim");
-        claimButton.addStyleName("claimButton");
-            /*
-            claimButton.addClickListener(new Button.ClickListener() {
+        final Button leftButton = new Button("<");
+        leftButton.addStyleName("switchButton");
+
+        leftButton.addClickListener(new Button.ClickListener() {
 
             public void buttonClick(Button.ClickEvent event) {
-            todo.removeComponent(new TaskCard());
+            //method to
                 }
            });
-            taskCard.addComponent(claimButton);
-        */
+            taskCard.addComponent(leftButton);
+
+
+        final Button rightButton = new Button(">");
+        rightButton.addStyleName("switchButton");
+
+        rightButton.addClickListener(new Button.ClickListener() {
+
+            public void buttonClick(Button.ClickEvent event) {
+                //method to
+            }
+        });
+        taskCard.addComponent(rightButton);
 
         addComponent(taskCard);
     }

@@ -3,16 +3,17 @@ package org.freelo.view;
 import com.sun.javafx.tk.Toolkit;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
+import org.freelo.model.users.User;
 
 /**
  * Created by Konrad on 2014-12-13.
  */
 public class Subwindow extends Window {
-    private static final long serialVersionUID = 5678234591401040269L;
-    //        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
-    public Subwindow(final String taskname, final String taskdata) {
-        super(taskname);
+    private static final long serialVersionUID = 5678234591401040269L;
+
+    public Subwindow(final String taskname, final String taskdata, final String Creator) {
+        super(taskname + " by " + Creator);
         center();
         setHeight("300px");
         setWidth("400px");
@@ -20,6 +21,7 @@ public class Subwindow extends Window {
         setPositionX(150);
         VerticalLayout menu = new VerticalLayout();
         menu.setSizeFull();
+        menu.setSpacing(true);
         Label TaskNotes = new Label(taskdata, ContentMode.HTML);
         TaskNotes.setReadOnly(true);
         menu.addComponent(TaskNotes);
@@ -94,12 +96,14 @@ public class Subwindow extends Window {
         main.addComponent(itemplacement);
 
     }
+
     public Subwindow(final CssLayout todo) {
         //Appearance of the popup window
         super("OMG 2");
         center();
         VerticalLayout menu = new VerticalLayout();
         menu.setSizeFull();
+        menu.setSpacing(true);
         setContent(menu);
         setHeight("450px");
         setWidth("450px");

@@ -174,36 +174,5 @@ public class Register extends VerticalLayout implements View {
         }
         return false;
     }
-//    private boolean check_the_password() {
-//
-//        String pass = password.getValue();
-//        boolean digit_stat;
-//        boolean Upstatus = false;
-//        boolean len_stat;
-//        int pass_length = pass.length();
-//
-//        if(pass_length >=8){
-//            len_stat = true;
-//        } else {
-//            len_stat = false;
-//        }
-//
-//        for(int i = 0; i < pass_length; i++){
-//            if(Character.isUpperCase(i)){
-//                Upstatus = true;
-//            } else {
-//                Upstatus = false;
-//            }
-//        }
-//        if(pass.matches(".*\\d.*")){
-//            digit_stat = true;
-//        } else {
-//            digit_stat = false;
-//        }
-//        if(len_stat && Upstatus && digit_stat){
-//        return true;
-//        } else {
-//            return false;
-//        }
-//    }
+
 }

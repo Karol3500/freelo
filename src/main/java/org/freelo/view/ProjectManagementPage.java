@@ -23,11 +23,15 @@ public class ProjectManagementPage extends HorizontalLayout implements View{
 
     public ProjectManagementPage() {
         setSizeFull();
+        addStyleName("dashboard");
+        addComponent(new DashboardMenu());
 
-        HorizontalLayout container = new HorizontalLayout();
-        container.setWidth("100%");
-        container.setHeight("80%");
+
+        VerticalLayout container = new VerticalLayout();
+        container.setWidth("80%");
+        container.setHeight("100%");
         addComponent(container);
+
 
         Panel panel = new Panel("My Projects");
 
@@ -127,5 +131,6 @@ public class ProjectManagementPage extends HorizontalLayout implements View{
         welcome.show(Page.getCurrent());
 
     }
+
 }
 

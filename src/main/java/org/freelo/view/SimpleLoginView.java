@@ -172,6 +172,7 @@ Button.ClickListener {
 
         //if (!isAssigned) {
             getUI().getNavigator().navigateTo(ProjectManagementPage.NAME);
+        //getUI().getNavigator().navigateTo(MainView.NAME);
         //}
         //else {
         //    getUI().getNavigator().navigateTo(TaskPage.NAME);

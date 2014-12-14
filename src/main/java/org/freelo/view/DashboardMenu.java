@@ -29,11 +29,7 @@ import java.util.Collection;
 public final class DashboardMenu extends CustomComponent implements View {
 
     public static final String ID = "dashboard-menu";
-    public static final String REPORTS_BADGE_ID = "dashboard-menu-reports-badge";
-    public static final String NOTIFICATIONS_BADGE_ID = "dashboard-menu-notifications-badge";
     private static final String STYLE_VISIBLE = "valo-menu-visible";
-    private Label notificationsBadge;
-    private Label reportsBadge;
     private MenuItem settingsItem;
 
     public DashboardMenu() {
@@ -104,7 +100,10 @@ public final class DashboardMenu extends CustomComponent implements View {
             settingsItem.addItem("Sign Out", new Command() {
             @Override
             public void menuSelected(final MenuItem selectedItem) {
-               // DashboardEventBus.post(new UserLoggedOutEvent());
+                getSession().setAttribute("user", null);
+
+                // Refresh this view, should redirect to login view
+                getUI().getNavigator().navigateTo(SimpleLoginView.NAME);
             }
         });
         return settings;

@@ -100,17 +100,20 @@ public class Register extends VerticalLayout implements View {
 
         });
 
-
-        VerticalLayout mainregpage = new VerticalLayout(title, username, password, mail, name, surname, RegisterMe, BackButton);
+        this.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+        VerticalLayout mainregpage = new VerticalLayout();
+        mainregpage.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+        mainregpage.addComponent(title);
+        mainregpage.addComponent(username);
+        mainregpage.addComponent(password);
+        mainregpage.addComponent(mail);
+        mainregpage.addComponent(name);
+        mainregpage.addComponent(surname);
+        mainregpage.addComponent(RegisterMe);
+        mainregpage.addComponent(BackButton);
         mainregpage.setMargin(new MarginInfo(true, true, true, true));
         mainregpage.setSpacing(true);
-        mainregpage.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
-        VerticalLayout viewLayout = new VerticalLayout();
-        viewLayout.setSizeFull();
-        viewLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
-        viewLayout.addComponent(mainregpage);
-        setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
-        addComponent(viewLayout);
+        addComponent(mainregpage);
     }
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {

@@ -1,10 +1,11 @@
 package org.freelo.view;
 
+
 import com.vaadin.event.LayoutEvents;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.freelo.model.users.User;
-import org.freelo.model.users.UserManagement;
+import java.util.ArrayList;
 
 
 /**
@@ -21,12 +22,8 @@ public class TaskCard extends VerticalLayout {
         gdata = data;
         final CssLayout taskCard = new CssLayout();
         taskCard.addStyleName("task-card");
-        taskCard.setHeight("140px");
-        taskCard.setWidth("200px");
-
-
-        taskCard.addComponent(new Label(name, ContentMode.HTML));
-        taskCard.addComponent(new Label(data, ContentMode.HTML));
+        taskCard.setHeight("120px");
+        taskCard.setWidth("180px");
 
         taskCard.addLayoutClickListener(new LayoutEvents.LayoutClickListener() {
             @Override
@@ -38,27 +35,28 @@ public class TaskCard extends VerticalLayout {
 
         final Button leftButton = new Button("<");
         leftButton.addStyleName("switchButton");
-
         leftButton.addClickListener(new Button.ClickListener() {
 
             public void buttonClick(Button.ClickEvent event) {
             //method to
                 }
            });
-            taskCard.addComponent(leftButton);
-
 
         final Button rightButton = new Button(">");
         rightButton.addStyleName("switchButton");
-
         rightButton.addClickListener(new Button.ClickListener() {
 
             public void buttonClick(Button.ClickEvent event) {
                 //method to
             }
         });
+
+
+        taskCard.addComponent(new Label(name, ContentMode.HTML));
+        taskCard.addComponent(leftButton);
         taskCard.addComponent(rightButton);
 
+        setSpacing(true);
         addComponent(taskCard);
     }
 
@@ -76,5 +74,15 @@ public class TaskCard extends VerticalLayout {
         return gdata;
     }
 
+}
 
+class TaskDataContainer {
+    private ArrayList<TaskCard> TaskList = new ArrayList<>();
+    public TaskDataContainer() {
+
+    }
+    public void addToArray(final TaskCard tc) {
+        int size = TaskList.size();
+        TaskList.add(size, tc);
+    }
 }

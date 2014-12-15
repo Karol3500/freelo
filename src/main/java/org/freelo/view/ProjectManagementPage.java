@@ -5,6 +5,7 @@ import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Page;
 import com.vaadin.shared.Position;
 import com.vaadin.ui.*;
+import org.freelo.view.Dashboard.DashboardMenu;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 

@@ -86,4 +86,7 @@ class TaskDataContainer {
         int size = TaskList.size();
         TaskList.add(size, tc);
     }
+    public void delFromArray(final TaskCard tc) {
+        TaskList.remove(tc);
+    }
 }

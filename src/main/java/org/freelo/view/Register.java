@@ -2,6 +2,7 @@ package org.freelo.view;
 
 import com.vaadin.data.validator.AbstractValidator;
 import com.vaadin.data.validator.EmailValidator;
+import org.freelo.controller.users.RegistrationController;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -18,6 +19,7 @@ import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
+import javax.annotation.PostConstruct;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -50,6 +52,10 @@ public class Register extends VerticalLayout implements View {
     public Button RegisterMe;
     Button BackButton;
 
+    public RegistrationController registerController;
+    @PostConstruct
+    void setupController(){ registerController = new RegistrationController(this); }
+
     public Register(){
         password.isRequired();
         password.addValidator(new PasswordValidator());
@@ -62,43 +68,36 @@ public class Register extends VerticalLayout implements View {
 
         setSizeFull();
         BackButton = new Button("Back", new Button.ClickListener() {
-            /**
-			 * 
-			 */
 			private static final long serialVersionUID = -2456226905721789089L;
 
 			@Override
-        public void buttonClick(Button.ClickEvent clickEvent) {
+            public void buttonClick(Button.ClickEvent clickEvent) {
                 getUI().getNavigator().navigateTo(SimpleLoginView.NAME);
 
             }
         });
+
+        //RegisterMe = new Button("Register");
         RegisterMe = new Button("Proceed", new Button.ClickListener() {
-            /**
-			 * 
-			 */
 			private static final long serialVersionUID = -3960519875593438075L;
 
 			@Override
             public void buttonClick(Button.ClickEvent clickEvent) {
-                String username = mail.getValue();
+                /*String username = mail.getValue();
                 //Add some controller handler to obtain data from method
                 RegisterNewUser();
                 //
                 Notification welcome = new Notification(username + " registered !");
                 welcome.setDelayMsec(20000);
                 welcome.setPosition(Position.MIDDLE_CENTER);
-//                boolean password_status = check_the_password();
                 if(!validateEMAILandPassword()) {
                     getUI().getNavigator().navigateTo(NAME);
-
                 } else {
                     getUI().getNavigator().navigateTo(SimpleLoginView.NAME);
                     welcome.show(Page.getCurrent());
-                }
-
+                }*/
+                System.out.println("register.java");
             }
-
         });
 
         this.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);

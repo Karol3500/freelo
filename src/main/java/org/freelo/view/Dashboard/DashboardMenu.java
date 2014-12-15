@@ -170,8 +170,8 @@ public final class DashboardMenu extends CustomComponent implements View {
             addClickListener(new ClickListener() {
                 @Override
                 public void buttonClick(final ClickEvent event) {
-                    //UI.getCurrent().getNavigator().navigateTo(view.getViewName());
-                    UI.getCurrent().getNavigator().navigateTo(ProjectManagementPage.NAME);
+                    UI.getCurrent().getNavigator().navigateTo(view.getViewName());
+                    //UI.getCurrent().getNavigator().navigateTo(ProjectManagementPage.NAME);
                 }
             });
 

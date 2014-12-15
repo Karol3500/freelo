@@ -22,7 +22,7 @@ import com.vaadin.ui.Window;
 public class TaskPage extends HorizontalLayout implements View {
 
     private static final long serialVersionUID = -906274928780939032L;
-    public static final String NAME = "";
+    public static final String NAME = "Tasks";
 
     public TaskPage() {
         setSizeFull();

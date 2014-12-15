@@ -9,9 +9,6 @@ import org.freelo.view.SimpleLoginUI;
  * Created by artur on 15.12.14.
  */
 public class RegistrationController {
-    private static final String USER_EXIST_NOTIFICATION = "User with given e-mail already exist.";
-    private static final String INCORRECT_PASSWORDS_NOTIFICATION = "Passwords doesn't match.";
-    private static final String WRONG_EMAIL_NOTIFICATION = "Wrong email format.";
 
     private Register registerView;
 
@@ -50,6 +47,7 @@ public class RegistrationController {
             registerView.cleanTextFields();
 
             // todo information about registered user
+            registerView.registeredWindow();
 
         }
     }

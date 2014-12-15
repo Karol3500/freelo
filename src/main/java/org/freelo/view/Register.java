@@ -7,6 +7,7 @@ import org.freelo.controller.users.RegistrationController;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.vaadin.ui.*;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.shared.ui.MarginInfo;
@@ -72,28 +73,6 @@ public class Register extends VerticalLayout implements View {
         });
 
         RegisterMe = new Button("Register");
-        // below code is moved to controller
-        /*RegisterMe = new Button("Proceed", new Button.ClickListener() {
-			private static final long serialVersionUID = -3960519875593438075L;
-
-			@Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                String username = mail.getValue();
-                //Add some controller handler to obtain data from method
-                RegisterNewUser();
-                //
-                Notification welcome = new Notification(username + " registered !");
-                welcome.setDelayMsec(20000);
-                welcome.setPosition(Position.MIDDLE_CENTER);
-                if(!validateEMAILandPassword()) {
-                    getUI().getNavigator().navigateTo(NAME);
-                } else {
-                    getUI().getNavigator().navigateTo(SimpleLoginView.NAME);
-                    welcome.show(Page.getCurrent());
-                }
-                System.out.println("register.java");
-            }
-        });*/
 
         this.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
         VerticalLayout mainregpage = new VerticalLayout();
@@ -109,6 +88,7 @@ public class Register extends VerticalLayout implements View {
         mainregpage.addComponent(BackButton);
         mainregpage.setMargin(new MarginInfo(true, true, true, true));
         addComponent(mainregpage);
+
     }
 
     @Override
@@ -116,13 +96,13 @@ public class Register extends VerticalLayout implements View {
         mail.focus();
     }
 
-    public String getPassword() { return password.getValue(); }
+    public String getPassword(){ return password.getValue(); }
 
-    public String getMail() { return mail.getValue(); }
+    public String getMail(){ return mail.getValue(); }
 
-    public String getName() { return name.getValue(); }
+    public String getName(){ return name.getValue(); }
 
-    public String getSurname() { return surname.getValue(); }
+    public String getSurname(){ return surname.getValue(); }
 
     public boolean validateEmailPattern(){ return loginPattern.matcher(mail.getValue()).matches(); }
 
@@ -144,17 +124,46 @@ public class Register extends VerticalLayout implements View {
         }
     }
 
-    // I dont know how to do it in different way /Artur
+    // I dont know how to do it in different way, but it is working  /Artur
     public void setEmailExistError() { mail.setComponentError(new UserError("User already exist.")); }
     public void setConfirmationPasswordError() { passwordConfirmation.setComponentError(new UserError("Passwords must be the same.")); }
 
 
-    /*public class ConfirmPasswordValidator extends UserError {
-        @Override
-        public ConfirmPasswordValidator(String errorMessage) {
-            //super(PASSWORD_PATTERN, true, errorMessage);
+    public void registeredWindow(){
+        Window registered = new UserRegisteredWindow();
+        UI.getCurrent().addWindow(registered);
+    }
+
+
+    class UserRegisteredWindow extends Window {
+        public UserRegisteredWindow() {
+            //super("Subs on Sale"); // Set window caption
+            center();
+
+            // Some basic content for the window
+            VerticalLayout content = new VerticalLayout();
+            content.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+            content.addComponent(new Label("You have been registered."));
+            content.addComponent(new Label(""));
+            content.setMargin(true);
+            setContent(content);
+
+            // Disable the close button
+            setClosable(false);
+            setResizable(false);
+
+            Button ok = new Button("OK");
+            content.addComponent(ok);
+            ok.addClickListener(new Button.ClickListener() {
+                public void buttonClick(Button.ClickEvent event) {
+                    getUI().getNavigator().navigateTo(SimpleLoginView.NAME);
+                    close();
+                }
+            });
         }
-    }*/
+    }
+
+
 
 
     // old version

@@ -41,7 +41,7 @@ public class Register extends VerticalLayout implements View {
 	public static final String NAME = "Registration";
     protected final Label title = new Label("Registration");
 
-    protected final PasswordField password = new PasswordField("Password (minimum 8 characters)");
+    protected final PasswordField password = new PasswordField("Password (min. 8 characters)");
     protected final PasswordField passwordConfirmation = new PasswordField("Confirm password");
     protected final TextField mail = new TextField("E-mail Address");
     protected final TextField name = new TextField("Name");

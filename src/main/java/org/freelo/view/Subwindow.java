@@ -1,7 +1,7 @@
 package org.freelo.view;
 
 
-import com.sun.javafx.tk.Toolkit;
+//import com.sun.javafx.tk.Toolkit;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.freelo.model.users.User;

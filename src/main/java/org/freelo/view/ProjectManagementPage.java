@@ -24,12 +24,10 @@ public class ProjectManagementPage extends HorizontalLayout implements View{
 
     public ProjectManagementPage() {
         setSizeFull();
-        addStyleName("dashboard");
-        addComponent(new DashboardMenu());
+
+        HorizontalLayout container = new HorizontalLayout();
 
 
-        VerticalLayout container = new VerticalLayout();
-        container.setWidth("80%");
         container.setHeight("100%");
         addComponent(container);
 
@@ -37,14 +35,10 @@ public class ProjectManagementPage extends HorizontalLayout implements View{
         Panel panel = new Panel("My Projects");
 
         final VerticalLayout container2 = new VerticalLayout();
-        //container2.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
         container2.addStyleName("projectPanelContainer");
-        panel.setWidth("50%");
-        container.addComponent(panel);
+        panel.setSizeFull();
+        panel.setWidth("1000px");
         panel.setContent(container2);
-
-        //Label MyProjectsLabel = new Label("My Projects");
-        //container.addComponent(MyProjectsLabel);
 
         //if (!SimpleLoginView.isAssigned) {
         //    Label NotAssignedLabel = new Label("You are not assigned to any project yet. You can create your own project by clicking 'Add project' button");
@@ -62,7 +56,8 @@ public class ProjectManagementPage extends HorizontalLayout implements View{
         });
         container2.addComponent(addProjectButton);
 
-
+        container.addComponent(new DashboardMenu());
+        container.addComponent(panel);
     }
 
     public class Subwindow extends Window {
@@ -73,6 +68,7 @@ public class ProjectManagementPage extends HorizontalLayout implements View{
 
             center();
             HorizontalLayout main = new HorizontalLayout();
+            main.addStyleName("projectpopup");
             main.setSizeFull();
             setContent(main);
             setHeight("200px");
@@ -116,9 +112,9 @@ public class ProjectManagementPage extends HorizontalLayout implements View{
                     getUI().getNavigator().navigateTo(TaskPage.NAME);
                 }
             });
+            ProjectButton.addStyleName("ProjectButton");
             ProjectButton.setWidth("100%");
             container.addComponent(ProjectButton);
-
         }
 
 

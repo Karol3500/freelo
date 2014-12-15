@@ -29,6 +29,7 @@ public final class DashboardMenu extends CustomComponent implements View {
     public static final String ID = "dashboard-menu";
     private static final String STYLE_VISIBLE = "valo-menu-visible";
     private MenuItem settingsItem;
+    private String name;
 
     public DashboardMenu() {
         addStyleName("valo-menu");
@@ -79,10 +80,10 @@ public final class DashboardMenu extends CustomComponent implements View {
         final User user = getCurrentUser();
         settingsItem = settings.addItem("", new ThemeResource(
                 "img/profile-pic-300px.jpg"), null);
-        String username = String.valueOf(getSession().getAttribute("user"));//////////////////////////////////////////////////////////zakomentuj
+        //String username = String.valueOf(getSession().getAttribute("user"));//////////////////////////////////////////////////////////zakomentuj
         //settingsItem.setText(user.getFirstName() + " " + user.getLastName());
-        settingsItem.setText(username); //////////////////////////////////////////////////////////zakomentuj
-        //settingsItem.setText("John Kowalski");  /////////////////////////////////////////////odkomentuj
+        //settingsItem.setText(name); //////////////////////////////////////////////////////////zakomentuj
+        settingsItem.setText("John Kowalski");  /////////////////////////////////////////////odkomentuj
         settingsItem.addItem("Edit Profile", new Command() {
             @Override
             public void menuSelected(final MenuItem selectedItem) {
@@ -181,8 +182,10 @@ public final class DashboardMenu extends CustomComponent implements View {
 
         }
     }
-    @Override
 
+    @Override
     public void enter(final ViewChangeListener.ViewChangeEvent event) {
+        //String username = String.valueOf(getSession().getAttribute("user"));
+        //this.name = username;
     }
 }

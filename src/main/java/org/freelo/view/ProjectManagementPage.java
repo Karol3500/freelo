@@ -19,7 +19,7 @@ public class ProjectManagementPage extends HorizontalLayout implements View{
 
     private static final long serialVersionUID = -9002670791091569418L;
     public static final String NAME = "Project Management";
-
+    String name;
     public final Button addProjectButton;
 
     public ProjectManagementPage() {
@@ -122,6 +122,7 @@ public class ProjectManagementPage extends HorizontalLayout implements View{
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
         String username = String.valueOf(getSession().getAttribute("user"));
+        name = username;
         Notification welcome = new Notification("Welcome  " + username);
         welcome.setDelayMsec(5000);
         welcome.setPosition(Position.BOTTOM_CENTER);

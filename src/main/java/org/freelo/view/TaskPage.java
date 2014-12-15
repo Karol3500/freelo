@@ -2,6 +2,8 @@ package org.freelo.view;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.server.Page;
+import com.vaadin.shared.Position;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Panel;
@@ -20,12 +22,12 @@ import com.vaadin.ui.Window;
 public class TaskPage extends HorizontalLayout implements View {
 
     private static final long serialVersionUID = -906274928780939032L;
-    public static final String NAME = "Tasks";
+    public static final String NAME = "";
 
     public TaskPage() {
         setSizeFull();
         addStyleName("taskpage");
-        addComponent(new DashboardMenu());
+        //addComponent(new DashboardMenu());
 
         // the layout of task page is divided into 2 parts
         //containers
@@ -108,11 +110,11 @@ public class TaskPage extends HorizontalLayout implements View {
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
-        /*String username = String.valueOf(getSession().getAttribute("user"));
+        String username = String.valueOf(getSession().getAttribute("user"));
         Notification welcome = new Notification("Welcome  " + username);
         welcome.setDelayMsec(30000);
         welcome.setPosition(Position.MIDDLE_CENTER);
-        welcome.show(Page.getCurrent());*/
+        welcome.show(Page.getCurrent());
 
     }
 

@@ -13,6 +13,7 @@ import com.vaadin.ui.MenuBar.Command;
 import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.themes.ValoTheme;
 import org.freelo.model.users.User;
+import org.freelo.view.ProjectManagementPage;
 import org.freelo.view.SimpleLoginView;
 
 /**
@@ -169,7 +170,8 @@ public final class DashboardMenu extends CustomComponent implements View {
             addClickListener(new ClickListener() {
                 @Override
                 public void buttonClick(final ClickEvent event) {
-                    UI.getCurrent().getNavigator().navigateTo(view.getViewName());
+                    //UI.getCurrent().getNavigator().navigateTo(view.getViewName());
+                    UI.getCurrent().getNavigator().navigateTo(ProjectManagementPage.NAME);
                 }
             });
 

@@ -7,8 +7,8 @@ import org.freelo.view.ProjectManagementPage;
 import org.freelo.view.TaskPage;
 
 public enum DashboardViewType {
-    PROJECTPAGE(ProjectManagementPage.NAME, ProjectManagementPage.class, FontAwesome.HOME, true),
-    TASKPAGE(TaskPage.NAME, TaskPage.class, FontAwesome.FILE_TEXT_O, true);
+    PROJECTPAGE(ProjectManagementPage.NAME, ProjectManagementPage.class, FontAwesome.HOME, true);
+    //TASKPAGE(TaskPage.NAME, TaskPage.class, FontAwesome.FILE_TEXT_O, true);
 
     private final String viewName;
     private final Class<? extends View> viewClass;

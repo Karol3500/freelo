@@ -39,21 +39,24 @@ public class Register extends VerticalLayout implements View {
     private Pattern passwordPattern = Pattern.compile(PASSWORD_PATTERN);
 
 	public static final String NAME = "Registration";
-    protected final PasswordField password = new PasswordField("Password");
     protected final Label title = new Label("Registration");
-    protected final TextField username = new TextField("Username");
 
+    protected final PasswordField password = new PasswordField("Password (minimum 8 characters)");
+    protected final PasswordField passwordConfirmation = new PasswordField("Confirm password");
     protected final TextField mail = new TextField("E-mail Address");
     protected final TextField name = new TextField("Name");
     protected final TextField surname = new TextField("Surname");
 
-    Button RegisterMe;
+    public Button RegisterMe;
     Button BackButton;
 
     public Register(){
         password.isRequired();
         password.addValidator(new PasswordValidator());
-        username.isRequired();
+        passwordConfirmation.isRequired();
+        //passwordConfirmation.addValidator(new ConfirmPasswordValidator());
+        name.isRequired();
+        surname.isRequired();
         mail.isRequired();
         mail.addValidator(new EmailValidator("Wrong mail format !"));
 
@@ -104,11 +107,11 @@ public class Register extends VerticalLayout implements View {
         mainregpage.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
         mainregpage.setSpacing(true);
         mainregpage.addComponent(title);
-        mainregpage.addComponent(username);
-        mainregpage.addComponent(password);
         mainregpage.addComponent(mail);
         mainregpage.addComponent(name);
         mainregpage.addComponent(surname);
+        mainregpage.addComponent(password);
+        mainregpage.addComponent(passwordConfirmation);
         mainregpage.addComponent(RegisterMe);
         mainregpage.addComponent(BackButton);
         mainregpage.setMargin(new MarginInfo(true, true, true, true));
@@ -116,20 +119,16 @@ public class Register extends VerticalLayout implements View {
     }
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
-        username.focus();
+        mail.focus();
     }
 
     protected String[] RegisterNewUser() {
-        String[] user_data = {username.getValue(), password.getValue(), mail.getValue(), name.getValue(), surname.getValue()};
+        String[] user_data = {password.getValue(), mail.getValue(), name.getValue(), surname.getValue()};
         return user_data;
     }
 
     private static final class PasswordValidator extends
             AbstractValidator<String> {
-
-        /**
-         *
-         */
         private static final long serialVersionUID = -5461407030697310024L;
 
         public PasswordValidator() {
@@ -155,6 +154,26 @@ public class Register extends VerticalLayout implements View {
             return String.class;
         }
     }
+
+    /*private static final class ConfirmPasswordValidator extends
+            AbstractValidator<String> {
+        private static final long serialVersionUID = -5461407030697310024L;
+
+        public ConfirmPasswordValidator() {
+            super("Passwords are not the same.");
+        }
+
+        @Override
+        protected boolean isValidValue(String value) {
+            return password.getValue().equals(passwordConfirmation.getValue());
+        }
+
+        @Override
+        public Class<String> getType() {
+            return String.class;
+        }
+    }*/
+
     private boolean validateEmail(){
 
         Matcher m = loginPattern.matcher(mail.getValue());
@@ -166,7 +185,7 @@ public class Register extends VerticalLayout implements View {
 
     private boolean validatePassword(){
         Matcher m = passwordPattern.matcher(password.getValue());
-        if(m.matches()){
+        if(m.matches() && password.getValue().equals(passwordConfirmation.getValue())){
             return true;
         }
         return false;

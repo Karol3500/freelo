@@ -1,25 +1,20 @@
-package org.freelo.view;
+package org.freelo.view.Dashboard;
 
-import com.vaadin.event.dd.DragAndDropEvent;
-import com.vaadin.event.dd.DropHandler;
-import com.vaadin.event.dd.acceptcriteria.AcceptCriterion;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.AbstractSelect.AcceptItem;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.DragAndDropWrapper.DragStartMode;
 import com.vaadin.ui.MenuBar.Command;
 import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.themes.ValoTheme;
 import org.freelo.model.users.User;
-
-import java.util.Collection;
+import org.freelo.view.ProjectManagementPage;
+import org.freelo.view.SimpleLoginView;
 
 /**
  * A responsive menu component providing user information and the controls for
@@ -87,13 +82,13 @@ public final class DashboardMenu extends CustomComponent implements View {
         settingsItem.addItem("Edit Profile", new Command() {
             @Override
             public void menuSelected(final MenuItem selectedItem) {
-                //ProfilePreferencesWindow.open(user, false);
+                ProfilePreferencesWindow.open(user, false);
             }
         });
         settingsItem.addItem("Preferences", new Command() {
             @Override
             public void menuSelected(final MenuItem selectedItem) {
-                //ProfilePreferencesWindow.open(user, true);
+                ProfilePreferencesWindow.open(user, true);
             }
         });
         settingsItem.addSeparator();
@@ -175,9 +170,8 @@ public final class DashboardMenu extends CustomComponent implements View {
             addClickListener(new ClickListener() {
                 @Override
                 public void buttonClick(final ClickEvent event) {
-                    //UI.getCurrent().getNavigator()
-                            //.navigateTo(view.getViewName());
-                    UI.getCurrent().getNavigator().navigateTo(ProjectManagementPage.NAME);
+                    UI.getCurrent().getNavigator().navigateTo(view.getViewName());
+                    //UI.getCurrent().getNavigator().navigateTo(ProjectManagementPage.NAME);
                 }
             });
 

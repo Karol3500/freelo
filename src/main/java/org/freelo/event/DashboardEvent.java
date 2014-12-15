@@ -1,9 +1,7 @@
 package org.freelo.event;
 
 
-import org.freelo.view.DashboardViewType;
-
-import java.util.Collection;
+import org.freelo.view.Dashboard.DashboardViewType;
 
 /*
  * Event bus events used in Dashboard are listed here as inner classes.

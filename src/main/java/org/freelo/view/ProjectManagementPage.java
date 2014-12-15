@@ -5,6 +5,7 @@ import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Page;
 import com.vaadin.shared.Position;
 import com.vaadin.ui.*;
+import org.freelo.view.Dashboard.DashboardMenu;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -17,18 +18,16 @@ import org.springframework.stereotype.Component;
 public class ProjectManagementPage extends HorizontalLayout implements View{
 
     private static final long serialVersionUID = -9002670791091569418L;
-    public static final String NAME = "ProjectManagement";
+    public static final String NAME = "Project Management";
 
     public final Button addProjectButton;
 
     public ProjectManagementPage() {
         setSizeFull();
-        addStyleName("dashboard");
-        addComponent(new DashboardMenu());
+
+        HorizontalLayout container = new HorizontalLayout();
 
 
-        VerticalLayout container = new VerticalLayout();
-        container.setWidth("80%");
         container.setHeight("100%");
         addComponent(container);
 
@@ -36,14 +35,10 @@ public class ProjectManagementPage extends HorizontalLayout implements View{
         Panel panel = new Panel("My Projects");
 
         final VerticalLayout container2 = new VerticalLayout();
-        //container2.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
         container2.addStyleName("projectPanelContainer");
-        panel.setWidth("50%");
-        container.addComponent(panel);
+        panel.setSizeFull();
+        panel.setWidth("1000px");
         panel.setContent(container2);
-
-        //Label MyProjectsLabel = new Label("My Projects");
-        //container.addComponent(MyProjectsLabel);
 
         //if (!SimpleLoginView.isAssigned) {
         //    Label NotAssignedLabel = new Label("You are not assigned to any project yet. You can create your own project by clicking 'Add project' button");
@@ -61,7 +56,8 @@ public class ProjectManagementPage extends HorizontalLayout implements View{
         });
         container2.addComponent(addProjectButton);
 
-
+        container.addComponent(new DashboardMenu());
+        container.addComponent(panel);
     }
 
     public class Subwindow extends Window {
@@ -72,6 +68,7 @@ public class ProjectManagementPage extends HorizontalLayout implements View{
 
             center();
             HorizontalLayout main = new HorizontalLayout();
+            main.addStyleName("projectpopup");
             main.setSizeFull();
             setContent(main);
             setHeight("200px");
@@ -115,9 +112,9 @@ public class ProjectManagementPage extends HorizontalLayout implements View{
                     getUI().getNavigator().navigateTo(TaskPage.NAME);
                 }
             });
+            ProjectButton.addStyleName("ProjectButton");
             ProjectButton.setWidth("100%");
             container.addComponent(ProjectButton);
-
         }
 
 
@@ -126,8 +123,8 @@ public class ProjectManagementPage extends HorizontalLayout implements View{
     public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
         String username = String.valueOf(getSession().getAttribute("user"));
         Notification welcome = new Notification("Welcome  " + username);
-        welcome.setDelayMsec(30000);
-        welcome.setPosition(Position.MIDDLE_CENTER);
+        welcome.setDelayMsec(5000);
+        welcome.setPosition(Position.BOTTOM_CENTER);
         welcome.show(Page.getCurrent());
 
     }

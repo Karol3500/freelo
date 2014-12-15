@@ -30,7 +30,7 @@ public class Subwindow extends Window {
         VerticalLayout menu = new VerticalLayout();
         menu.setSizeFull();
         menu.setSpacing(true);
-        Label TaskNotes = new Label(tc.gdata, ContentMode.HTML);
+        Label TaskNotes = new Label(tc.getTaskNotes(), ContentMode.HTML);
         TaskNotes.setReadOnly(true);
         menu.addComponent(TaskNotes);
         menu.setComponentAlignment(TaskNotes, Alignment.MIDDLE_RIGHT);
@@ -89,6 +89,8 @@ public class Subwindow extends Window {
         int itemindex = container.getComponentIndex(tc);
         Component todelete = container.getComponent(itemindex);
         container.removeComponent(todelete);
+        TaskDataContainer TaskContainer = new TaskDataContainer();
+        TaskContainer.delFromArray(tc);
     }
 
 }

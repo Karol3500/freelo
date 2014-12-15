@@ -24,8 +24,7 @@ public class TaskCard extends VerticalLayout {
         gdata = data;
         final CssLayout taskCard = new CssLayout();
         taskCard.addStyleName("task-card");
-        taskCard.setHeight("120px");
-        taskCard.setWidth("180px");
+        taskCard.setWidth("90%");
 
         taskCard.addLayoutClickListener(new LayoutEvents.LayoutClickListener() {
             @Override
@@ -85,5 +84,8 @@ class TaskDataContainer {
     public void addToArray(final TaskCard tc) {
         int size = TaskList.size();
         TaskList.add(size, tc);
+    }
+    public void delFromArray(final TaskCard tc) {
+        TaskList.remove(tc);
     }
 }

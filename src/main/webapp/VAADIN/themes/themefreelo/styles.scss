@@ -3,7 +3,28 @@
 
 .themefreelo {
   @include valo;
+
+  //custom theme rules
+
+  .ProjectButton{
+    color: #ecf2f8;
+    font-weight: 400;
+    border-radius: 4px;
+    border: 1px solid #1362b1;
+    border-top-color: #156ab3;
+    border-bottom-color: #1156a8;
+    background-color: #197de1;
+    background-image: none;
+    text-align: left;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    box-shadow: none;
+  }
+  .projectpopup{
+    padding: 10px;
+  }
 }
+
 .container {
     background-color:  #414b56;
 }
@@ -15,9 +36,7 @@
   margin: 5px;
 }
 
-.panel{
-  margin: 200px;
-}
+
 .task-card{
   margin: 10px;
   padding: 10px;

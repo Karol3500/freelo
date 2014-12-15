@@ -100,9 +100,22 @@ public class TaskPage extends HorizontalLayout implements View {
             }
         });
         //adding elements to containers
+        Button logout = new Button("Logout", new Button.ClickListener() {
+            private static final long  serialVersionUID = -3494334621547144379L;
 
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+
+                // "Logout" the user
+                getSession().setAttribute("user", null);
+
+                // Refresh this view, should redirect to login view
+                getUI().getNavigator().navigateTo(NAME);
+            }
+        });
 
         side_container.addComponent(addcomponent_button);
+        side_container.addComponent(logout);
         sidepanel.setContent(side_container);
         addComponent(sidepanel);
         addComponent(container);

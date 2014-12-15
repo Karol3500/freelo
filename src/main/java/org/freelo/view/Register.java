@@ -97,7 +97,6 @@ public class Register extends VerticalLayout implements View {
                     welcome.show(Page.getCurrent());
                 }
 
-
             }
 
         });

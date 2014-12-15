@@ -1,6 +1,7 @@
 package org.freelo.controller.users;
 
 import com.vaadin.ui.Button;
+import org.freelo.model.users.UserManagement;
 import org.freelo.view.Register;
 import org.freelo.view.SimpleLoginUI;
 
@@ -8,18 +9,19 @@ import org.freelo.view.SimpleLoginUI;
  * Created by artur on 15.12.14.
  */
 public class RegistrationController {
-    private static final String NO_SUCH_USER_NOTIFICATION = "User with given e-mail doesn't exist.";
-    private static final String INCORRECT_PASSWORD_NOTIFICATION = "Incorrect password";
+    private static final String USER_EXIST_NOTIFICATION = "User with given e-mail already exist.";
+    private static final String INCORRECT_PASSWORDS_NOTIFICATION = "Passwords doesn't match.";
+    private static final String WRONG_EMAIL_NOTIFICATION = "Wrong email format.";
 
-    private Register registerUI;
+    private Register registerView;
 
     public RegistrationController(Register registerUI){
-        this.registerUI = registerUI;
+        this.registerView = registerUI;
         setRegisterButtonListener();
     }
 
     public void setRegisterButtonListener(){
-        registerUI.RegisterMe.addClickListener(new registerButtonClickListenerEventHandler());
+        registerView.RegisterMe.addClickListener(new registerButtonClickListenerEventHandler());
     }
 
     class registerButtonClickListenerEventHandler implements Button.ClickListener {
@@ -28,8 +30,26 @@ public class RegistrationController {
         @Override
         public void buttonClick(Button.ClickEvent event) {
 
-            System.out.println("regcontroler.java");
+            if (registerView.getMail().isEmpty() || registerView.getName().isEmpty() || registerView.getSurname().isEmpty() || registerView.getPassword().isEmpty()) return;
 
+            if (!registerView.validateEmailPattern()) return;
+
+            if (!registerView.validatePasswordPattern()) return;
+
+            if (!registerView.validatePasswordConfirmation()){
+                registerView.setConfirmationPasswordError();
+                return;
+            }
+
+            UserManagement user = new UserManagement();
+            if (user.userAdd(registerView.getName(),registerView.getSurname(),registerView.getMail(),registerView.getPassword()) == null){
+                registerView.setEmailExistError();
+                return;
+            }
+
+            registerView.cleanTextFields();
+
+            // todo information about registered user
 
         }
     }

@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 public class ProjectManagementPage extends HorizontalLayout implements View{
 
     private static final long serialVersionUID = -9002670791091569418L;
-    public static final String NAME = "ProjectManagement";
+    public static final String NAME = "Project Management";
 
     public final Button addProjectButton;
 
@@ -126,8 +126,8 @@ public class ProjectManagementPage extends HorizontalLayout implements View{
     public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
         String username = String.valueOf(getSession().getAttribute("user"));
         Notification welcome = new Notification("Welcome  " + username);
-        welcome.setDelayMsec(30000);
-        welcome.setPosition(Position.MIDDLE_CENTER);
+        welcome.setDelayMsec(5000);
+        welcome.setPosition(Position.BOTTOM_CENTER);
         welcome.show(Page.getCurrent());
 
     }

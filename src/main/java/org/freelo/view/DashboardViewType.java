@@ -5,7 +5,8 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Resource;
 
 public enum DashboardViewType {
-    PROJECTPAGE("ProjectPage", ProjectManagementPage.class, FontAwesome.HOME, true);
+    PROJECTPAGE(ProjectManagementPage.NAME, ProjectManagementPage.class, FontAwesome.HOME, true),
+    TASKPAGE(TaskPage.NAME, TaskPage.class, FontAwesome.FILE_TEXT_O, true);
 
     private final String viewName;
     private final Class<? extends View> viewClass;

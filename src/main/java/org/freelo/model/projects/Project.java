@@ -1,7 +1,12 @@
 package org.freelo.model.projects;
 
+import org.freelo.model.tasks.Component;
+import org.freelo.model.tasks.Note;
+
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by piotr on 2014-12-08.
@@ -29,7 +34,17 @@ public class Project {
     @Column
     private String projectName;
 
+    @OneToMany
+    private List<Note> toDo = new ArrayList<>();
 
+    @OneToMany
+    private List<Note> onGoing = new ArrayList<>();
+
+    @OneToMany
+    private List<Note> Done = new ArrayList<>();
+
+    public void addTask(int taskID) {}
+    public void deleteTask(int taskID) {}
 
 
     public int getId() {
@@ -51,5 +66,27 @@ public class Project {
 
     public String getProjectDate() { return projectName; }
     public void setProjectDate(String projectname) { this.projectName = projectname; }
+
+
+    public List<Note> getToDo() {
+        return toDo;
+    }
+    public void addToDo(Note note){
+        toDo.add(note);
+    }
+
+    public List<Note> getOnGoing() {
+        return onGoing;
+    }
+    public void addOnGoing(Note note){
+        onGoing.add(note);
+    }
+
+    public List<Note> getDone() {
+        return Done;
+    }
+    public void addDone(Note note){
+        Done.add(note);
+    }
 
 }

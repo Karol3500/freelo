@@ -9,18 +9,21 @@ import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.MenuBar.Command;
 import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.themes.ValoTheme;
 import org.freelo.model.users.User;
-import org.freelo.view.ProjectManagementPage;
 import org.freelo.view.SimpleLoginView;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.*;
 
 /**
  * A responsive menu component providing user information and the controls for
  * primary navigation between the views.
  */
-@SuppressWarnings({ "serial", "unchecked" })
+@org.springframework.stereotype.Component
+@Scope("prototype")
 public final class DashboardMenu extends CustomComponent implements View {
 
     public static final String ID = "dashboard-menu";

@@ -35,10 +35,10 @@ public class PrivilegeManagement {
         return ID;
     }
 
-    // returns 1 if successful, or null if some error occurred
-    public static Integer deletePrivilege(Privilege oldPrivilege) {
+    // returns true if successful, or false if some error occurred
+    public static boolean deletePrivilege(Privilege oldPrivilege) {
         Session session = HibernateSessionFactoryBean.getSession();
-        Integer successfulDeletion = null;
+        boolean successfulDeletion = false;
 
         try {
             session.beginTransaction();
@@ -47,7 +47,7 @@ public class PrivilegeManagement {
             if (!privileges.isEmpty()) {
                 Privilege temp = (Privilege)session.get(Privilege.class, oldPrivilege.getID());
                 session.delete(temp);
-                successfulDeletion = 1;
+                successfulDeletion = true;
             }
             session.getTransaction().commit();
         }

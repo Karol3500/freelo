@@ -33,10 +33,10 @@ public class GroupManagement {
         return ID;
     }
 
-    // returns 1 if successful, or null if some error occurred
-    public static Integer deleteGroup(Privilege oldGroup) {
+    // returns true if successful, or false if some error occurred
+    public static boolean deleteGroup(Privilege oldGroup) {
         Session session = HibernateSessionFactoryBean.getSession();
-        Integer successfulDeletion = null;
+        boolean successfulDeletion = false;
 
         try {
             session.beginTransaction();
@@ -45,7 +45,7 @@ public class GroupManagement {
             if (!groups.isEmpty()) {
                 Group temp = (Group)session.get(Group.class, oldGroup.getID());
                 session.delete(temp);
-                successfulDeletion = 1;
+                successfulDeletion = true;
             }
             session.getTransaction().commit();
         }

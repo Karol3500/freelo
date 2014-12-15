@@ -79,9 +79,10 @@ public final class DashboardMenu extends CustomComponent implements View {
         final User user = getCurrentUser();
         settingsItem = settings.addItem("", new ThemeResource(
                 "img/profile-pic-300px.jpg"), null);
-
+        String username = String.valueOf(getSession().getAttribute("user"));//////////////////////////////////////////////////////////zakomentuj
         //settingsItem.setText(user.getFirstName() + " " + user.getLastName());
-        settingsItem.setText("John Kowalski");
+        settingsItem.setText(username); //////////////////////////////////////////////////////////zakomentuj
+        //settingsItem.setText("John Kowalski");  /////////////////////////////////////////////odkomentuj
         settingsItem.addItem("Edit Profile", new Command() {
             @Override
             public void menuSelected(final MenuItem selectedItem) {

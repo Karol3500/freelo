@@ -2,6 +2,7 @@ package org.freelo.view;
 
 
 //import com.sun.javafx.tk.Toolkit;
+import com.vaadin.data.Property;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.freelo.model.users.User;
@@ -12,6 +13,7 @@ import org.freelo.model.users.User;
 public class Subwindow extends Window {
 
     private static final long serialVersionUID = 5678234591401040269L;
+    String priorityString;
 
     public Subwindow(final TaskCard tc) {
         super(tc.getTaskName() + " by " + tc.getUser());
@@ -56,6 +58,16 @@ public class Subwindow extends Window {
         final TextField TaskName = new TextField();
         TaskName.setInputPrompt("Name your Task");
 
+        final NativeSelect priority = new NativeSelect("Task priority");
+        priority.setNullSelectionAllowed(false);
+        priority.addItem("High");
+        priority.addItem("Medium");
+        priority.addItem("Low");
+
+        priority.addValueChangeListener(new ValueChangedListener());
+
+
+
         final RichTextArea data = new RichTextArea();
 
         final Button CreateTaskButton = new Button("Create Task", new Button.ClickListener() {
@@ -93,5 +105,12 @@ public class Subwindow extends Window {
         TaskContainer.delFromArray(tc);
     }
 
+    class ValueChangedListener implements Property.ValueChangeListener {
+        @Override
+        public void valueChange(final Property.ValueChangeEvent event){
+            priorityString = String.valueOf(event.getProperty()
+                    .getValue());
+        }
+    }
 }
 

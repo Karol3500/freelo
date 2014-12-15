@@ -28,7 +28,7 @@ public class Application {
         manage.userAdd("Konrad","Jazownik","konradjazownik@freelo.com","password");
         manage.userAdd("Piotr","Bienias","piotrbienias@freelo.com","password");
         manage.userAdd("Jan","Dziergwa","jandziergwa@freelo.com","password");
-        manage.userAdd("Ruben","Diaz","rubendiaz@freelo.com","password");
+        manage.userAdd("Ruben","Dias","rubendias@freelo.com","password");
 
     }
 }

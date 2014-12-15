@@ -1,11 +1,14 @@
-package org.freelo.view;
+package org.freelo.view.Dashboard;
 
 import com.vaadin.navigator.View;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Resource;
+import org.freelo.view.ProjectManagementPage;
+import org.freelo.view.TaskPage;
 
 public enum DashboardViewType {
-    PROJECTPAGE("ProjectPage", ProjectManagementPage.class, FontAwesome.HOME, true);
+    PROJECTPAGE(ProjectManagementPage.NAME, ProjectManagementPage.class, FontAwesome.HOME, true);
+    //TASKPAGE(TaskPage.NAME, TaskPage.class, FontAwesome.FILE_TEXT_O, true);
 
     private final String viewName;
     private final Class<? extends View> viewClass;

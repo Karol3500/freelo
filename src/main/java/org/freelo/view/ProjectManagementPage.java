@@ -5,6 +5,7 @@ import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Page;
 import com.vaadin.shared.Position;
 import com.vaadin.ui.*;
+import org.freelo.view.Dashboard.DashboardMenu;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +18,7 @@ import org.springframework.stereotype.Component;
 public class ProjectManagementPage extends HorizontalLayout implements View{
 
     private static final long serialVersionUID = -9002670791091569418L;
-    public static final String NAME = "ProjectManagement";
+    public static final String NAME = "Project Management";
 
     public final Button addProjectButton;
 
@@ -126,8 +127,8 @@ public class ProjectManagementPage extends HorizontalLayout implements View{
     public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
         String username = String.valueOf(getSession().getAttribute("user"));
         Notification welcome = new Notification("Welcome  " + username);
-        welcome.setDelayMsec(30000);
-        welcome.setPosition(Position.MIDDLE_CENTER);
+        welcome.setDelayMsec(5000);
+        welcome.setPosition(Position.BOTTOM_CENTER);
         welcome.show(Page.getCurrent());
 
     }

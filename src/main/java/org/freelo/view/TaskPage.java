@@ -7,6 +7,7 @@ import com.vaadin.shared.Position;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Panel;
+import org.freelo.view.Dashboard.DashboardMenu;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import com.vaadin.ui.Window;
@@ -26,13 +27,14 @@ public class TaskPage extends HorizontalLayout implements View {
     public TaskPage() {
         setSizeFull();
         addStyleName("taskpage");
+        //addComponent(new DashboardMenu());
 
         // the layout of task page is divided into 2 parts
         //containers
         //also used for popup windows
         final HorizontalLayout container = new HorizontalLayout();
         container.addStyleName("container");
-        container.setWidth("100%");
+        container.setWidth("80%");
         container.setHeight("100%");
 
 //        final VerticalLayout container2 = new VerticalLayout();
@@ -85,20 +87,6 @@ public class TaskPage extends HorizontalLayout implements View {
         container.addComponent(ongoingpanel);
         container.addComponent(donepanel);
 
-        Button logout = new Button("Logout", new Button.ClickListener() {
-            private static final long  serialVersionUID = -3494334621547144379L;
-
-            @Override
-            public void buttonClick(Button.ClickEvent event) {
-
-                // "Logout" the user
-                getSession().setAttribute("user", null);
-
-                // Refresh this view, should redirect to login view
-                getUI().getNavigator().navigateTo(NAME);
-            }
-        });
-
 
         final Button addcomponent_button = new Button("Add Task");
         addcomponent_button.addStyleName("button1");
@@ -115,7 +103,6 @@ public class TaskPage extends HorizontalLayout implements View {
 
 
         side_container.addComponent(addcomponent_button);
-        side_container.addComponent(logout);
         sidepanel.setContent(side_container);
         addComponent(sidepanel);
         addComponent(container);

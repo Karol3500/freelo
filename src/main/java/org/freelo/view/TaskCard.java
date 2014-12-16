@@ -5,7 +5,7 @@ import com.vaadin.event.LayoutEvents;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.freelo.controller.tasks.TaskController;
-import org.freelo.model.users.User;
+
 import java.util.ArrayList;
 
 
@@ -15,17 +15,18 @@ import java.util.ArrayList;
 
 public class TaskCard extends VerticalLayout {
     private static final long serialVersionUID = 4924234591401040269L;
-    public String gname;
-    public String gdata;
+    public String taskName;
+    public String taskNote;
     public String Creator = getUser();
     public CssLayout currentContainer;
     public Button rightButton;
     public Button leftButton;
     TaskController controller;
+    public final ArrayList<TaskCard> taskList = new ArrayList<>();
 
     public TaskCard(final String name, String priorityString, final String data) {
-        gname = name;
-        gdata = data;
+        taskName = name;
+        taskNote = data;
         final CssLayout taskCard = new CssLayout();
         taskCard.addStyleName("task-card");
         taskCard.setWidth("97%");
@@ -33,7 +34,7 @@ public class TaskCard extends VerticalLayout {
         taskCard.addLayoutClickListener(new LayoutEvents.LayoutClickListener() {
             @Override
             public void layoutClick(LayoutEvents.LayoutClickEvent event) {
-                Window CreateComponent = new Subwindow(TaskCard.this);
+                Window CreateComponent = new TaskCreationWindow(TaskCard.this);
                 UI.getCurrent().addWindow(CreateComponent);
             }
         });
@@ -80,25 +81,11 @@ public class TaskCard extends VerticalLayout {
     }
 
     public String getTaskName() {
-        return gname;
+        return taskName;
     }
 
-    public String getTaskNotes() {
-        return gdata;
+    public String getTaskNote() {
+        return taskNote;
     }
 
-}
-
-class TaskDataContainer {
-    private ArrayList<TaskCard> TaskList = new ArrayList<>();
-    public TaskDataContainer() {
-
-    }
-    public void addToArray(final TaskCard tc) {
-        int size = TaskList.size();
-        TaskList.add(size, tc);
-    }
-    public void delFromArray(final TaskCard tc) {
-        TaskList.remove(tc);
-    }
 }

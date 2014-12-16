@@ -1,22 +1,21 @@
 package org.freelo.view;
 
-
-//import com.sun.javafx.tk.Toolkit;
 import com.vaadin.data.Property;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
-import org.freelo.model.users.User;
+import org.freelo.controller.tasks.TaskCreationController;
 
 /**
  * Created by Konrad on 2014-12-13.
  */
-public class Subwindow extends Window {
+public class TaskCreationWindow extends Window {
 
     private static final long serialVersionUID = 5678234591401040269L;
     String priorityString;
-
-    public Subwindow(final TaskCard tc) {
+    TaskCreationController controller;
+    public TaskCreationWindow(final TaskCard tc) {
         super(tc.getTaskName() + " by " + tc.getUser());
+        controller = new TaskCreationController(this);
         center();
         setHeight("300px");
         setWidth("400px");
@@ -32,7 +31,7 @@ public class Subwindow extends Window {
         VerticalLayout menu = new VerticalLayout();
         menu.setSizeFull();
         menu.setSpacing(true);
-        Label TaskNotes = new Label(tc.getTaskNotes(), ContentMode.HTML);
+        Label TaskNotes = new Label(tc.getTaskNote(), ContentMode.HTML);
         TaskNotes.setReadOnly(true);
         menu.addComponent(TaskNotes);
         menu.setComponentAlignment(TaskNotes, Alignment.MIDDLE_RIGHT);
@@ -42,9 +41,10 @@ public class Subwindow extends Window {
 
     }
 
-    public Subwindow(final CssLayout todo) {
+    public TaskCreationWindow(final CssLayout todo) {
         //Appearance of the popup window
         super("Task Creation Window");
+        controller = new TaskCreationController(this);
         center();
         VerticalLayout menu = new VerticalLayout();
         //menu.setSizeFull();
@@ -95,21 +95,19 @@ public class Subwindow extends Window {
     }
 
     private void createTask(final TextField TaskName, String priorityString, final RichTextArea data, final CssLayout todo) {
-        TaskDataContainer TaskContainer = new TaskDataContainer();
         final String task_data = data.getValue();
         final String T_name = TaskName.getValue();
         TaskCard tc = new TaskCard(T_name, priorityString, task_data);
         tc.currentContainer = todo;
         todo.addComponent(tc);
-        TaskContainer.addToArray(tc);
+        tc.taskList.add(tc);
     }
 
     private void deleteTask(final CssLayout container, final TaskCard tc) {
-        int itemindex = container.getComponentIndex(tc);
-        Component todelete = container.getComponent(itemindex);
-        container.removeComponent(todelete);
-        TaskDataContainer TaskContainer = new TaskDataContainer();
-        TaskContainer.delFromArray(tc);
+        int itemIndex = container.getComponentIndex(tc);
+        Component toDelete = container.getComponent(itemIndex);
+        container.removeComponent(toDelete);
+        tc.taskList.remove(tc);
     }
 
     class ValueChangedListener implements Property.ValueChangeListener {

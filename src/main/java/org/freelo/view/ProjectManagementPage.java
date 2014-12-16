@@ -129,7 +129,7 @@ public class ProjectManagementPage extends HorizontalLayout implements View{
         String username = String.valueOf(getSession().getAttribute("user"));
         name = username;
         Notification welcome = new Notification("Welcome  " + username);
-        welcome.setDelayMsec(5000);
+        welcome.setDelayMsec(1500);
         welcome.setPosition(Position.BOTTOM_CENTER);
         welcome.show(Page.getCurrent());
 

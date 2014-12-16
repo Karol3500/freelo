@@ -2,8 +2,6 @@ package org.freelo.view;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.server.Page;
-import com.vaadin.shared.Position;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Panel;
@@ -86,7 +84,7 @@ public class TaskPage extends HorizontalLayout implements View {
 
             public void buttonClick(Button.ClickEvent event) {
 
-                Window CreateComponent = new Subwindow(todo);
+                Window CreateComponent = new TaskCreationWindow(todo);
                 UI.getCurrent().addWindow(CreateComponent);
             }
         });
@@ -100,12 +98,6 @@ public class TaskPage extends HorizontalLayout implements View {
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
-        String username = String.valueOf(getSession().getAttribute("user"));
-        Notification welcome = new Notification("Welcome  " + username);
-        welcome.setDelayMsec(30000);
-        welcome.setPosition(Position.MIDDLE_CENTER);
-        welcome.show(Page.getCurrent());
-
     }
 
 

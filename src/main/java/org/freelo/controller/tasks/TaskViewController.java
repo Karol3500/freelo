@@ -23,6 +23,7 @@ public class TaskViewController {
         public void buttonClick(Button.ClickEvent event) {
             //removeFromDb(window.tc);
             window.deleteTask();
+            window.close();
         }
     }
 

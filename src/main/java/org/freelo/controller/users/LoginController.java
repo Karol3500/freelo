@@ -2,14 +2,10 @@ package org.freelo.controller.users;
 
 import org.freelo.model.users.User;
 import org.freelo.model.users.UserManagement;
-import org.freelo.view.Dashboard.DashboardMenu;
 import org.freelo.view.Dashboard.DashboardMenuBean;
 import org.freelo.view.SimpleLoginUI;
 
 import com.vaadin.ui.Button;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 /**
  * Created by karol on 02.12.14.
@@ -57,7 +53,7 @@ public class LoginController {
         		return;	
         	}
         	loginUI.loginView.storeCurrentUserInServiceSession();
-            dashboardMenuBean.getDashboardMenu().setupAfterLogin();
+            dashboardMenuBean.initUIs(loginUI);
         	loginUI.loginView.navigateToMainView();
         }
     }

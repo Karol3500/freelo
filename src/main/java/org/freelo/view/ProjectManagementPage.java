@@ -5,7 +5,6 @@ import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Page;
 import com.vaadin.shared.Position;
 import com.vaadin.ui.*;
-import org.freelo.view.Dashboard.DashboardMenu;
 import org.freelo.view.Dashboard.DashboardMenuBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -100,7 +99,7 @@ public class ProjectManagementPage extends HorizontalLayout implements View{
             }
         });
         container2.addComponent(addProjectButton);
-        container.addComponent(dashboardMenuBean.getDashboardMenu());
+        container.addComponent(dashboardMenuBean.getNewDashboardMenu());
         container.addComponent(panel);
     }
 

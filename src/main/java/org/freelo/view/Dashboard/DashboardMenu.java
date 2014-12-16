@@ -43,6 +43,7 @@ public final class DashboardMenu extends CustomComponent implements View {
 
     public void setupUI(SimpleLoginUI ui){
         this.ui = ui;
+        setupAfterLogin();
     }
 
     public void setupAfterLogin(){
@@ -104,6 +105,7 @@ public final class DashboardMenu extends CustomComponent implements View {
                 getSession().setAttribute("user", null);
 
                 // Refresh this view, should redirect to login view
+                ui.getSession().close();
                 getUI().getNavigator().navigateTo(SimpleLoginView.NAME);
             }
         });

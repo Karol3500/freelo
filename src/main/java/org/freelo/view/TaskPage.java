@@ -7,7 +7,6 @@ import com.vaadin.shared.Position;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Panel;
-import org.freelo.view.Dashboard.DashboardMenu;
 import org.freelo.view.Dashboard.DashboardMenuBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -94,7 +93,7 @@ public class TaskPage extends HorizontalLayout implements View {
         //adding elements to containers
 
         todo.addComponent(addcomponent_button);
-        container.addComponent(dashboardMenuBean.getDashboardMenu());
+        container.addComponent(dashboardMenuBean.getNewDashboardMenu());
         container.addComponent(taskPanelContainer);
 
     }

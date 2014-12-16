@@ -24,8 +24,6 @@ import javax.inject.Inject;
  */
 @Theme("themefreelo")
 @VaadinUI
-@Component
-@Scope("prototype")
 public class SimpleLoginUI extends UI {
 
     /**
@@ -48,7 +46,6 @@ public class SimpleLoginUI extends UI {
 
     @PostConstruct
     void setup() {
-        dashboardMenuBean.getDashboardMenu().setupUI(this);
         loginController = new LoginController(this,dashboardMenuBean);
     }
 

@@ -1,8 +1,11 @@
 package org.freelo.view.Dashboard;
 
+import org.freelo.view.SimpleLoginUI;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import org.vaadin.spring.VaadinComponent;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -11,13 +14,21 @@ import org.vaadin.spring.VaadinComponent;
 @Component
 @Scope("session")
 public class DashboardMenuBean {
-    DashboardMenu dashboardMenu;
+    List<DashboardMenu> dashboards;
 
     public DashboardMenuBean(){
-        dashboardMenu = new DashboardMenu();
+        dashboards = new ArrayList<>();
     }
 
-    public DashboardMenu getDashboardMenu(){
-        return dashboardMenu;
+    public void initUIs(SimpleLoginUI ui){
+        for(DashboardMenu d : dashboards){
+            d.setupUI(ui);
+        }
+    }
+
+    public DashboardMenu getNewDashboardMenu(){
+        DashboardMenu d = new DashboardMenu();
+        dashboards.add(d);
+        return d;
     }
 }

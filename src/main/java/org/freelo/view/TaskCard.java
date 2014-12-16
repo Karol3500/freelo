@@ -19,12 +19,12 @@ public class TaskCard extends VerticalLayout {
     public String Creator = getUser();
     public CssLayout currentContainer;
 
-    public TaskCard(final String name, final String data) {
+    public TaskCard(final String name, String priorityString, final String data) {
         gname = name;
         gdata = data;
         final CssLayout taskCard = new CssLayout();
         taskCard.addStyleName("task-card");
-        taskCard.setWidth("90%");
+        taskCard.setWidth("97%");
 
         taskCard.addLayoutClickListener(new LayoutEvents.LayoutClickListener() {
             @Override
@@ -58,6 +58,15 @@ public class TaskCard extends VerticalLayout {
         taskCard.addComponent(rightButton);
         setSpacing(true);
         addComponent(taskCard);
+
+
+        if (priorityString == "High") {
+            taskCard.addStyleName("highprioritycard");
+        }
+        else if (priorityString == "Medium"){
+            taskCard.addStyleName("mediumprioritycard");
+            }
+
     }
 
     public String getUser() {

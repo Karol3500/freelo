@@ -6,6 +6,7 @@ import com.vaadin.server.Page;
 import com.vaadin.shared.Position;
 import com.vaadin.ui.*;
 import org.freelo.view.Dashboard.DashboardMenuBean;
+import org.freelo.view.tasks.TaskPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;

@@ -1,4 +1,4 @@
-package org.freelo.view;
+package org.freelo.view.tasks;
 
 
 import com.vaadin.event.LayoutEvents;
@@ -34,7 +34,7 @@ public class TaskCard extends VerticalLayout {
         taskCard.addLayoutClickListener(new LayoutEvents.LayoutClickListener() {
             @Override
             public void layoutClick(LayoutEvents.LayoutClickEvent event) {
-                Window CreateComponent = new TaskCreationWindow(TaskCard.this);
+                Window CreateComponent = new TaskViewWindow(TaskCard.this);
                 UI.getCurrent().addWindow(CreateComponent);
             }
         });

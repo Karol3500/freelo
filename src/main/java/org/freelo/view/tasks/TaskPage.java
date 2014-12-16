@@ -1,4 +1,4 @@
-package org.freelo.view;
+package org.freelo.view.tasks;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
@@ -29,8 +29,10 @@ public class TaskPage extends HorizontalLayout implements View {
 
     final Panel todopanel = new Panel("TODO");
     final CssLayout todo = new CssLayout();
+
     final Panel ongoingpanel = new Panel("ON GOING");
     final CssLayout ongoing = new CssLayout();
+
     final Panel donepanel = new Panel("DONE");
     final CssLayout done = new CssLayout();
 
@@ -77,9 +79,9 @@ public class TaskPage extends HorizontalLayout implements View {
         taskPanelContainer.addComponent(donepanel);
 
 
-        final Button addcomponent_button = new Button("Add Task");
-        addcomponent_button.addStyleName("button1");
-        addcomponent_button.addClickListener(new Button.ClickListener() {
+        final Button addComponentButton = new Button("Add Task");
+        addComponentButton.addStyleName("button1");
+        addComponentButton.addClickListener(new Button.ClickListener() {
             private static final long serialVersionUID = 2181474159749123339L;
 
             public void buttonClick(Button.ClickEvent event) {
@@ -90,7 +92,7 @@ public class TaskPage extends HorizontalLayout implements View {
         });
         //adding elements to containers
 
-        todo.addComponent(addcomponent_button);
+        todo.addComponent(addComponentButton);
         container.addComponent(dashboardMenuBean.getNewDashboardMenu());
         container.addComponent(taskPanelContainer);
 

@@ -49,5 +49,6 @@ public class TaskViewWindow extends Window {
     public void deleteTask() {
         tc.taskList.remove(tc);
         tc.currentContainer.removeComponent(tc);
+        close();
     }
 }

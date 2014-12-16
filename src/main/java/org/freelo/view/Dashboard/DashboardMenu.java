@@ -36,9 +36,6 @@ public final class DashboardMenu extends CustomComponent implements View {
         buildContent();
         setCompositionRoot(menuContent);
         menuContent.addComponent(buildTitle());
-        // There's only one DashboardMenu per UI so this doesn't need to be
-        // unregistered from the UI-scoped DashboardEventBus.
-       // DashboardEventBus.register(this);
     }
 
     public void setupUI(SimpleLoginUI ui){
@@ -82,10 +79,8 @@ public final class DashboardMenu extends CustomComponent implements View {
         final User user = getCurrentUser();
         settingsItem = settings.addItem("", new ThemeResource(
                 "img/profile-pic-300px.jpg"), null);
-        String username = String.valueOf(ui.getSession().getAttribute("user"));//////////////////////////////////////////////////////////zakomentuj
-        //settingsItem.setText(user.getFirstName() + " " + user.getLastName());
-        settingsItem.setText(username); //////////////////////////////////////////////////////////zakomentuj
-        //settingsItem.setText("John Kowalski");  /////////////////////////////////////////////odkomentuj
+        String username = String.valueOf(ui.getSession().getAttribute("user"));
+        settingsItem.setText(username);
         settingsItem.addItem("Edit Profile", new Command() {
             @Override
             public void menuSelected(final MenuItem selectedItem) {

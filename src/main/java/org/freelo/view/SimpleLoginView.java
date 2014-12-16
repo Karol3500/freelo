@@ -3,6 +3,13 @@ package org.freelo.view;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.vaadin.event.ShortcutAction;
+import com.vaadin.server.FontAwesome;
+import com.vaadin.server.Responsive;
+import com.vaadin.ui.*;
+import com.vaadin.ui.themes.BaseTheme;
+import com.vaadin.ui.themes.ValoTheme;
+import javafx.scene.input.KeyCode;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -11,20 +18,13 @@ import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.Notification;
-import com.vaadin.ui.PasswordField;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.Reindeer;
 
 
 @Component
 @Scope("prototype")
-public class SimpleLoginView extends CustomComponent implements View,
+public class SimpleLoginView extends VerticalLayout implements View,
 Button.ClickListener {
 
 	/**
@@ -40,13 +40,13 @@ Button.ClickListener {
 	private Pattern loginPattern = Pattern.compile(EMAIL_PATTERN);
 	private Pattern passwordPattern = Pattern.compile(PASSWORD_PATTERN);
 	
-	private final TextField textFieldUser;
+	private TextField textFieldUser;
 
-	private final PasswordField textFieldPassword;
+	private PasswordField textFieldPassword;
 
-	public final Button loginButton;
+	public Button loginButton;
 
-	public final Button registerButton;
+	public Button registerButton;
 
     //Method checking if user is enrolled to be implemented - boolean hardcoded to false to display project management page after login
     //public static boolean isAssigned = false;
@@ -54,57 +54,124 @@ Button.ClickListener {
 	public SimpleLoginView() {
 		setSizeFull();
 
-		// Create the user input field
-		textFieldUser = new TextField("User:");
-		textFieldUser.setWidth("300px");
-		textFieldUser.setRequired(true);
-		textFieldUser.setInputPrompt("Your username (eg. joe@email.com)");
-		textFieldUser.addValidator(new EmailValidator(
-				"Username must be an email address"));
-		textFieldUser.setInvalidAllowed(false);
+        com.vaadin.ui.Component loginForm = buildLoginForm();
+        addComponent(loginForm);
+        setComponentAlignment(loginForm, Alignment.MIDDLE_CENTER);
 
-		// Create the password input field
-		textFieldPassword = new PasswordField("Password:");
-		textFieldPassword.setWidth("300px");
-		textFieldPassword.addValidator(new PasswordValidator());
-		textFieldPassword.setRequired(true);
-		textFieldPassword.setValue("");
-		textFieldPassword.setNullRepresentation("");
+    }
 
-		// Create login button
-		loginButton = new Button("Login");
-		loginButton.addClickListener(this);
-		// Create register button
-		registerButton = new Button("Register", new Button.ClickListener() {
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = -7173240164416449514L;
+    private com.vaadin.ui.Component buildLoginForm(){
+        final VerticalLayout loginPanel = new VerticalLayout();
+        loginPanel.setSizeUndefined();
+        loginPanel.setSpacing(true);
+        Responsive.makeResponsive(loginPanel);
+        loginPanel.addStyleName("login-panel");
 
-			@Override
-			public void buttonClick(Button.ClickEvent clickEvent) {
-				getUI().getNavigator().navigateTo(Register.NAME);
-			}
-		});
-		// Add both to a panel
-		VerticalLayout fields = new VerticalLayout(textFieldUser, textFieldPassword, loginButton, registerButton);
-		fields.setCaption("Please login to access the application. (test@test.com/passw0rd)");
-		fields.setSpacing(true);
-		fields.setMargin(new MarginInfo(true, true, true, true));
-		fields.setSizeUndefined();
+        com.vaadin.ui.Component labels = buildLabels();
 
-		// The view root layout
-		VerticalLayout viewLayout = new VerticalLayout(fields);
-		viewLayout.setSizeFull();
-		viewLayout.setComponentAlignment(fields, Alignment.MIDDLE_CENTER);
-		viewLayout.setStyleName(Reindeer.LAYOUT_BLUE);
-		setCompositionRoot(viewLayout);
-	}
+        loginPanel.addComponent(labels);
+        loginPanel.addComponent(buildFields());
+        loginPanel.addComponent(buildButtons());
+
+        loginPanel.setComponentAlignment(labels, Alignment.MIDDLE_CENTER);
+        //loginPanel.addComponent(new CheckBox("Remember me", true));
+        return loginPanel;
+    }
+
+    private com.vaadin.ui.Component buildFields() {
+        HorizontalLayout fields = new HorizontalLayout();
+        fields.setSpacing(true);
+        fields.addStyleName("fields");
+
+        // Create the user input field
+        textFieldUser = new TextField("User:");
+        textFieldUser.setWidth("300px");
+        textFieldUser.setIcon(FontAwesome.USER);
+        textFieldUser.setRequired(true);
+        textFieldUser.setInputPrompt("Your username (eg. joe@email.com)");
+        textFieldUser.setNullRepresentation("");
+        textFieldUser.addValidator(new EmailValidator(
+                "Username must be an email address"));
+        textFieldUser.setInvalidAllowed(false);
+        textFieldUser.setImmediate(true);
+
+        // Create the password input field
+        textFieldPassword = new PasswordField("Password:");
+        textFieldPassword.setIcon(FontAwesome.LOCK);
+        textFieldPassword.setWidth("300px");
+        textFieldPassword.addValidator(new PasswordValidator());
+        textFieldPassword.setRequired(true);
+        textFieldPassword.setValue("");
+        textFieldPassword.setNullRepresentation("");
+        textFieldPassword.setInputPrompt("Password");
+        textFieldPassword.setImmediate(true);
+
+        fields.addComponents(textFieldUser, textFieldPassword);
+
+        return fields;
+    }
+
+    private com.vaadin.ui.Component buildButtons() {
+        VerticalLayout buttons = new VerticalLayout();
+        buttons.setSpacing(true);
+        buttons.addStyleName("fields");
+        buttons.setSizeFull();
+
+        // Create login button
+        loginButton = new Button("Login");
+        loginButton.setClickShortcut(ShortcutAction.KeyCode.ENTER);
+        loginButton.addClickListener(this);
+
+        // Create register button
+        Label registerLabel = new Label("Not registered?");
+        registerLabel.setStyleName(ValoTheme.LABEL_SMALL);
+        Label gap = new Label();
+        gap.setHeight("1em");
+
+        registerButton = new Button("Register Here", new Button.ClickListener() {
+
+            private static final long serialVersionUID = -7173240164416449514L;
+
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                getUI().getNavigator().navigateTo(Register.NAME);
+            }
+        });
+        //registerButton.addStyleName(BaseTheme.BUTTON_LINK);
+
+        buttons.addComponents(loginButton, gap, registerLabel, registerButton);
+        return buttons;
+
+    }
+
+    private com.vaadin.ui.Component buildLabels() {
+        CssLayout labels = new CssLayout();
+        labels.addStyleName("labels");
+
+        Label welcome = new Label("Welcome Into FREELO World");
+        welcome.setWidthUndefined();
+        welcome.addStyleName(ValoTheme.LABEL_H2);
+        welcome.addStyleName(ValoTheme.LABEL_COLORED);
+        welcome.addStyleName(ValoTheme.LABEL_BOLD);
+
+        labels.addComponent(welcome);
+
+        /*
+        Label title = new Label("Please provide username in email form (username@freelo.com)");
+        title.setSizeUndefined();
+        title.addStyleName(ValoTheme.LABEL_H3);
+        labels.addComponent(title);
+        */
+
+        return labels;
+    }
 
 	@Override
 	public void enter(ViewChangeListener.ViewChangeEvent event) {
 		// focus the username field when user arrives to the login view
-		textFieldUser.focus();
+		//textFieldUser.focus();
+        textFieldUser.setValue("");
+        textFieldPassword.setValue("");
 	}
 
 	private static final class PasswordValidator extends

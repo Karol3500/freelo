@@ -63,9 +63,11 @@ Button.ClickListener {
     private com.vaadin.ui.Component buildLoginForm(){
         final VerticalLayout loginPanel = new VerticalLayout();
         loginPanel.setSizeUndefined();
+        loginPanel.setMargin(new MarginInfo(true, true, true, true));
         loginPanel.setSpacing(true);
+        loginPanel.setStyleName(ValoTheme.LAYOUT_CARD);
         Responsive.makeResponsive(loginPanel);
-        loginPanel.addStyleName("login-panel");
+        //loginPanel.addStyleName("login-panel");
 
         com.vaadin.ui.Component labels = buildLabels();
 
@@ -121,6 +123,7 @@ Button.ClickListener {
         loginButton = new Button("Login");
         loginButton.setClickShortcut(ShortcutAction.KeyCode.ENTER);
         loginButton.addClickListener(this);
+        loginButton.setStyleName(ValoTheme.BUTTON_PRIMARY);
 
         // Create register button
         Label registerLabel = new Label("Not registered?");
@@ -137,7 +140,7 @@ Button.ClickListener {
                 getUI().getNavigator().navigateTo(Register.NAME);
             }
         });
-        //registerButton.addStyleName(BaseTheme.BUTTON_LINK);
+        registerButton.addStyleName(BaseTheme.BUTTON_LINK);
 
         buttons.addComponents(loginButton, gap, registerLabel, registerButton);
         return buttons;
@@ -169,9 +172,9 @@ Button.ClickListener {
 	@Override
 	public void enter(ViewChangeListener.ViewChangeEvent event) {
 		// focus the username field when user arrives to the login view
-		//textFieldUser.focus();
         textFieldUser.setValue("");
         textFieldPassword.setValue("");
+        textFieldUser.focus();
 	}
 
 	private static final class PasswordValidator extends

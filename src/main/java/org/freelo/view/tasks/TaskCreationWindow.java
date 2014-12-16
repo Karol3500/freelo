@@ -3,6 +3,7 @@ package org.freelo.view.tasks;
 import com.vaadin.data.Property;
 import com.vaadin.ui.*;
 import org.freelo.controller.tasks.TaskCreationController;
+import org.freelo.view.SimpleLoginUI;
 
 /**
  * Created by Konrad on 2014-12-13.
@@ -18,12 +19,14 @@ public class TaskCreationWindow extends Window {
     NativeSelect prioritySpinner;
     RichTextArea data;
     CssLayout todo;
+    String userName;
     public Button createTaskButton;
 
-    public TaskCreationWindow(CssLayout todo) {
+    public TaskCreationWindow(CssLayout todo, String userName) {
         //Appearance of the popup window
         super("Task Creation Window");
         this.todo = todo;
+        this.userName = userName;
         setupPosition();
         setupPrioritySpinner();
         setupOtherComponents();
@@ -75,6 +78,7 @@ public class TaskCreationWindow extends Window {
         String T_name = taskName.getValue();
         TaskCard tc = new TaskCard(T_name, prioritySpinner.getValue() != null ?
                                            prioritySpinner.getValue().toString() : "", task_data);
+        tc.creator = userName;
         tc.currentContainer = todo;
         todo.addComponent(tc);
         tc.taskList.add(tc);

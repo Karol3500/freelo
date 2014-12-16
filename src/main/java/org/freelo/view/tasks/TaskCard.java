@@ -17,16 +17,18 @@ public class TaskCard extends VerticalLayout {
     private static final long serialVersionUID = 4924234591401040269L;
     public String taskName;
     public String taskNote;
-    public String Creator = getUser();
+    public String creator;
     public CssLayout currentContainer;
     public Button rightButton;
     public Button leftButton;
     TaskController controller;
+    public String priorityString;
     public final ArrayList<TaskCard> taskList = new ArrayList<>();
 
     public TaskCard(final String name, String priorityString, final String data) {
         taskName = name;
         taskNote = data;
+        this.priorityString = priorityString;
         final CssLayout taskCard = new CssLayout();
         taskCard.addStyleName("task-card");
         taskCard.setWidth("97%");
@@ -75,9 +77,8 @@ public class TaskCard extends VerticalLayout {
     }
 
     public String getUser() {
-//        String username = String.valueOf(getSession().getAttribute("user"));
-//        User usrId = UserManagement.getUser(username);
-        return null;
+        String username = String.valueOf(getSession().getAttribute("user"));
+        return username;
     }
 
     public String getTaskName() {

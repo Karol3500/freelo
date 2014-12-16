@@ -2,6 +2,9 @@ package org.freelo.controller.tasks;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickListener;
+import org.freelo.model.tasks.Note;
+import org.freelo.model.tasks.NoteDAO;
+import org.freelo.view.tasks.TaskCard;
 import org.freelo.view.tasks.TaskViewWindow;
 
 /**
@@ -18,7 +21,15 @@ public class TaskViewController {
 
         @Override
         public void buttonClick(Button.ClickEvent event) {
+            //removeFromDb(window.tc);
             window.deleteTask();
         }
+    }
+
+    private void removeFromDb(TaskCard tc) {
+        Note n = NoteDAO.getNoteByTaskCard(tc);
+        if(n == null)
+            return;
+        NoteDAO.deleteNoteById(n.getId());
     }
 }

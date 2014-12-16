@@ -27,7 +27,7 @@ public final class DashboardMenu extends CustomComponent implements View {
     public static final String ID = "dashboard-menu";
     private static final String STYLE_VISIBLE = "valo-menu-visible";
     private MenuItem settingsItem;
-    private SimpleLoginUI ui;
+    public SimpleLoginUI ui;
     final CssLayout menuContent = new CssLayout();
     public DashboardMenu() {
         addStyleName("valo-menu");

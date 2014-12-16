@@ -5,6 +5,7 @@ import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Panel;
+import org.freelo.view.Dashboard.DashboardMenu;
 import org.freelo.view.Dashboard.DashboardMenuBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -36,6 +37,7 @@ public class TaskPage extends HorizontalLayout implements View {
     final Panel donepanel = new Panel("DONE");
     final CssLayout done = new CssLayout();
 
+    DashboardMenu dashBoard;
 
     @Autowired
     DashboardMenuBean dashboardMenuBean;
@@ -78,22 +80,22 @@ public class TaskPage extends HorizontalLayout implements View {
         taskPanelContainer.addComponent(ongoingpanel);
         taskPanelContainer.addComponent(donepanel);
 
-
+        dashBoard = dashboardMenuBean.getNewDashboardMenu();
         final Button addComponentButton = new Button("Add Task");
         addComponentButton.addStyleName("button1");
         addComponentButton.addClickListener(new Button.ClickListener() {
             private static final long serialVersionUID = 2181474159749123339L;
 
             public void buttonClick(Button.ClickEvent event) {
-
-                Window CreateComponent = new TaskCreationWindow(todo);
+                Window CreateComponent =
+                        new TaskCreationWindow(todo, dashBoard.ui.getSession().getAttribute("user").toString());
                 UI.getCurrent().addWindow(CreateComponent);
             }
         });
         //adding elements to containers
 
         todo.addComponent(addComponentButton);
-        container.addComponent(dashboardMenuBean.getNewDashboardMenu());
+        container.addComponent(dashBoard);
         container.addComponent(taskPanelContainer);
 
     }

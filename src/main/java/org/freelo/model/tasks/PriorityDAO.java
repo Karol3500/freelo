@@ -8,6 +8,8 @@ import org.hibernate.Session;
 import org.springframework.stereotype.Component;
 import org.springframework.context.annotation.Scope;
 
+import java.util.List;
+
 /**
  * Created by karol on 30.11.14.
  */
@@ -35,6 +37,32 @@ public class PriorityDAO {
         Priority p = null;
         try {
             p = (Priority) session.get(Priority.class, id);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        }
+        finally{
+            session.close();
+        }
+        return p;
+    }
+
+    public static Priority getPriorityByName(String name){
+        if(name == null || name == ""){
+            return null;
+        }
+        Session session = HibernateSessionFactoryBean.getSession();
+        List<Priority> prioList = null;
+        Priority p = null;
+        try {
+            prioList = session.createQuery(
+                    "FROM Priority WHERE Priority.name = :name")
+                    .setParameter("name", name)
+                    .list();
+            if(prioList!=null){
+                p = prioList.get(0);
+            }
         }
         catch(Exception e){
             e.printStackTrace();

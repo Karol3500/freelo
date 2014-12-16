@@ -9,7 +9,7 @@ import org.freelo.controller.tasks.TaskViewController;
  */
 public class TaskViewWindow extends Window {
     TaskViewController controller;
-    TaskCard tc;
+    public TaskCard tc;
     public Button deleteTaskButton;
     VerticalLayout menu;
     Label taskNote;

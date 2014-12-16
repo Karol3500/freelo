@@ -7,6 +7,7 @@ import com.vaadin.ui.*;
 import org.freelo.controller.tasks.TaskController;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -21,8 +22,8 @@ public class TaskCard extends VerticalLayout {
     public CssLayout currentContainer;
     public Button rightButton;
     public Button leftButton;
-    TaskController controller;
     public String priorityString;
+    public List<CssLayout> columns;
     public final ArrayList<TaskCard> taskList = new ArrayList<>();
 
     public TaskCard(final String name, String priorityString, final String data) {
@@ -43,21 +44,9 @@ public class TaskCard extends VerticalLayout {
 
         leftButton = new Button("<");
         leftButton.addStyleName("switchButton");
-        leftButton.addClickListener(new Button.ClickListener() {
-
-            public void buttonClick(Button.ClickEvent event) {
-                //method to
-            }
-        });
 
         rightButton = new Button(">");
         rightButton.addStyleName("switchButton");
-        rightButton.addClickListener(new Button.ClickListener() {
-
-            public void buttonClick(Button.ClickEvent event) {
-                //method to
-            }
-        });
 
 
         taskCard.addComponent(new Label(name, ContentMode.HTML));
@@ -74,6 +63,10 @@ public class TaskCard extends VerticalLayout {
             taskCard.addStyleName("mediumprioritycard");
             }
 
+    }
+
+    public void setColumns(List<CssLayout> c){
+        this.columns = c;
     }
 
     public String getUser() {

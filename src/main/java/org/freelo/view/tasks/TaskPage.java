@@ -13,6 +13,8 @@ import org.springframework.stereotype.Component;
 import com.vaadin.ui.Window;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -24,6 +26,8 @@ public class TaskPage extends HorizontalLayout implements View {
 
     private static final long serialVersionUID = -906274928780939032L;
     public static final String NAME = "";
+
+    public List<CssLayout> columns;
 
     final HorizontalLayout container = new HorizontalLayout();
     final HorizontalLayout taskPanelContainer = new HorizontalLayout();
@@ -46,7 +50,7 @@ public class TaskPage extends HorizontalLayout implements View {
         setSizeFull();
         addStyleName("taskpage");
 
-
+        columns = new ArrayList<CssLayout>();
 
         container.addStyleName("container");
         container.setHeight("100%");
@@ -80,6 +84,10 @@ public class TaskPage extends HorizontalLayout implements View {
         taskPanelContainer.addComponent(ongoingpanel);
         taskPanelContainer.addComponent(donepanel);
 
+        columns.add(todo);
+        columns.add(ongoing);
+        columns.add(done);
+
         dashBoard = dashboardMenuBean.getNewDashboardMenu();
         final Button addComponentButton = new Button("Add Task");
         addComponentButton.addStyleName("button1");
@@ -87,9 +95,9 @@ public class TaskPage extends HorizontalLayout implements View {
             private static final long serialVersionUID = 2181474159749123339L;
 
             public void buttonClick(Button.ClickEvent event) {
-                Window CreateComponent =
-                        new TaskCreationWindow(todo, dashBoard.ui.getSession().getAttribute("user").toString());
-                UI.getCurrent().addWindow(CreateComponent);
+                TaskCreationWindow taskCreationWindow=
+                        new TaskCreationWindow(columns, dashBoard.ui.getSession().getAttribute("user").toString());
+                UI.getCurrent().addWindow(taskCreationWindow);
             }
         });
         //adding elements to containers

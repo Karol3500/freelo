@@ -14,49 +14,50 @@ import com.vaadin.ui.MenuBar.Command;
 import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.themes.ValoTheme;
 import org.freelo.model.users.User;
+import org.freelo.view.SimpleLoginUI;
 import org.freelo.view.SimpleLoginView;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.*;
 
 /**
  * A responsive menu component providing user information and the controls for
  * primary navigation between the views.
  */
-@org.springframework.stereotype.Component
-@Scope("prototype")
+
 public final class DashboardMenu extends CustomComponent implements View {
 
     public static final String ID = "dashboard-menu";
     private static final String STYLE_VISIBLE = "valo-menu-visible";
     private MenuItem settingsItem;
-    private String name;
-
+    private SimpleLoginUI ui;
+    final CssLayout menuContent = new CssLayout();
     public DashboardMenu() {
         addStyleName("valo-menu");
         setId(ID);
         setSizeUndefined();
+        buildContent();
+        setCompositionRoot(menuContent);
+        menuContent.addComponent(buildTitle());
         // There's only one DashboardMenu per UI so this doesn't need to be
         // unregistered from the UI-scoped DashboardEventBus.
        // DashboardEventBus.register(this);
-
-        setCompositionRoot(buildContent());
     }
 
-    private Component buildContent() {
-        final CssLayout menuContent = new CssLayout();
+    public void setupUI(SimpleLoginUI ui){
+        this.ui = ui;
+    }
+
+    public void setupAfterLogin(){
+        menuContent.addComponent(buildUserMenu());
+        menuContent.addComponent(buildToggleButton());
+        menuContent.addComponent(buildMenuItems());
+    }
+
+    private void buildContent() {
         menuContent.addStyleName("sidebar");
         menuContent.addStyleName(ValoTheme.MENU_PART);
         menuContent.addStyleName("no-vertical-drag-hints");
         menuContent.addStyleName("no-horizontal-drag-hints");
         menuContent.setWidth(null);
         menuContent.setHeight("100%");
-
-        menuContent.addComponent(buildTitle());
-        menuContent.addComponent(buildUserMenu());
-        menuContent.addComponent(buildToggleButton());
-        menuContent.addComponent(buildMenuItems());
-
-        return menuContent;
     }
 
     private Component buildTitle() {
@@ -80,10 +81,10 @@ public final class DashboardMenu extends CustomComponent implements View {
         final User user = getCurrentUser();
         settingsItem = settings.addItem("", new ThemeResource(
                 "img/profile-pic-300px.jpg"), null);
-        //String username = String.valueOf(getSession().getAttribute("user"));//////////////////////////////////////////////////////////zakomentuj
+        String username = String.valueOf(ui.getSession().getAttribute("user"));//////////////////////////////////////////////////////////zakomentuj
         //settingsItem.setText(user.getFirstName() + " " + user.getLastName());
-        //settingsItem.setText(name); //////////////////////////////////////////////////////////zakomentuj
-        settingsItem.setText("John Kowalski");  /////////////////////////////////////////////odkomentuj
+        settingsItem.setText(username); //////////////////////////////////////////////////////////zakomentuj
+        //settingsItem.setText("John Kowalski");  /////////////////////////////////////////////odkomentuj
         settingsItem.addItem("Edit Profile", new Command() {
             @Override
             public void menuSelected(final MenuItem selectedItem) {
@@ -182,7 +183,6 @@ public final class DashboardMenu extends CustomComponent implements View {
 
         }
     }
-
     @Override
     public void enter(final ViewChangeListener.ViewChangeEvent event) {
         //String username = String.valueOf(getSession().getAttribute("user"));

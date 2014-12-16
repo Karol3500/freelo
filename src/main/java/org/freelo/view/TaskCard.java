@@ -4,6 +4,7 @@ package org.freelo.view;
 import com.vaadin.event.LayoutEvents;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
+import org.freelo.controller.tasks.TaskController;
 import org.freelo.model.users.User;
 import java.util.ArrayList;
 
@@ -18,6 +19,9 @@ public class TaskCard extends VerticalLayout {
     public String gdata;
     public String Creator = getUser();
     public CssLayout currentContainer;
+    public Button rightButton;
+    public Button leftButton;
+    TaskController controller;
 
     public TaskCard(final String name, String priorityString, final String data) {
         gname = name;
@@ -34,16 +38,16 @@ public class TaskCard extends VerticalLayout {
             }
         });
 
-        final Button leftButton = new Button("<");
+        leftButton = new Button("<");
         leftButton.addStyleName("switchButton");
         leftButton.addClickListener(new Button.ClickListener() {
 
             public void buttonClick(Button.ClickEvent event) {
-            //method to
-                }
-           });
+                //method to
+            }
+        });
 
-        final Button rightButton = new Button(">");
+        rightButton = new Button(">");
         rightButton.addStyleName("switchButton");
         rightButton.addClickListener(new Button.ClickListener() {
 

@@ -6,8 +6,12 @@ import com.vaadin.server.Page;
 import com.vaadin.shared.Position;
 import com.vaadin.ui.*;
 import org.freelo.view.Dashboard.DashboardMenu;
+import org.freelo.view.Dashboard.DashboardMenuBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
 
 /**
  * Created by Jan on 2014-12-08.
@@ -19,22 +23,24 @@ public class ProjectManagementPage extends HorizontalLayout implements View{
 
     private static final long serialVersionUID = -9002670791091569418L;
     public static final String NAME = "Project Management";
+
+    @Autowired
+    DashboardMenuBean dashboardMenuBean;
     String name;
-    public final Button addProjectButton;
+    public Button addProjectButton;
+    final VerticalLayout container2 = new VerticalLayout();
+    HorizontalLayout container;
+    Panel panel;
 
     public ProjectManagementPage() {
         setSizeFull();
 
-        HorizontalLayout container = new HorizontalLayout();
-
-
+        container = new HorizontalLayout();
         container.setHeight("100%");
         addComponent(container);
 
 
-        Panel panel = new Panel("My Projects");
-
-        final VerticalLayout container2 = new VerticalLayout();
+        panel = new Panel("My Projects");
         container2.addStyleName("projectPanelContainer");
         panel.setSizeFull();
         panel.setWidth("1000px");
@@ -44,20 +50,6 @@ public class ProjectManagementPage extends HorizontalLayout implements View{
         //    Label NotAssignedLabel = new Label("You are not assigned to any project yet. You can create your own project by clicking 'Add project' button");
         //    container2.addComponent(NotAssignedLabel);
         //}
-
-
-        addProjectButton = new Button("Add project...", new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                //Method to display project creation popup called here
-                Window CreateNewProj = new Subwindow(container2);
-                UI.getCurrent().addWindow(CreateNewProj);
-            }
-        });
-        container2.addComponent(addProjectButton);
-
-        container.addComponent(new DashboardMenu());
-        container.addComponent(panel);
     }
 
     public class Subwindow extends Window {
@@ -95,7 +87,21 @@ public class ProjectManagementPage extends HorizontalLayout implements View{
             main.addComponent(itemplacement);
 
         }
+    }
 
+    @PostConstruct
+    private void setup(){
+        addProjectButton = new Button("Add project...", new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                //Method to display project creation popup called here
+                Window CreateNewProj = new Subwindow(container2);
+                UI.getCurrent().addWindow(CreateNewProj);
+            }
+        });
+        container2.addComponent(addProjectButton);
+        container.addComponent(dashboardMenuBean.getDashboardMenu());
+        container.addComponent(panel);
     }
 
     public class ProjectItem extends HorizontalLayout{

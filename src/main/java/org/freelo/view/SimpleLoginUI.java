@@ -3,7 +3,11 @@ package org.freelo.view;
 import com.vaadin.server.VaadinSession;
 import org.freelo.controller.users.LoginController;
 import org.freelo.model.users.User;
+import org.freelo.view.Dashboard.DashboardMenu;
+import org.freelo.view.Dashboard.DashboardMenuBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 import org.vaadin.spring.VaadinUI;
 
 import com.vaadin.annotations.Theme;
@@ -13,19 +17,24 @@ import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.UI;
 
 import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 
 /**
  * Created by Konrad on 2014-11-17.
  */
 @Theme("themefreelo")
 @VaadinUI
+@Component
+@Scope("prototype")
 public class SimpleLoginUI extends UI {
 
     /**
 	 * 
 	 */
 	private static final long serialVersionUID = 3048506907544622091L;
-	@Autowired
+    @Autowired
+    DashboardMenuBean dashboardMenuBean;
+    @Autowired
 	public SimpleLoginView loginView;
 	@Autowired
 	public TaskPage taskPageView;
@@ -36,14 +45,15 @@ public class SimpleLoginUI extends UI {
 
     public LoginController loginController;
 
+
     @PostConstruct
-    void setupController(){
-        loginController = new LoginController(this);
+    void setup() {
+        dashboardMenuBean.getDashboardMenu().setupUI(this);
+        loginController = new LoginController(this,dashboardMenuBean);
     }
 
 	@Override
     protected void init(VaadinRequest request) {
-
         //
         // Create a new instance of the navigator. The navigator will attach
         // itself automatically to this view.

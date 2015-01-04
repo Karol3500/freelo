@@ -69,8 +69,7 @@ public final class DashboardMenu extends CustomComponent implements View {
     }
 
     private User getCurrentUser() {
-        return (User) VaadinSession.getCurrent().getAttribute(
-                User.class.getName());
+        return (User) VaadinSession.getCurrent().getAttribute("userClass");
     }
 
     private Component buildUserMenu() {

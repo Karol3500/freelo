@@ -53,6 +53,7 @@ public class LoginController {
         		return;	
         	}
         	loginUI.loginView.storeCurrentUserInServiceSession();
+            loginUI.loginView.storeCurrentUserInServiceSession(user);
             dashboardMenuBean.initUIs(loginUI);
         	loginUI.loginView.navigateToMainView();
         }

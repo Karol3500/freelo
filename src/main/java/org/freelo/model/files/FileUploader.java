@@ -1,8 +1,10 @@
 package org.freelo.model.files;
 
 import com.vaadin.server.Page;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Upload;
+import org.freelo.view.tasks.TaskPage;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -12,29 +14,23 @@ import java.io.OutputStream;
  * Created by Adrian on 08-12-2014.
  */
 public class FileUploader implements Upload.Receiver, Upload.SucceededListener {
-    private File fileToUpload;
-    private UserFile userFile = new UserFile();
-    private FileDAO fileDAO = new FileDAO();
+    File fileToUpload;
+    FileManagement fileManagement = new FileManagement();
+    String userName=null;
+    private TaskPage taskPage;
 
     public OutputStream receiveUpload(String filename, String mimeType) {
         // Create upload stream
         FileOutputStream fos = null; // Stream to write to
         try {
-            // creating a folder to store the file
-            //System.out.println(fileToUpload.getName() + "\n" + mimeType);
-            //File dir = new File("user_files" + File.separator + Integer.toString(userFile.get_user().getId()));
-            File dir = new File("user_files");
+            userName = (String) VaadinSession.getCurrent().getAttribute("user");
+            File dir = new File("user_files" + File.separator + userName);
             if(!dir.exists())
                 dir.mkdirs();
 
             // Open the file for writing.
             fileToUpload = new File(dir.getAbsolutePath() + File.separator + filename);
             fos = new FileOutputStream(fileToUpload);
-            userFile.set_fileName(filename);
-            userFile.set_filePath(dir.getAbsolutePath() + File.separator + filename);
-            userFile.set_fileSize(fileToUpload.length());
-            fileDAO.saveFile(userFile);
-
 
         } catch (final java.io.FileNotFoundException e) {
             new Notification("Could not open file",
@@ -53,5 +49,8 @@ public class FileUploader implements Upload.Receiver, Upload.SucceededListener {
     }
 
     public void uploadSucceeded(Upload.SucceededEvent event) {
+        fileManagement.uploadFile(userName, fileToUpload);
+
     }
+
 }

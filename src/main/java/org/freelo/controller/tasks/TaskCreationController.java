@@ -1,6 +1,7 @@
 package org.freelo.controller.tasks;
 
 import com.vaadin.ui.Button;
+import com.vaadin.ui.RichTextArea;
 import org.freelo.model.tasks.*;
 import org.freelo.view.tasks.TaskCard;
 import org.freelo.view.tasks.TaskCreationWindow;
@@ -21,12 +22,18 @@ public class TaskCreationController {
         @Override
         public void buttonClick(Button.ClickEvent event) {
             TaskCard tc = window.createTask();
+            System.out.println(tc.getTaskNote());
             tc.setDbId(persist(tc));
-            System.out.println("chuj dupa pizda kurwa szmata" +tc.getDbId());
             Note n = NoteDAO.getNote(tc.getDbId());
-            System.out.println("\n\n\n\n"+n.getId());
+            n.setText("From db: " + n.getText());
+            createTask(n);
             window.close();
         }
+    }
+
+    public void createTask(Note n){
+        TaskCard tc = new TaskCard(n.getTaskName(), n.getPriority(), n.getText());
+        window.createTask(tc);
     }
 
     private Integer persist(TaskCard tc){

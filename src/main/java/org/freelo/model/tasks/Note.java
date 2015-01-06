@@ -16,6 +16,9 @@ public class Note {
 	@Column
 	private String priority;
 
+	@Column
+	private String taskName;
+
     @Lob
     private String text;
 
@@ -52,4 +55,13 @@ public class Note {
 	public void setPriority(String priority) {
 		this.priority = priority;
 	}
+
+	public String getTaskName() {
+		return taskName;
+	}
+
+	public void setTaskName(String taskName) {
+		this.taskName = taskName;
+	}
+
 }

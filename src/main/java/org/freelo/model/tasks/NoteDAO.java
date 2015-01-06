@@ -84,6 +84,7 @@ public class NoteDAO {
     public static Integer saveTaskCard(TaskCard tc) {
         Note n = new Note();
         n.setPriority(tc.priorityString);
+        n.setTaskName(tc.getTaskName());
         n.setText(tc.taskNote);
         n.setUser(UserManagement.getUser(tc.getUser()));
         return saveNote(n);

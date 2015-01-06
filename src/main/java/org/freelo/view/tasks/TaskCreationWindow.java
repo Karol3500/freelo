@@ -87,4 +87,13 @@ public class TaskCreationWindow extends Window {
         new TaskController(tc);
         return tc;
     }
+
+    public void createTask(TaskCard tc) {
+        tc.setColumns(columns);
+        tc.creator = userName;
+        tc.currentContainer = columns.get(0);
+        tc.currentContainer.addComponent(tc);
+        tc.taskList.add(tc);
+        new TaskController(tc);
+    }
 }

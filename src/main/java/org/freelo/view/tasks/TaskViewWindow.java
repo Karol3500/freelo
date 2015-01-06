@@ -19,7 +19,7 @@ public class TaskViewWindow extends Window {
         this.tc = tc;
         deleteTaskButton = new Button("Delete");
         setupPosition();
-        setupTaskNoteLabel(tc);
+        setupTaskNoteText(tc);
         setupMenu();
         this.setContent(menu);
         controller = new TaskViewController(this);
@@ -41,7 +41,7 @@ public class TaskViewWindow extends Window {
         menu.setComponentAlignment(deleteTaskButton, Alignment.BOTTOM_CENTER);
     }
 
-    void setupTaskNoteLabel(TaskCard tc){
+    void setupTaskNoteText(TaskCard tc){
         taskNote = new Label(tc.getTaskNote(), ContentMode.HTML);
         taskNote.setReadOnly(true);
     }

@@ -20,10 +20,10 @@ public class FileManagement {
 
         if(file.length() != 0){
 
-            userFile.set_fileName(file.getName());
-            userFile.set_filePath(file.getPath());
-            userFile.set_fileSize(file.length());
-            userFile.set_userName(userName);
+            userFile.setFileName(file.getName());
+            userFile.setFilePath(file.getPath());
+            userFile.setFileSize(file.length());
+            userFile.setUserName(userName);
 
             fileDAO.saveFile(userFile);
 
@@ -41,7 +41,7 @@ public class FileManagement {
         userFile = fileDAO.getFile(ID);
 
         try {
-            Resource resource = new FileResource(new File(userFile.get_filePath()));
+            Resource resource = new FileResource(new File(userFile.getFilePath()));
             downloader = new com.vaadin.server.FileDownloader(resource);
             return downloader;
         }
@@ -54,7 +54,7 @@ public class FileManagement {
     public boolean deleteFile(long ID){
         File fileToDelete;
         userFile = fileDAO.getFile(ID);
-        String filePath = userFile.get_filePath();
+        String filePath = userFile.getFilePath();
         fileToDelete = new File(filePath);
 
         try {

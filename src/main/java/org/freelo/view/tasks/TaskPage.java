@@ -131,6 +131,8 @@ public class TaskPage extends HorizontalLayout implements View {
     public IndexedContainer updateFileContainer() {
         FileDAO fileDAO = new FileDAO();
         List<UserFile> files = fileDAO.getFilesByUserName(userName);
+        if(files == null)
+            return fileContainer;
 
         for (UserFile f : files) {
             //System.out.println(f.get_fileName());
@@ -140,7 +142,7 @@ public class TaskPage extends HorizontalLayout implements View {
 
             deleteFile.setStyleName(ValoTheme.BUTTON_DANGER);
             downloadFile.setStyleName(ValoTheme.BUTTON_PRIMARY);
-            final long fileId = f.get_ID();
+            final long fileId = f.getId();
 
             deleteFile.addClickListener(new Button.ClickListener() {
                 public void buttonClick(Button.ClickEvent event) {
@@ -153,10 +155,10 @@ public class TaskPage extends HorizontalLayout implements View {
             fileManagement.downloadFile(fileId).extend(downloadFile);
 
             Object id = fileContainer.addItem();
-            fileContainer.getContainerProperty(id, FNAME).setValue(f.get_fileName());
-            fileContainer.getContainerProperty(id, FUPLOAD).setValue(f.get_userName());
-            fileContainer.getContainerProperty(id, FSIZE).setValue(String.valueOf(f.get_fileSize()));
-            fileContainer.getContainerProperty(id, "File Path").setValue(f.get_filePath());
+            fileContainer.getContainerProperty(id, FNAME).setValue(f.getFileName());
+            fileContainer.getContainerProperty(id, FUPLOAD).setValue(f.getUserName());
+            fileContainer.getContainerProperty(id, FSIZE).setValue(String.valueOf(f.getFileSize()));
+            fileContainer.getContainerProperty(id, "File Path").setValue(f.getFilePath());
             fileContainer.getContainerProperty(id, "Download").setValue(downloadFile);
             fileContainer.getContainerProperty(id, "Delete").setValue(deleteFile);
 

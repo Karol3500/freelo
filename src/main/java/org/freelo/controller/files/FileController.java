@@ -1,8 +1,5 @@
 package org.freelo.controller.files;
 
-import com.vaadin.server.Page;
-import com.vaadin.ui.Notification;
-import com.vaadin.ui.Upload;
 import org.freelo.model.files.FileDAO;
 import org.freelo.model.files.UserFile;
 
@@ -25,10 +22,10 @@ public class FileController {
         File fileToDownload = null;
 
         try{
-            fileToDownload = new File(fileFromDatabase.get_filePath());
+            fileToDownload = new File(fileFromDatabase.getFilePath());
             InputStream inputStream = new FileInputStream(fileToDownload);
             String headerKey = "Content-Disposition";
-            String headerValue = String.format("attachment; filename=\"%s\"", fileFromDatabase.get_fileName());
+            String headerValue = String.format("attachment; filename=\"%s\"", fileFromDatabase.getFileName());
 
 
             inputStream.close();

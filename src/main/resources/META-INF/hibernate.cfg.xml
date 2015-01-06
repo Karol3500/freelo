@@ -7,7 +7,7 @@
     <session-factory>
         <!-- Database connection settings -->
         <property name="connection.driver_class">org.hsqldb.jdbcDriver</property>
-        <property name="connection.url">jdbc:hsqldb:mem:spring;hsql.write_delay=false</property>
+        <property name="connection.url">jdbc:hsqldb:mem:spring</property>
         <property name="connection.username">sa</property>
         <property name="connection.password"></property>
 
@@ -33,7 +33,7 @@
         <property name="show_sql">true</property>
 
         <!-- Drop and re-create the database schema on startup -->
-        <property name="hbm2ddl.auto">create-drop</property>
+        <property name="hbm2ddl.auto">create</property>
         <mapping class="org.freelo.model.users.User"/>
         <mapping class="org.freelo.model.users.Group"/>
         <mapping class="org.freelo.model.users.Privilege"/>

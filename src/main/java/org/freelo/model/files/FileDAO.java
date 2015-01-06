@@ -3,15 +3,11 @@ package org.freelo.model.files;
 /**
  * Created by Adrian on 08-12-2014.
  */
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
 
 import org.freelo.model.HibernateSessionFactoryBean;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.springframework.context.annotation.Scope;
 
-import java.io.File;
 import java.util.List;
 
 public class FileDAO {
@@ -39,7 +35,7 @@ public class FileDAO {
         try{
             session.beginTransaction();
 
-            List files = session.createQuery("FROM UserFile U WHERE U._fileName = '"+fileToSave.get_fileName()+"'").list();
+            List files = session.createQuery("FROM UserFile U WHERE U.fileName = '"+fileToSave.getFileName()+"'").list();
             if (files.isEmpty()) {
                 session.save(fileToSave);
             }
@@ -60,9 +56,9 @@ public class FileDAO {
         try{
             session.beginTransaction();
 
-            List files = session.createQuery("FROM UserFile U WHERE U._ID = '"+ String.valueOf(id) +"'").list();
+            List files = session.createQuery("FROM UserFile U WHERE U.id = "+ id).list();
             if (!files.isEmpty()) {
-                UserFile userFile = (UserFile)session.get(UserFile.class, ((UserFile) files.get(0)).get_ID());
+                UserFile userFile = (UserFile)session.get(UserFile.class, ((UserFile) files.get(0)).getId());
                 session.delete(userFile);
             }
 
@@ -100,7 +96,7 @@ public class FileDAO {
         try{
             session.beginTransaction();
 
-            files = session.createQuery("FROM UserFile UF WHERE UF._userName = '"+userName+"'").list();
+            files = session.createQuery("FROM UserFile UF WHERE UF.userName = '"+userName+"'").list();
 
             session.getTransaction().commit();
         }catch (HibernateException e) {

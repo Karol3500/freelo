@@ -1,7 +1,6 @@
 package org.freelo.controller.tasks;
 
 import com.vaadin.ui.Button;
-import com.vaadin.ui.RichTextArea;
 import org.freelo.model.tasks.*;
 import org.freelo.view.tasks.TaskCard;
 import org.freelo.view.tasks.TaskCreationWindow;

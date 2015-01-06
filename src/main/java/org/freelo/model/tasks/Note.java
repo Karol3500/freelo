@@ -1,12 +1,8 @@
 package org.freelo.model.tasks;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.freelo.model.users.User;
 
 import javax.persistence.*;
-
-import org.freelo.model.users.User;
-import org.freelo.view.tasks.TaskCard;
 
 @Entity
 public class Note {
@@ -17,14 +13,11 @@ public class Note {
 	@OneToOne
 	private User user;
 	
-//	@OneToOne
-//	private Priority priority;
+	@Column
+	private String priority;
 
-    @Column
-    private TaskCard tc;
-	
-//	@OneToMany
-//	private List<Component> components = new ArrayList<>();
+    @Lob
+    private String text;
 
 	public int getId() {
 		return id;
@@ -41,28 +34,22 @@ public class Note {
 	public void setUser(User user) {
 		this.user = user;
 	}
-//
-//	public Priority getPriority() {
-//		return priority;
-//	}
-//
-//	public void setPriority(Priority priority) {
-//		this.priority = priority;
-//	}
 
-    public TaskCard getTc() {
-        return tc;
+
+    public String getText() {
+        return text;
     }
 
-    public void setTc(TaskCard tc) {
-        this.tc = tc;
+    public void setText(String tc) {
+        this.text = tc;
     }
 
-    //	public List<Component> getComponents() {
-//		return components;
-//	}
-//	public void addComponent(Component component){
-//		components.add(component);
-//	}
 
+	public String getPriority() {
+		return priority;
+	}
+
+	public void setPriority(String priority) {
+		this.priority = priority;
+	}
 }

@@ -1,7 +1,4 @@
 package org.freelo.model.users;
-
-import org.freelo.model.tasks.Component;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;

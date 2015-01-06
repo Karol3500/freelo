@@ -2,10 +2,9 @@ package org.freelo.controller.tasks;
 
 import com.vaadin.ui.Button;
 import org.freelo.model.tasks.*;
-import org.freelo.model.users.User;
-import org.freelo.model.users.UserManagement;
 import org.freelo.view.tasks.TaskCard;
 import org.freelo.view.tasks.TaskCreationWindow;
+
 
 /**
  * Created by karol on 16.12.14.
@@ -21,17 +20,16 @@ public class TaskCreationController {
     class CreateTaskButtonOnClickListener implements Button.ClickListener{
         @Override
         public void buttonClick(Button.ClickEvent event) {
-            window.createTask();
-            //persist(window.createTask());
+            TaskCard tc = window.createTask();
+            tc.setDbId(persist(tc));
+            System.out.println("chuj dupa pizda kurwa szmata" +tc.getDbId());
+            Note n = NoteDAO.getNote(tc.getDbId());
+            System.out.println("\n\n\n\n"+n.getId());
             window.close();
         }
     }
 
-    private void persist(TaskCard tc){
-        Note n = new Note();
-        User u = UserManagement.getUser(tc.creator);
-        n.setUser(u);
-        n.setTc(tc);
-        NoteDAO.saveNote(n);
+    private Integer persist(TaskCard tc){
+        return NoteDAO.saveTaskCard(tc);
     }
 }

@@ -4,8 +4,6 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
 import org.freelo.view.tasks.TaskCard;
 
-import java.util.List;
-
 /**
  * Created by karol on 15.12.14.
  */

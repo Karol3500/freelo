@@ -2,10 +2,8 @@ package org.freelo.model.tasks;
 
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-
 import org.freelo.model.HibernateSessionFactoryBean;
+import org.freelo.model.users.UserManagement;
 import org.freelo.view.tasks.TaskCard;
 import org.hibernate.Session;
 import org.springframework.context.annotation.Scope;
@@ -34,53 +32,29 @@ public class NoteDAO {
         return n;
     }
 
-    public static Note getNoteByTaskCard(TaskCard tc){
-        Session session = HibernateSessionFactoryBean.getSession();
-        List<Note> notes = null;
-        Note n = null;
-        try {
-            notes = session.createQuery(
-                    "FROM Note WHERE Note.tc = :taskCard")
-                    .setParameter("taskCard", tc)
-                    .list();
-            if(notes != null){
-                n = notes.get(0);
-            }
-        }
-        catch(Exception ex){
-            ex.printStackTrace();
-            session.getTransaction().rollback();
-        }
-        finally{
-            session.close();
-        }
-        return n;
-    }
-
-    public static boolean saveNote(Note note){
+    public static Integer saveNote(Note note){
         Session session = HibernateSessionFactoryBean.getSession();
         try{
-            session.save(note);
-            return true;
+            session.getTransaction().begin();
+            Integer id = (Integer)session.save(note);
+            session.getTransaction().commit();
+            return id;
         }
         catch(Exception ex){
             ex.printStackTrace();
             session.getTransaction().rollback();
-            return false;
+            return null;
         }
         finally{
             session.close();
         }
     }
 
-    public static List<Note> getNotesBelongingToUser(int userId){
+    public static List<Note> getNotesBelongingToUser(String userName){
         Session session = HibernateSessionFactoryBean.getSession();
-        List<Note> notes = null;
+        List notes = null;
         try {
-            notes = session.createQuery(
-                    "FROM Note WHERE User.id = :userId")
-                    .setParameter("userId", userId)
-                    .list();
+            notes = session.createQuery("FROM Note N WHERE N.user= '"+userName+"'").list();
         }
         catch(Exception ex){
             ex.printStackTrace();
@@ -105,6 +79,14 @@ public class NoteDAO {
         finally{
             session.close();
         }
+    }
+
+    public static Integer saveTaskCard(TaskCard tc) {
+        Note n = new Note();
+        n.setPriority(tc.priorityString);
+        n.setText(tc.taskNote);
+        n.setUser(UserManagement.getUser(tc.getUser()));
+        return saveNote(n);
     }
 }
 

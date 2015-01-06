@@ -1,6 +1,5 @@
 package org.freelo.model.projects;
 
-import org.freelo.model.tasks.Component;
 import org.freelo.model.tasks.Note;
 
 import javax.persistence.*;

@@ -1,10 +1,8 @@
 package org.freelo.view.tasks;
 
-import com.vaadin.data.Property;
 import com.vaadin.ui.*;
 import org.freelo.controller.tasks.TaskController;
 import org.freelo.controller.tasks.TaskCreationController;
-import org.freelo.view.SimpleLoginUI;
 
 import java.util.List;
 

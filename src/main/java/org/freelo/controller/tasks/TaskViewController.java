@@ -21,14 +21,16 @@ public class TaskViewController {
 
         @Override
         public void buttonClick(Button.ClickEvent event) {
-            //removeFromDb(window.tc);
+            removeFromDb(window.tc);
             window.deleteTask();
             window.close();
         }
     }
 
     private void removeFromDb(TaskCard tc) {
-        Note n = NoteDAO.getNoteByTaskCard(tc);
+        if(tc.getDbId()==null)
+            return;
+        Note n = NoteDAO.getNote(tc.getDbId());
         if(n == null)
             return;
         NoteDAO.deleteNoteById(n.getId());

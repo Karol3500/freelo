@@ -16,8 +16,8 @@ public class UserFile {
     @GeneratedValue(strategy = GenerationType.TABLE)
     long _ID;
 
-    @OneToOne
-    private User _user;
+    //@OneToOne
+    //private User _user;
 
     @Column
     private String _fileName;
@@ -28,6 +28,15 @@ public class UserFile {
     @Column
     private Long _fileSize;
 
+    @Column
+    private String _userName;
+
+    public UserFile(){
+        _fileName = "";
+        _filePath = "";
+        _fileSize = null;
+        _userName = "";
+    }
 
     public Long get_fileSize() {
         return _fileSize;
@@ -53,13 +62,14 @@ public class UserFile {
         this._filePath = _filePath;
     }
 
+    /*
     public User get_user() {
         return _user;
     }
 
     public void set_user(User _user) {
         this._user = _user;
-    }
+    }*/
 
     public long get_ID() {
         return _ID;
@@ -67,5 +77,13 @@ public class UserFile {
 
     public void set_ID(long _ID) {
         this._ID = _ID;
+    }
+
+    public String get_userName() {
+        return _userName;
+    }
+
+    public void set_userName(String _userName) {
+        this._userName = _userName;
     }
 }

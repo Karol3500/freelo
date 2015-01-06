@@ -1,15 +1,17 @@
 package org.freelo.view;
 
+import java.io.File;
+import java.io.InputStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.vaadin.event.ShortcutAction;
-import com.vaadin.server.FontAwesome;
-import com.vaadin.server.Responsive;
+import com.vaadin.server.*;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.BaseTheme;
 import com.vaadin.ui.themes.ValoTheme;
 import javafx.scene.input.KeyCode;
+import org.freelo.model.users.User;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -143,6 +145,7 @@ Button.ClickListener {
         registerButton.addStyleName(BaseTheme.BUTTON_LINK);
 
         buttons.addComponents(loginButton, gap, registerLabel, registerButton);
+        Label tempLabel = new Label("Not registered?");
         return buttons;
 
     }
@@ -234,9 +237,14 @@ Button.ClickListener {
 	}
 
 	public void storeCurrentUserInServiceSession(){
+
 		String username = textFieldUser.getValue();
 		getSession().setAttribute("user", username);
 	}
+
+    public void storeCurrentUserInServiceSession(User user){
+        getSession().setAttribute("userClass", user);
+    }
 	
 	public void navigateToMainView(){
 

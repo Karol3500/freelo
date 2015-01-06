@@ -1,5 +1,6 @@
 package org.freelo.view;
 
+import com.vaadin.event.ShortcutAction;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Page;
@@ -69,6 +70,7 @@ public class ProjectManagementPage extends HorizontalLayout implements View{
             setPositionX(50);
 
             final TextField ProjectName = new TextField("Enter project name");
+            ProjectName.focus();
             // todo.add date
             final Button CreateButton = new Button("Create", new Button.ClickListener() {
                 private static final long serialVersionUID = 2181474159749122119L;
@@ -80,6 +82,7 @@ public class ProjectManagementPage extends HorizontalLayout implements View{
                     close();
                 }
             });
+            CreateButton.setClickShortcut(ShortcutAction.KeyCode.ENTER);
             VerticalLayout itemplacement = new VerticalLayout();
             itemplacement.setSizeFull();
             itemplacement.addComponent(ProjectName);

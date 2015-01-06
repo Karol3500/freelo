@@ -1,5 +1,6 @@
 package org.freelo.view.Dashboard;
 
+import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.fieldgroup.PropertyId;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.server.*;
@@ -44,6 +45,9 @@ public class ProfilePreferencesWindow extends Window {
     @PropertyId("bio")
     private TextArea bioField;
 
+    //todo delete me
+    User userTemp;
+
     private ProfilePreferencesWindow(final User user,
                                      final boolean preferencesTabOpen) {
         addStyleName("profile-window");
@@ -56,6 +60,8 @@ public class ProfilePreferencesWindow extends Window {
         setClosable(false);
         setHeight(80.0f, Unit.PERCENTAGE);
         setWidth(70.0f, Unit.PERCENTAGE);
+
+        userTemp = user;
 
         VerticalLayout content = new VerticalLayout();
         content.setSizeFull();
@@ -79,10 +85,6 @@ public class ProfilePreferencesWindow extends Window {
 
         content.addComponent(buildFooter());
 
-        /*
-        fieldGroup = new BeanFieldGroup<User>(User.class);
-        fieldGroup.bindMemberFields(this);
-        fieldGroup.setItemDataSource(user);*/
     }
 
     private Component buildPreferencesTab() {
@@ -93,7 +95,7 @@ public class ProfilePreferencesWindow extends Window {
         root.setMargin(true);
         root.setSizeFull();
 
-        Label message = new Label("Not implemented in this demo");
+        Label message = new Label(userTemp.getFirstName());
         message.setSizeUndefined();
         message.addStyleName(ValoTheme.LABEL_LIGHT);
         root.addComponent(message);

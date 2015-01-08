@@ -69,6 +69,8 @@ public class GroupManagement {
 
             Query query = session.createQuery("FROM Group");
             groups = (List<Group>) query.list();
+
+            session.getTransaction().commit();
         }
         catch (HibernateException e) {
             e.printStackTrace();

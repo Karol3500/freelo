@@ -109,14 +109,6 @@ public class UserManagement {
             List users = session.createQuery("FROM User U WHERE U.email = '"+email+"'").list();
             if (users.isEmpty()) {
                 User user = new User(fname, lname, email, password);
-
-                /*Set<Privilege> privileges = new HashSet<Privilege>();
-                Privilege privilege = new Privilege();
-                privilege.setDescription("olaboga");
-                privileges.add(privilege);
-
-                user.setPrivileges(privileges);*/
-
                 userID = (Integer) session.save(user);
             }
 
@@ -204,6 +196,31 @@ public class UserManagement {
             user.setEmail(email);
             user.setPassword(password);
             session.update(user);
+
+            session.getTransaction().commit();
+        }catch (HibernateException e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        }finally {
+            session.close();
+        }
+    }
+
+    // change basic information about the existing user
+    public static void userUpdate(User user){
+        Session session = HibernateSessionFactoryBean.getSession();
+        try{
+            session.beginTransaction();
+
+            User tempUser = (User)session.get(User.class, user.getId());
+            if (tempUser != null) {
+                tempUser.setName(user.getFirstName());
+                tempUser.setLastName(user.getLastName());
+                tempUser.setEmail(user.getEmail());
+                tempUser.setPassword(user.getPassword());
+                tempUser.setPrivileges(user.getPrivileges());
+                session.update(tempUser);
+            }
 
             session.getTransaction().commit();
         }catch (HibernateException e) {

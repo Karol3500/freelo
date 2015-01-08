@@ -86,4 +86,29 @@ public class PrivilegeManagement {
         }
         return privileges;
     }
+
+
+    // returns a list of all the privileges that exist in the database
+    public static Privilege getPrivilege(Integer ID) {
+        Session session = HibernateSessionFactoryBean.getSession();
+        Privilege privilege = null;
+
+        try {
+            session.beginTransaction();
+
+            List list = session.createQuery("FROM Privilege P WHERE P.ID ="+ID).list();
+            if (!list.isEmpty()){
+                privilege = (Privilege)session.get(Privilege.class, ((Privilege) list.get(0)).getID());
+            }
+
+        }
+        catch (HibernateException e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        }
+        finally {
+            session.close();
+        }
+        return privilege;
+    }
 }

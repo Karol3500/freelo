@@ -45,12 +45,12 @@ public class User {
 		this.created = new Date();
 	}
 
-	public User(String fname, String lname, String email, String password){
-		this.firstName = fname;
-		this.lastName = lname;
+	public User(String firstName, String lastName, String email, String password){
+		this.firstName = firstName;
+		this.lastName = lastName;
 		this.email = email;
 		this.password = password;
-		created = new Date();
+		this.created = new Date();
 	}
 
 	public int getId() {

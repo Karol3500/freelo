@@ -1,6 +1,9 @@
 package org.freelo.model.users;
 
+import javax.jws.soap.SOAPBinding;
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Artur on 12/8/2014.
@@ -17,6 +20,13 @@ public class Privilege {
 
     @Column
     private String description;
+
+    @ManyToMany(mappedBy="privileges")
+    Set<User> users = new HashSet<User>();
+
+
+    public Privilege(){}
+    public Privilege(String description){ this.description = description; }
 
     public int getID() { return ID; }
 

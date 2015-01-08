@@ -1,5 +1,7 @@
 package org.freelo.view.tasks;
 
+import com.vaadin.data.Container;
+import com.vaadin.data.Property;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
@@ -34,6 +36,8 @@ public class TaskPage extends HorizontalLayout implements View {
 
     public List<CssLayout> columns;
 
+    VerticalLayout bottomPanel;
+
     final HorizontalLayout container = new HorizontalLayout();
     final HorizontalLayout taskPanelContainer = new HorizontalLayout();
 
@@ -67,8 +71,11 @@ public class TaskPage extends HorizontalLayout implements View {
     DashboardMenuBean dashboardMenuBean;
 
     public TaskPage() {
+        bottomPanel = new VerticalLayout();
         setSizeFull();
         addStyleName("taskpage");
+
+
 
         columns = new ArrayList<CssLayout>();
 
@@ -128,11 +135,34 @@ public class TaskPage extends HorizontalLayout implements View {
 
     }
 
+    class UploadSuccededListener implements Upload.SucceededListener {
+
+        @Override
+        public void uploadSucceeded(Upload.SucceededEvent event) {
+            updateFileContainer();
+        }
+    }
+//
+//    class FileDeletedListener implements Button.ClickListener{
+//        long fileId;
+//        public FileDeletedListener(long fileId){
+//            this.fileId = fileId;
+//        }
+//
+//        @Override
+//        public void buttonClick(Button.ClickEvent event) {
+//
+//        }
+//    }
+
     public IndexedContainer updateFileContainer() {
         FileDAO fileDAO = new FileDAO();
         List<UserFile> files = fileDAO.getFilesByUserName(userName);
+
         if(files == null)
             return fileContainer;
+        fileContainer.removeAllItems();
+        fileContainer.removeAllContainerFilters();
 
         for (UserFile f : files) {
             //System.out.println(f.get_fileName());
@@ -147,8 +177,7 @@ public class TaskPage extends HorizontalLayout implements View {
             deleteFile.addClickListener(new Button.ClickListener() {
                 public void buttonClick(Button.ClickEvent event) {
                     fileManagement.deleteFile(fileId);
-                    Object someId = fileList.getValue();
-                    fileList.removeItem(someId);
+                    updateFileContainer();
                 }
             });
 
@@ -169,8 +198,6 @@ public class TaskPage extends HorizontalLayout implements View {
     }
 
     private com.vaadin.ui.Component buildBottomForm(){
-
-        final VerticalLayout bottomPanel = new VerticalLayout();
         bottomPanel.setHeight("60%");
         bottomPanel.setMargin(new MarginInfo(true, true, true, true));
         bottomPanel.setSpacing(true);
@@ -183,6 +210,7 @@ public class TaskPage extends HorizontalLayout implements View {
         Upload upload = new Upload("Attach files to the task", fileUploader);
         upload.setButtonCaption("Upload");
         upload.addSucceededListener(fileUploader);
+        upload.addSucceededListener(new UploadSuccededListener());
         bottomPanel.addComponent(upload);
         //////////////////////////
 
@@ -195,7 +223,6 @@ public class TaskPage extends HorizontalLayout implements View {
         fileList.setPageLength(2);
         bottomPanel.addComponent(fileList);
         ///////////////////////////
-
         return bottomPanel;
     }
 

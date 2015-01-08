@@ -88,6 +88,7 @@ public class Application {
         }
 
 
+
         /*System.out.print("\n\n\n");
         list = PrivilegeManagement.listPrivileges();
         for (Iterator iterator = list.iterator(); iterator.hasNext();){
@@ -96,10 +97,19 @@ public class Application {
         }*/
         System.out.print("\n\n\n");
 
+        /*Session session = HibernateSessionFactoryBean.getSession();
+        session.beginTransaction();
+        User user3 = (User) session.load(User.class, 1);
+        System.out.println(user3.getId()+" "+user3.getFirstName()+" "+user3.getLastName()+" "+user3.getEmail());
+        session.getTransaction().commit();
+        //session.close();*/
 
-        User user2 = UserManagement.getUser(1);
-        System.out.println(user2.getId()+" "+user2.getFirstName()+" "+user2.getLastName()+" "+user2.getEmail());
-        for (Iterator iterator = user2.getPrivileges().iterator(); iterator.hasNext();) {
+
+
+        User user3 = UserManagement.getUser(1);
+
+        System.out.println(user3.getId()+" "+user3.getFirstName()+" "+user3.getLastName()+" "+user3.getEmail());
+        for (Iterator iterator = user3.getPrivileges().iterator(); iterator.hasNext();) {
             Privilege priv = (Privilege) iterator.next();
             System.out.println(priv.getID() + " " + priv.getDescription());
         }

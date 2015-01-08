@@ -89,6 +89,6 @@ public class User {
     }
     public void deletePrivilege(int privilegeID) {}
     public Set<Privilege> getPrivileges() { return privileges; }
-	public void setPrivileges(Set<Privilege> privileges) { this.privileges = privileges; }
+	public void setPrivileges(Set<Privilege> privileges) { this.privileges = new HashSet<Privilege>(privileges); }
 
 }

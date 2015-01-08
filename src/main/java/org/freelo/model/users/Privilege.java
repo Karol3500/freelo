@@ -12,6 +12,7 @@ public class Privilege {
 
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
+    @Column(name = "PRIVILEGE_ID")
     private int ID;
 
     @Column

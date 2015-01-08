@@ -13,16 +13,20 @@ import java.util.List;
 public class PrivilegeManagement {
 
     // returns privilege ID if successful, returns null if error occurred (e.g. privilege already exists)
-    public static Integer addPrivilege(Privilege newPrivilege) {
+    public static Integer addPrivilege(String description) {
         Session session = HibernateSessionFactoryBean.getSession();
-        Integer ID = null;
+        Integer privilegeID = null;
 
         try {
             session.beginTransaction();
 
-            List privileges = session.createQuery("FROM Privilege P WHERE P.ID = '" + newPrivilege.getID() + "'").list();
-            if (privileges.isEmpty())
-                ID = (Integer) session.save(newPrivilege);
+            List privileges = session.createQuery("FROM Privilege P WHERE P.description = '" + description + "'").list();
+            if (privileges.isEmpty()) {
+                Privilege privilege = new Privilege();
+                privilege.setDescription(description);
+                privilegeID = (Integer) session.save(privilege);
+            }
+
             session.getTransaction().commit();
         }
         catch (HibernateException e) {
@@ -32,7 +36,7 @@ public class PrivilegeManagement {
         finally {
             session.close();
         }
-        return ID;
+        return privilegeID;
     }
 
     // returns true if successful, or false if some error occurred
@@ -71,6 +75,7 @@ public class PrivilegeManagement {
 
             Query query = session.createQuery("FROM Privilege");
             privileges = (List<Privilege>) query.list();
+
         }
         catch (HibernateException e) {
             e.printStackTrace();

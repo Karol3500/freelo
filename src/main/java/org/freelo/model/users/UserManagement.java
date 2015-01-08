@@ -4,8 +4,8 @@ package org.freelo.model.users;
 import org.freelo.model.HibernateSessionFactoryBean;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import java.util.List;
-import java.util.Iterator;
+
+import java.util.*;
 
 public class UserManagement {
 
@@ -109,6 +109,14 @@ public class UserManagement {
             List users = session.createQuery("FROM User U WHERE U.email = '"+email+"'").list();
             if (users.isEmpty()) {
                 User user = new User(fname, lname, email, password);
+
+                /*Set<Privilege> privileges = new HashSet<Privilege>();
+                Privilege privilege = new Privilege();
+                privilege.setDescription("olaboga");
+                privileges.add(privilege);
+
+                user.setPrivileges(privileges);*/
+
                 userID = (Integer) session.save(user);
             }
 

@@ -1,7 +1,4 @@
 package org.freelo.view;
-
-import java.io.File;
-import java.io.InputStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -10,8 +7,6 @@ import com.vaadin.server.*;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.BaseTheme;
 import com.vaadin.ui.themes.ValoTheme;
-import javafx.scene.input.KeyCode;
-import org.freelo.model.files.FileManagement;
 import org.freelo.model.users.User;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -22,7 +17,6 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.themes.Reindeer;
 
 
 @Component

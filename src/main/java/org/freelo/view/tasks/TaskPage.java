@@ -1,13 +1,14 @@
 package org.freelo.view.tasks;
 
-import com.vaadin.data.Container;
-import com.vaadin.data.Property;
+import com.sun.org.apache.xerces.internal.impl.dv.xs.MonthDV;
+import com.sun.org.apache.xerces.internal.impl.dv.xs.MonthDayDV;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
+import com.vaadin.ui.Calendar;
 import com.vaadin.ui.themes.ValoTheme;
 import org.freelo.model.files.FileDAO;
 import org.freelo.model.files.FileManagement;
@@ -20,8 +21,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 
 /**
@@ -35,8 +35,6 @@ public class TaskPage extends HorizontalLayout implements View {
     public static final String NAME = "";
 
     public List<CssLayout> columns;
-
-    VerticalLayout bottomPanel;
 
     final HorizontalLayout container = new HorizontalLayout();
     final HorizontalLayout taskPanelContainer = new HorizontalLayout();
@@ -65,13 +63,14 @@ public class TaskPage extends HorizontalLayout implements View {
     IndexedContainer fileContainer = createFileContainer();
 
     ////////////////////////
+
+    TabSheet tabSheet = new TabSheet();
     DashboardMenu dashBoard;
 
     @Autowired
     DashboardMenuBean dashboardMenuBean;
 
     public TaskPage() {
-        bottomPanel = new VerticalLayout();
         setSizeFull();
         addStyleName("taskpage");
 
@@ -102,7 +101,7 @@ public class TaskPage extends HorizontalLayout implements View {
     }
 
     private com.vaadin.ui.Component buildPageForm(){
-        com.vaadin.ui.Component files = buildBottomForm();
+        com.vaadin.ui.Component bottom = buildBottomForm();
 
         final VerticalLayout pagePanel = new VerticalLayout();
         //pagePanel.setSizeFull();
@@ -115,9 +114,9 @@ public class TaskPage extends HorizontalLayout implements View {
         taskPanelContainer.setHeight("140%");
         taskPanelContainer.setWidth("100%");
         pagePanel.addComponent(taskPanelContainer);
-        pagePanel.addComponent(files);
 
-        pagePanel.setComponentAlignment(files, Alignment.BOTTOM_LEFT);
+        pagePanel.addComponent(bottom);
+        pagePanel.setComponentAlignment(bottom, Alignment.BOTTOM_LEFT);
         return pagePanel;
     }
 
@@ -198,11 +197,29 @@ public class TaskPage extends HorizontalLayout implements View {
     }
 
     private com.vaadin.ui.Component buildBottomForm(){
-        bottomPanel.setHeight("60%");
+        VerticalLayout bottomPanel = new VerticalLayout();
+        bottomPanel.setHeight("62%");
         bottomPanel.setMargin(new MarginInfo(true, true, true, true));
         bottomPanel.setSpacing(true);
         bottomPanel.setStyleName(ValoTheme.LAYOUT_CARD);
         //loginPanel.addStyleName("login-panel");
+
+
+        //bottomPanel.addComponent(upload);
+        bottomPanel.addComponent(tabSheet);
+        //////////////////////////
+        tabSheet.addStyleName(ValoTheme.TABSHEET_FRAMED);
+        tabSheet.addTab(buildTab1(), "Task Files");
+        tabSheet.addTab(buildTab2(), "ShoutBox");
+        tabSheet.addTab(buildTab3(), "Calendar??? WTF??");
+
+        //bottomPanel.addComponent(fileList);
+        ///////////////////////////
+        return bottomPanel;
+    }
+
+    VerticalLayout buildTab1(){
+        VerticalLayout tab1 = new VerticalLayout();
 
         //Upload container
         FileUploader fileUploader = new FileUploader();
@@ -211,19 +228,50 @@ public class TaskPage extends HorizontalLayout implements View {
         upload.setButtonCaption("Upload");
         upload.addSucceededListener(fileUploader);
         upload.addSucceededListener(new UploadSuccededListener());
-        bottomPanel.addComponent(upload);
-        //////////////////////////
 
         //Files table
         fileList.setContainerDataSource(fileContainer);
-        fileList.setVisibleColumns(new String[] { FNAME, FUPLOAD, FSIZE, "Download", "Delete" });
+        fileList.setVisibleColumns(new String[]{FNAME, FUPLOAD, FSIZE, "Download", "Delete"});
         fileList.setSelectable(false);
         fileList.setImmediate(true);
+        fileList.setWidth("100%");
+        //fileList.setColumnAlignments(Table.Align.CENTER);
+
         //fileList.setSizeFull();
         fileList.setPageLength(2);
-        bottomPanel.addComponent(fileList);
-        ///////////////////////////
-        return bottomPanel;
+
+        tab1.addComponents(upload, fileList);
+
+        return tab1;
+    }
+
+    VerticalLayout buildTab2(){
+        VerticalLayout tab2 = new VerticalLayout();
+
+        TextArea shoutBox = new TextArea();
+        shoutBox.setSizeFull();
+
+        tab2.addComponent(shoutBox);
+
+        return tab2;
+    }
+
+    VerticalLayout buildTab3(){
+        VerticalLayout tab3 = new VerticalLayout();
+        tab3.setWidth("100%");
+        Calendar calendar = new Calendar();
+
+        calendar.setStartDate(new Date());
+
+        // Set end date to last day of this month
+        GregorianCalendar endDate = new GregorianCalendar();
+        endDate.set(java.util.Calendar.DATE, 1);
+        endDate.roll(java.util.Calendar.DATE, -1);
+        calendar.setEndDate(endDate.getTime());
+
+        tab3.addComponent(calendar);
+
+        return tab3;
     }
 
     @PostConstruct

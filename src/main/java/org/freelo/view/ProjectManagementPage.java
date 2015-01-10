@@ -64,14 +64,21 @@ public class ProjectManagementPage extends HorizontalLayout implements View{
             main.addStyleName("projectpopup");
             main.setSizeFull();
             setContent(main);
-            setHeight("200px");
+            setHeight("350px");
             setWidth("300px");
             setPositionY(50);
             setPositionX(50);
 
             final TextField ProjectName = new TextField("Enter project name");
             ProjectName.focus();
+
             // todo.add date
+            PopupDateField startDatePicker = new PopupDateField("Start date");
+            PopupDateField endDatePicker = new PopupDateField("End date");
+
+
+
+
             final Button CreateButton = new Button("Create", new Button.ClickListener() {
                 private static final long serialVersionUID = 2181474159749122119L;
                 @Override
@@ -86,6 +93,8 @@ public class ProjectManagementPage extends HorizontalLayout implements View{
             VerticalLayout itemplacement = new VerticalLayout();
             itemplacement.setSizeFull();
             itemplacement.addComponent(ProjectName);
+            itemplacement.addComponent(startDatePicker);
+            itemplacement.addComponent(endDatePicker);
             itemplacement.addComponent(CreateButton);
             main.addComponent(itemplacement);
 

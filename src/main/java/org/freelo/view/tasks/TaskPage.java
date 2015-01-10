@@ -9,6 +9,7 @@ import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Calendar;
+import com.vaadin.ui.components.calendar.event.BasicEvent;
 import com.vaadin.ui.themes.ValoTheme;
 import org.freelo.model.files.FileDAO;
 import org.freelo.model.files.FileManagement;
@@ -230,13 +231,23 @@ public class TaskPage extends HorizontalLayout implements View {
         sideLayout.setHeight("100%");
         sideLayout.setWidth("400px");
 
-        CalendarPanel calendarPanel = new CalendarPanel();
+
 
 
         Panel projectMembersPanel = new Panel("Project Members");
+        VerticalLayout projectMembersLayout = new VerticalLayout();
+        projectMembersPanel.setContent(projectMembersLayout);
         projectMembersPanel.setStyleName("ProjectMembersPanel");
         projectMembersPanel.setHeight("100%");
         projectMembersPanel.setWidth("100%");
+
+        //controller for project/sprint page needed
+        //Date startdate = startDatePicker.getValue();
+        //Date enddate =  endDatePicker.getValue();
+
+        Date startDate = new Date(2015, 0, 1);
+        Date endDate =  new Date(2015, 0, 14);
+        CalendarPanel calendarPanel = new CalendarPanel(startDate, endDate);
 
         sideLayout.addComponent(calendarPanel);
         sideLayout.addComponent(projectMembersPanel);
@@ -323,11 +334,11 @@ public class TaskPage extends HorizontalLayout implements View {
 
     public class CalendarPanel extends HorizontalLayout{
 
-        public CalendarPanel(){
+        public CalendarPanel(Date startdate, Date enddate){
             final Panel calPanel = new Panel("Sprint Calendar");
             calPanel.setStyleName("Calendar");
             calPanel.setWidth("400px");
-            calPanel.setHeight("300px");
+            calPanel.setHeight("350px");
 
             Calendar cal = new Calendar();
             cal.setWidth("100%");
@@ -338,8 +349,21 @@ public class TaskPage extends HorizontalLayout implements View {
             cal.setLocale(new Locale("en", "US"));
 
 
-            cal.setStartDate(new Date(2015, 01, 01));
-            cal.setEndDate(new Date(2015, 02, 01));
+            cal.setStartDate(startdate);
+            cal.setEndDate(enddate);
+
+
+            BasicEvent startDateEvent = new BasicEvent("Start",
+                    "Sprint start date",
+                    startdate, startdate);
+            BasicEvent endDateEvent = new BasicEvent("End",
+                    "Sprint end date",
+                    enddate, enddate);
+            startDateEvent.setAllDay(true);
+            endDateEvent.setAllDay(true);
+
+            cal.addEvent(startDateEvent);
+            cal.addEvent(endDateEvent);
 
             addComponent(calPanel);
         }

@@ -1,7 +1,7 @@
 package org.freelo.view.tasks;
 
-import com.sun.org.apache.xerces.internal.impl.dv.xs.MonthDV;
-import com.sun.org.apache.xerces.internal.impl.dv.xs.MonthDayDV;
+import com.vaadin.data.Container;
+import com.vaadin.data.Property;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
@@ -22,6 +22,8 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.*;
+import java.text.DateFormatSymbols;
+
 
 
 /**
@@ -35,6 +37,8 @@ public class TaskPage extends HorizontalLayout implements View {
     public static final String NAME = "";
 
     public List<CssLayout> columns;
+
+    VerticalLayout bottomPanel;
 
     final HorizontalLayout container = new HorizontalLayout();
     final HorizontalLayout taskPanelContainer = new HorizontalLayout();
@@ -71,6 +75,7 @@ public class TaskPage extends HorizontalLayout implements View {
     DashboardMenuBean dashboardMenuBean;
 
     public TaskPage() {
+        bottomPanel = new VerticalLayout();
         setSizeFull();
         addStyleName("taskpage");
 
@@ -79,7 +84,8 @@ public class TaskPage extends HorizontalLayout implements View {
         columns = new ArrayList<CssLayout>();
 
         container.addStyleName("container");
-        container.setHeight("100%");
+        container.setSizeFull();
+        // container.setHeight("100%");
         addComponent(container);
 
         todo.addStyleName("content");
@@ -103,17 +109,17 @@ public class TaskPage extends HorizontalLayout implements View {
     private com.vaadin.ui.Component buildPageForm(){
         com.vaadin.ui.Component bottom = buildBottomForm();
 
+
         final VerticalLayout pagePanel = new VerticalLayout();
-        //pagePanel.setSizeFull();
+        pagePanel.setSizeFull();
         pagePanel.setMargin(new MarginInfo(true, true, true, true));
         pagePanel.setSpacing(true);
         pagePanel.setStyleName(ValoTheme.LAYOUT_WELL);
-        pagePanel.setWidth("1200px");
-        pagePanel.setHeight("100%");
-        //loginPanel.addStyleName("login-panel");
+        ;
         taskPanelContainer.setHeight("140%");
         taskPanelContainer.setWidth("100%");
         pagePanel.addComponent(taskPanelContainer);
+        pagePanel.addComponent(bottom);
 
         pagePanel.addComponent(bottom);
         pagePanel.setComponentAlignment(bottom, Alignment.BOTTOM_LEFT);
@@ -211,11 +217,31 @@ public class TaskPage extends HorizontalLayout implements View {
         tabSheet.addStyleName(ValoTheme.TABSHEET_FRAMED);
         tabSheet.addTab(buildTab1(), "Task Files");
         tabSheet.addTab(buildTab2(), "ShoutBox");
-        tabSheet.addTab(buildTab3(), "Calendar??? WTF??");
+        //tabSheet.addTab(buildTab3(), "Calendar??? WTF??");
 
         //bottomPanel.addComponent(fileList);
         ///////////////////////////
         return bottomPanel;
+    }
+
+    private com.vaadin.ui.Component buildSideForm(){
+        final VerticalLayout sideLayout = new VerticalLayout();
+        sideLayout.setSpacing(false);
+        sideLayout.setHeight("100%");
+        sideLayout.setWidth("400px");
+
+        CalendarPanel calendarPanel = new CalendarPanel();
+
+
+        Panel projectMembersPanel = new Panel("Project Members");
+        projectMembersPanel.setStyleName("ProjectMembersPanel");
+        projectMembersPanel.setHeight("100%");
+        projectMembersPanel.setWidth("100%");
+
+        sideLayout.addComponent(calendarPanel);
+        sideLayout.addComponent(projectMembersPanel);
+        sideLayout.setExpandRatio(projectMembersPanel, 1f);
+        return sideLayout;
     }
 
     VerticalLayout buildTab1(){
@@ -255,25 +281,6 @@ public class TaskPage extends HorizontalLayout implements View {
 
         return tab2;
     }
-
-    VerticalLayout buildTab3(){
-        VerticalLayout tab3 = new VerticalLayout();
-        tab3.setWidth("100%");
-        Calendar calendar = new Calendar();
-
-        calendar.setStartDate(new Date());
-
-        // Set end date to last day of this month
-        GregorianCalendar endDate = new GregorianCalendar();
-        endDate.set(java.util.Calendar.DATE, 1);
-        endDate.roll(java.util.Calendar.DATE, -1);
-        calendar.setEndDate(endDate.getTime());
-
-        tab3.addComponent(calendar);
-
-        return tab3;
-    }
-
     @PostConstruct
     private void setup(){
         taskPanelContainer.addComponent(todopanel);
@@ -300,9 +307,45 @@ public class TaskPage extends HorizontalLayout implements View {
 
         todo.addComponent(addComponentButton);
         container.addComponent(dashBoard);
-        container.addComponent(buildPageForm());
+
+
+        VerticalLayout pagePanel = (VerticalLayout) buildPageForm();
+        VerticalLayout sidePanel = (VerticalLayout) buildSideForm();
+
+        container.addComponent(pagePanel);
+        container.addComponent(sidePanel);
+
+        container.setExpandRatio(pagePanel, 1f);
+
+
 
     }
+
+    public class CalendarPanel extends HorizontalLayout{
+
+        public CalendarPanel(){
+            final Panel calPanel = new Panel("Sprint Calendar");
+            calPanel.setStyleName("Calendar");
+            calPanel.setWidth("400px");
+            calPanel.setHeight("300px");
+
+            Calendar cal = new Calendar();
+            cal.setWidth("100%");
+            cal.setHeight("100%");
+            cal.setFirstVisibleDayOfWeek(2);
+            cal.setLastVisibleDayOfWeek(6);
+            calPanel.setContent(cal);
+            cal.setLocale(new Locale("en", "US"));
+
+
+            cal.setStartDate(new Date(2015, 01, 01));
+            cal.setEndDate(new Date(2015, 02, 01));
+
+            addComponent(calPanel);
+        }
+    }
+
+
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {

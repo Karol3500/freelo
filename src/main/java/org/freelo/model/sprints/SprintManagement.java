@@ -70,6 +70,7 @@ public class SprintManagement {
         }
     }
 
+
     public static void updateSprint(Sprint sprint){
         Session session = HibernateSessionFactoryBean.getSession();
         try{

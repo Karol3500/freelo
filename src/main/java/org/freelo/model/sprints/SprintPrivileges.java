@@ -7,7 +7,6 @@ import javax.persistence.*;
  */
 public class SprintPrivileges {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
     private int ID;

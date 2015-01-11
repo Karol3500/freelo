@@ -58,7 +58,6 @@ public class SprintPrivilegesManagement {
         return successfulDeletion;
     }
 
-
     public static List<SprintPrivileges> listPrivileges() {
         Session session = HibernateSessionFactoryBean.getSession();
         List<SprintPrivileges> privileges = null;

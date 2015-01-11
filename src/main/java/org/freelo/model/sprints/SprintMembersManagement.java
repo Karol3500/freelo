@@ -12,7 +12,6 @@ import java.util.List;
  */
 public class SprintMembersManagement {
 
-
     public static Integer addMember(SprintMembers newMembers) {
         Session session = HibernateSessionFactoryBean.getSession();
         Integer ID = null;

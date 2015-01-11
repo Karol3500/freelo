@@ -79,6 +79,7 @@ public class Sprint {
         toDo.add(note);
     }
 
+
     public List<Note> getOnGoing() {
         return onGoing;
     }

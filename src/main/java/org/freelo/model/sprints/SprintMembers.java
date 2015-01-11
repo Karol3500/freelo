@@ -39,5 +39,4 @@ public class SprintMembers {
     public void setProject(Sprint sprint) { this.sprint = sprint; }
 
 
-
 }

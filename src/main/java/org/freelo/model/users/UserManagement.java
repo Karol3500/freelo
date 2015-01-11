@@ -65,8 +65,10 @@ public class UserManagement {
             session.beginTransaction();
 
             List users = session.createQuery("FROM User U WHERE U.email = '"+email+"'").list();
-            if (!users.isEmpty())
+            if (!users.isEmpty()) {
                 user = (User) session.load(User.class, ((User) users.get(0)).getId());
+                user.setPrivileges(user.getPrivileges());
+            }
 
             session.getTransaction().commit();
         }catch (HibernateException e) {
@@ -88,11 +90,6 @@ public class UserManagement {
             List users = session.createQuery("FROM User U WHERE U.id = "+UserID).list();
             if (!users.isEmpty()) {
                 user = (User) session.load(User.class, UserID);
-                /*user = new User();
-                user.setName(tempUser.getFirstName());
-                user.setLastName(tempUser.getLastName());
-                user.setPassword(tempUser.getPassword());
-                user.setEmail(tempUser.getEmail());*/
                 user.setPrivileges(user.getPrivileges());
             }
 

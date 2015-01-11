@@ -79,7 +79,7 @@ public class User {
 	// public void setDate(Date createdDate) { this._created = createdDate; }
 
     // todo write code for below functions
-    public void addPrivilege(int privilegeID) {
+    /*public void addPrivilege(int privilegeID) {
         for (Privilege element : privileges) {
             //if (element.getID() == privilegeID)
 				//return;
@@ -87,7 +87,7 @@ public class User {
         }
         //privileges.add()
     }
-    public void deletePrivilege(int privilegeID) {}
+    public void deletePrivilege(int privilegeID) {}*/
     public Set<Privilege> getPrivileges() { return privileges; }
 	public void setPrivileges(Set<Privilege> privileges) { this.privileges = new HashSet<Privilege>(privileges); }
 

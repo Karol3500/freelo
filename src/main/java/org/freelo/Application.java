@@ -1,6 +1,8 @@
 package org.freelo;
 
 import org.freelo.model.HibernateSessionFactoryBean;
+import org.freelo.model.projects.Project;
+import org.freelo.model.projects.ProjectManagement;
 import org.freelo.model.users.Privilege;
 import org.freelo.model.users.PrivilegeManagement;
 import org.freelo.model.users.User;
@@ -50,95 +52,22 @@ public class Application {
 
 
 
+        // todo delete beforee commit
         System.out.print("\n\n\n\n\n\n\n\n\n\n");
 
+        int manageID = UserManagement.getUserID("arturwaz@freelo.com");
 
-        PrivilegeManagement.addPrivilege("taki tam test");
+        Project project = new Project();
+        project.setManager(manageID);
 
-        List<Privilege> list = PrivilegeManagement.listPrivileges();
-        for (Iterator iterator = list.iterator(); iterator.hasNext();){
-            Privilege priv = (Privilege) iterator.next();
-            System.out.println(priv.getID()+" "+priv.getDescription());
-        }
-        PrivilegeManagement.addPrivilege("taki tam drugi test");
-        list = PrivilegeManagement.listPrivileges();
-        for (Iterator iterator = list.iterator(); iterator.hasNext();){
-            Privilege priv = (Privilege) iterator.next();
-            System.out.println(priv.getID()+" "+priv.getDescription());
-        }
-        System.out.print("\n\n\n");
-
-
-        User user = UserManagement.getUser("arturwaz@freelo.com");
-        System.out.println("User chosen.");
-        //user.addPrivilege(4);
-        //user.setPrivileges(list);
-        //User user = new User();
-        //System.out.println(user.getId());
-
-
-        Set<Privilege> set = new HashSet<Privilege>();
-        Privilege temp = PrivilegeManagement.getPrivilege(1);
-        set.add(temp);
-
-        temp = PrivilegeManagement.getPrivilege(2);
-        set.add(temp);
-
-
-        user.setPrivileges(set);
-
-        UserManagement.userUpdate(user);
-
-        System.out.println("User Privileges:");
-        for (Iterator iterator = user.getPrivileges().iterator(); iterator.hasNext();) {
-            Privilege priv = (Privilege) iterator.next();
-            System.out.println(priv.getID() + " " + priv.getDescription());
-        }
+        ProjectManagement.addProject(project);
 
 
 
-        /*System.out.print("\n\n\n");
-        list = PrivilegeManagement.listPrivileges();
-        for (Iterator iterator = list.iterator(); iterator.hasNext();){
-            Privilege priv = (Privilege) iterator.next();
-            System.out.println(priv.getID()+" "+priv.getDescription());
-        }*/
-        System.out.print("\n\n\n");
+        Project test = ProjectManagement.getProject(1);
+        User manager = UserManagement.getUser(test.getManager());
+        System.out.println(manager.getEmail());
 
-        /*Session session = HibernateSessionFactoryBean.getSession();
-        session.beginTransaction();
-        User user3 = (User) session.load(User.class, 1);
-        System.out.println(user3.getId()+" "+user3.getFirstName()+" "+user3.getLastName()+" "+user3.getEmail());
-        session.getTransaction().commit();
-        //session.close();*/
-
-
-
-        User user3 = UserManagement.getUser(1);
-
-        System.out.println(user3.getId()+" "+user3.getFirstName()+" "+user3.getLastName()+" "+user3.getEmail());
-        for (Iterator iterator = user3.getPrivileges().iterator(); iterator.hasNext();) {
-            Privilege priv = (Privilege) iterator.next();
-            System.out.println(priv.getID() + " " + priv.getDescription());
-        }
-
-        /*Session session = HibernateSessionFactoryBean.getSession();
-        try{
-            session.beginTransaction();
-
-            List pr = session.createQuery("FROM UserPrivileges").list();
-
-            for (Iterator iterator = pr.iterator(); iterator.hasNext();){
-                Privilege temppr = (Privilege) iterator.next();
-                System.out.println(temppr.getID()+" "+temppr.getDescription());
-            }
-
-        }catch (HibernateException e) {
-            e.printStackTrace();
-            session.getTransaction().rollback();
-        }finally {
-            session.close();
-        }*/
 
 
         System.out.print("\n\n\n");

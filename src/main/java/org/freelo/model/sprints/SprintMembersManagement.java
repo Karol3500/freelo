@@ -19,7 +19,7 @@ public class SprintMembersManagement {
         try {
             session.beginTransaction();
 
-            List members = session.createQuery("FROM SprintMembers S WHERE S.ID = '" + newMembers.getId() + "'").list();
+            List members = session.createQuery("FROM SprintMembers S WHERE S.id = '" + newMembers.getId() + "'").list();
             if (members.isEmpty())
                 ID = (Integer) session.save(newMembers);
             session.getTransaction().commit();
@@ -41,7 +41,7 @@ public class SprintMembersManagement {
         try {
             session.beginTransaction();
 
-            List members = session.createQuery("FROM SprintMembers P WHERE P.ID = '"+ oldMembers.getId() +"'").list();
+            List members = session.createQuery("FROM SprintMembers P WHERE P.id = '"+ oldMembers.getId() +"'").list();
             if (!members.isEmpty()) {
                 SprintMembers temp = (SprintMembers)session.get(SprintMembers.class, oldMembers.getId());
                 session.delete(temp);

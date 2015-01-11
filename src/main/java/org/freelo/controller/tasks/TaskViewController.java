@@ -27,7 +27,7 @@ public class TaskViewController {
         }
     }
 
-    private void removeFromDb(TaskCard tc) {
+    void removeFromDb(TaskCard tc) {
         if(tc.getDbId()==null)
             return;
         Note n = NoteDAO.getNote(tc.getDbId());

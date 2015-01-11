@@ -97,10 +97,8 @@ public final class DashboardMenu extends CustomComponent implements View {
             @Override
             public void menuSelected(final MenuItem selectedItem) {
                 getSession().setAttribute("user", null);
-
-                // Refresh this view, should redirect to login view
                 ui.getSession().close();
-                getUI().getNavigator().navigateTo(SimpleLoginView.NAME);
+                getUI().getPage().setLocation( "/" );
             }
         });
         return settings;

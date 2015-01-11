@@ -39,6 +39,8 @@
         <mapping class="org.freelo.model.users.Privilege"/>
         <mapping class="org.freelo.model.tasks.Note"/>
         <mapping class="org.freelo.model.files.UserFile"/>
-        <mapping class="org.freelo.model.projects.Project"/>
+        <mapping class="org.freelo.model.sprints.Sprint"/>
+        <mapping class="org.freelo.model.sprints.SprintMembers"/>
+        <mapping class="org.freelo.model.sprints.SprintPrivileges"/>
     </session-factory>
 </hibernate-configuration>

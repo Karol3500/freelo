@@ -1,14 +1,11 @@
-package org.freelo.model.projects;
-
-import org.freelo.model.users.User;
+package org.freelo.model.sprints;
 
 import javax.persistence.*;
 
 /**
  * Created by piotr on 2014-12-08.
  */
-public class ProjectPrivileges {
-
+public class SprintPrivileges {
 
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)

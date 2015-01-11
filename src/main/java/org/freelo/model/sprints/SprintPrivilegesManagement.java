@@ -1,4 +1,4 @@
-package org.freelo.model.projects;
+package org.freelo.model.sprints;
 
 import org.freelo.model.HibernateSessionFactoryBean;
 import org.hibernate.HibernateException;
@@ -9,17 +9,17 @@ import java.util.List;
 /**
  * Created by piotr on 2014-12-15.
  */
-public class ProjectPrivilegesManagement {
-    public static Integer addProjectPrivileges(ProjectPrivileges newProjectPrivileges) {
+public class SprintPrivilegesManagement {
+    public static Integer addSprintPrivileges(SprintPrivileges newSprintPrivileges) {
         Session session = HibernateSessionFactoryBean.getSession();
         Integer ID = null;
 
         try {
             session.beginTransaction();
 
-            List privileges = session.createQuery("FROM ProjectPrivileges P WHERE P.ID = '" + newProjectPrivileges.getID() + "'").list();
+            List privileges = session.createQuery("FROM SprintPrivileges P WHERE P.ID = '" + newSprintPrivileges.getID() + "'").list();
             if (privileges.isEmpty())
-                ID = (Integer) session.save(newProjectPrivileges);
+                ID = (Integer) session.save(newSprintPrivileges);
             session.getTransaction().commit();
         }
         catch (HibernateException e) {
@@ -33,16 +33,16 @@ public class ProjectPrivilegesManagement {
     }
 
 
-    public static boolean deleteProjectPrivileges(ProjectPrivileges oldProjectPrivileges) {
+    public static boolean deleteSprintPrivileges(SprintPrivileges oldSprintPrivileges) {
         Session session = HibernateSessionFactoryBean.getSession();
         boolean successfulDeletion = false;
 
         try {
             session.beginTransaction();
 
-            List privileges = session.createQuery("FROM ProjectPrivileges P WHERE P.ID = '"+ oldProjectPrivileges.getID() +"'").list();
+            List privileges = session.createQuery("FROM SprintPrivileges P WHERE P.ID = '"+ oldSprintPrivileges.getID() +"'").list();
             if (!privileges.isEmpty()) {
-                ProjectPrivileges temp = (ProjectPrivileges)session.get(ProjectPrivileges.class, oldProjectPrivileges.getID());
+                SprintPrivileges temp = (SprintPrivileges)session.get(SprintPrivileges.class, oldSprintPrivileges.getID());
                 session.delete(temp);
                 successfulDeletion = true;
             }
@@ -58,16 +58,15 @@ public class ProjectPrivilegesManagement {
         return successfulDeletion;
     }
 
-
-    public static List<ProjectPrivileges> listPrivileges() {
+    public static List<SprintPrivileges> listPrivileges() {
         Session session = HibernateSessionFactoryBean.getSession();
-        List<ProjectPrivileges> privileges = null;
+        List<SprintPrivileges> privileges = null;
 
         try {
             session.beginTransaction();
 
-            Query query = session.createQuery("FROM ProjectPrivileges");
-            privileges = (List<ProjectPrivileges>) query.list();
+            Query query = session.createQuery("FROM SprintPrivileges");
+            privileges = (List<SprintPrivileges>) query.list();
         }
         catch (HibernateException e) {
             e.printStackTrace();

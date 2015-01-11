@@ -1,4 +1,4 @@
-package org.freelo.model.projects;
+package org.freelo.model.sprints;
 
 import org.freelo.model.users.User;
 
@@ -9,21 +9,21 @@ import javax.persistence.*;
  */
 @Entity
 @Table
-public class ProjectMembers {
+public class SprintMembers {
 
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
-    private int _ID;
+    private int ID;
 
-    @OneToOne
+    @OneToMany
     private User user;
 
-    @OneToOne
-    private Project project;
+    @OneToMany
+    private Sprint sprint;
 
 
     public int getId() {
-        return _ID;
+        return ID;
     }
 
     public User getUser() {
@@ -35,9 +35,8 @@ public class ProjectMembers {
     }
 
 
-    public Project getProject() { return project; }
-    public void setProject(Project project) { this.project = project; }
-
+    public Sprint getSprint() { return sprint; }
+    public void setProject(Sprint sprint) { this.sprint = sprint; }
 
 
 }

@@ -42,5 +42,6 @@
         <mapping class="org.freelo.model.sprints.Sprint"/>
         <mapping class="org.freelo.model.sprints.SprintMembers"/>
         <mapping class="org.freelo.model.sprints.SprintPrivileges"/>
+        <mapping class="org.freelo.model.projects.Project"/>
     </session-factory>
 </hibernate-configuration>

@@ -1,18 +1,16 @@
-package org.freelo.model.projects;
+package org.freelo.model.sprints;
 
 import org.freelo.model.tasks.Note;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
+import java.util.*;
 /**
  * Created by piotr on 2014-12-08.
  */
 @Entity
 @Table
-public class Project {
+public class Sprint {
 
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
@@ -28,19 +26,26 @@ public class Project {
     private String leader;
 
     @Column
-    private int projectId;
+    private int sprintId;
 
     @Column
-    private String projectName;
+    private String sprintName;
 
     @OneToMany
-    private List<Note> toDo = new ArrayList<>();
+    @JoinColumn(name="id")
+
+     private List<Note> toDo = new ArrayList<>();
 
     @OneToMany
+    @JoinColumn(name="id")
+
     private List<Note> onGoing = new ArrayList<>();
 
     @OneToMany
+    @JoinColumn(name="id")
     private List<Note> Done = new ArrayList<>();
+
+
 
     public void addTask(int taskID) {}
     public void deleteTask(int taskID) {}
@@ -60,11 +65,11 @@ public class Project {
     public String getLeader() { return leader; }
     public void setLeader(String leader) { this.leader = leader; }
 
-    public int getProjectId() { return projectId; }
-    public void setProjectId(int projectid) { this.projectId = projectid; }
+    public int getSprintId() { return sprintId; }
+    public void setSprintId(int sprintId) { this.sprintId = sprintId; }
 
-    public String getProjectDate() { return projectName; }
-    public void setProjectDate(String projectname) { this.projectName = projectname; }
+    public String getSprint() { return sprintName; }
+    public void setSprint(String sprintname) { this.sprintName = sprintname; }
 
 
     public List<Note> getToDo() {

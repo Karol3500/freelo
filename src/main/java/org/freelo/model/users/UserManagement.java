@@ -4,8 +4,8 @@ package org.freelo.model.users;
 import org.freelo.model.HibernateSessionFactoryBean;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import java.util.List;
-import java.util.Iterator;
+
+import java.util.*;
 
 public class UserManagement {
 
@@ -66,7 +66,7 @@ public class UserManagement {
 
             List users = session.createQuery("FROM User U WHERE U.email = '"+email+"'").list();
             if (!users.isEmpty())
-                user = (User) users.get(0);
+                user = (User) session.load(User.class, ((User) users.get(0)).getId());
 
             session.getTransaction().commit();
         }catch (HibernateException e) {
@@ -86,8 +86,15 @@ public class UserManagement {
             session.beginTransaction();
 
             List users = session.createQuery("FROM User U WHERE U.id = "+UserID).list();
-            if (!users.isEmpty())
-                user = (User) users.get(0);
+            if (!users.isEmpty()) {
+                user = (User) session.load(User.class, UserID);
+                /*user = new User();
+                user.setName(tempUser.getFirstName());
+                user.setLastName(tempUser.getLastName());
+                user.setPassword(tempUser.getPassword());
+                user.setEmail(tempUser.getEmail());*/
+                user.setPrivileges(user.getPrivileges());
+            }
 
             session.getTransaction().commit();
         }catch (HibernateException e) {
@@ -196,6 +203,31 @@ public class UserManagement {
             user.setEmail(email);
             user.setPassword(password);
             session.update(user);
+
+            session.getTransaction().commit();
+        }catch (HibernateException e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        }finally {
+            session.close();
+        }
+    }
+
+    // change basic information about the existing user
+    public static void userUpdate(User user){
+        Session session = HibernateSessionFactoryBean.getSession();
+        try{
+            session.beginTransaction();
+
+            User tempUser = (User)session.get(User.class, user.getId());
+            if (tempUser != null) {
+                tempUser.setName(user.getFirstName());
+                tempUser.setLastName(user.getLastName());
+                tempUser.setEmail(user.getEmail());
+                tempUser.setPassword(user.getPassword());
+                tempUser.setPrivileges(user.getPrivileges());
+                session.update(tempUser);
+            }
 
             session.getTransaction().commit();
         }catch (HibernateException e) {

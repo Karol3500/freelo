@@ -2,9 +2,7 @@ package org.freelo.model.users;
 
 import javax.persistence.*;
 import javax.persistence.GeneratedValue;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 
 @Entity
@@ -13,6 +11,7 @@ public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE)
+	@Column(name = "USER_ID")
 	private int id;
 
 	@Column
@@ -30,23 +29,28 @@ public class User {
 	@Column
 	private Date created; // user's register time
 
-    @OneToMany
-    private List<Privilege> privileges = new ArrayList<>();
+    @ManyToMany
+	@JoinTable(
+			name = "UserPrivileges",
+			joinColumns = {@JoinColumn(name = "USER_ID")},
+			inverseJoinColumns =  {@JoinColumn(name = "PRIVILEGE_ID")}
+	)
+    private Set<Privilege> privileges = new HashSet<Privilege>();
 
 	public User(){
-		firstName = "";
-		lastName = "";
-		email = "";
-		password = "";
-		created = new Date();
+		this.firstName = "";
+		this.lastName = "";
+		this.email = "";
+		this.password = "";
+		this.created = new Date();
 	}
 
-	public User(String fname, String lname, String email, String password){
-		firstName = fname;
-		lastName = lname;
+	public User(String firstName, String lastName, String email, String password){
+		this.firstName = firstName;
+		this.lastName = lastName;
 		this.email = email;
 		this.password = password;
-		created = new Date();
+		this.created = new Date();
 	}
 
 	public int getId() {
@@ -72,16 +76,19 @@ public class User {
 	public void setPassword(String password) { this.password = password; }
 
 	public Date getDate() { return created; }
-	//public void setDate(Date createdDate) { this._created = createdDate; }
+	// public void setDate(Date createdDate) { this._created = createdDate; }
 
-    //todo write code for below functions
-    /*public void addPrivilege(int privilegeID) {
+    // todo write code for below functions
+    public void addPrivilege(int privilegeID) {
         for (Privilege element : privileges) {
-            ;
+            //if (element.getID() == privilegeID)
+				//return;
+			System.out.println(element.getID()+" "+element.getDescription());
         }
         //privileges.add()
     }
     public void deletePrivilege(int privilegeID) {}
-    public List<Privilege> getPrivileges() { return privileges; }*/
+    public Set<Privilege> getPrivileges() { return privileges; }
+	public void setPrivileges(Set<Privilege> privileges) { this.privileges = new HashSet<Privilege>(privileges); }
 
 }

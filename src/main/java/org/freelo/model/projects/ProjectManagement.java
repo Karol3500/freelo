@@ -1,9 +1,9 @@
 package org.freelo.model.projects;
 
 import org.freelo.model.HibernateSessionFactoryBean;
-
+import org.freelo.model.users.User;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
-
 
 import java.util.List;
 
@@ -12,67 +12,132 @@ import java.util.List;
  **/
 public class ProjectManagement {
 
-    public static List<Project> getDoneTask (int userId) {
+    // returns project ID if found, null if user project exist
+    public static Integer getProjectID(Integer managerID, String projectName){
         Session session = HibernateSessionFactoryBean.getSession();
-        List<Project> DoneTask = null;
+        Integer projectID = null;
+        try{
+            session.beginTransaction();
 
-        try {
-            DoneTask = session.createQuery(
-                    "FROM Note WHERE User.id = :userId")
-                    .setParameter("userId", userId)
-                    .list();
-        }
-        catch(Exception ex){
-            ex.printStackTrace();
+            List projects = session.createQuery("FROM Project P WHERE P.manager = "+managerID+" AND P.name = '"+projectName+"'").list();
+            if (!projects.isEmpty())
+                projectID = ((User) projects.get(0)).getId();
+
+            session.getTransaction().commit();
+        }catch (HibernateException e) {
+            e.printStackTrace();
             session.getTransaction().rollback();
-        }
-        finally{
+        }finally {
             session.close();
         }
-        return DoneTask;
-
+        return projectID;
     }
 
-    public static List<Project> getToDoTask (int userId) {
+    // returns project  if found, null if project doesnt exist
+    public static Project getProject(Integer managerID, String projectName){
         Session session = HibernateSessionFactoryBean.getSession();
-        List<Project> ToDoTask = null;
+        Project project = null;
+        try{
+            session.beginTransaction();
 
-        try {
-            ToDoTask = session.createQuery(
-                    "FROM Note WHERE User.id = :userId")
-                    .setParameter("userId", userId)
-                    .list();
-        }
-        catch(Exception ex){
-            ex.printStackTrace();
+            List projects = session.createQuery("FROM Project P WHERE P.manager = "+managerID+" AND P.name = '"+projectName+"'").list();
+            if (!projects.isEmpty()) {
+                project = (Project) projects.get(0);
+                project.setSprints(project.getSprints());
+            }
+
+            session.getTransaction().commit();
+        }catch (HibernateException e) {
+            e.printStackTrace();
             session.getTransaction().rollback();
-        }
-        finally{
+        }finally {
             session.close();
         }
-        return ToDoTask;
-
+        return project;
     }
 
-    public static List<Project> getOnGoingTask (int userId) {
+    // returns project handler if found, null if project doesnt exist
+    public static Project getProject(Integer ID){
         Session session = HibernateSessionFactoryBean.getSession();
-        List<Project> OnGoingTask = null;
+        Project project = null;
+        try{
+            session.beginTransaction();
 
-        try {
-            OnGoingTask = session.createQuery(
-                    "FROM Note WHERE User.id = :userId")
-                    .setParameter("userId", userId)
-                    .list();
+            List projects = session.createQuery("FROM Project P WHERE P.id = "+ID).list();
+            if (!projects.isEmpty()){
+                project = (Project) projects.get(0);
+            project.setSprints(project.getSprints());
         }
-        catch(Exception ex){
-            ex.printStackTrace();
+
+            session.getTransaction().commit();
+        }catch (HibernateException e) {
+            e.printStackTrace();
             session.getTransaction().rollback();
-        }
-        finally{
+        }finally {
             session.close();
         }
-        return OnGoingTask;
+        return project;
+    }
 
+    // add a new project, return project ID, null if adding project failed (if the manager have the project with same name)
+    public static Integer addProject(Project project){
+        Session session = HibernateSessionFactoryBean.getSession();
+        Integer projectID = null;
+        try{
+            session.beginTransaction();
+
+            List projects = session.createQuery("FROM Project P WHERE P.manager = "+project.getManager()+" AND P.name = '"+project.getName()+"'").list();
+            if (projects.isEmpty()) {
+                projectID = (Integer) session.save(project);
+            }
+
+            session.getTransaction().commit();
+        }catch (HibernateException e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        }finally {
+            session.close();
+        }
+        return projectID;
+    }
+
+    // remove project from DB
+    public static void deleteProject(Integer managerID, String projectName){
+        Session session = HibernateSessionFactoryBean.getSession();
+        try{
+            session.beginTransaction();
+
+            List projects = session.createQuery("FROM Project P WHERE P.manager = "+managerID+" AND P.name = '"+projectName+"'").list();
+            if (!projects.isEmpty()) {
+                Project project = (Project)session.get(Project.class, ((Project) projects.get(0)).getId());
+                session.delete(project);
+            }
+
+            session.getTransaction().commit();
+        }catch (HibernateException e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        }finally {
+            session.close();
+        }
+    }
+
+    // remove project from DB
+    public static void deleteProject(Integer projectID){
+        Session session = HibernateSessionFactoryBean.getSession();
+        try{
+            session.beginTransaction();
+
+            Project project = (Project)session.get(Project.class, projectID);
+            session.delete(project);
+
+            session.getTransaction().commit();
+        }catch (HibernateException e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        }finally {
+            session.close();
+        }
     }
 
 }

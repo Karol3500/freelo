@@ -1,7 +1,4 @@
 package org.freelo.view;
-
-import java.io.File;
-import java.io.InputStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -10,7 +7,6 @@ import com.vaadin.server.*;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.BaseTheme;
 import com.vaadin.ui.themes.ValoTheme;
-import javafx.scene.input.KeyCode;
 import org.freelo.model.users.User;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -21,7 +17,6 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.themes.Reindeer;
 
 
 @Component
@@ -91,7 +86,7 @@ Button.ClickListener {
         textFieldUser = new TextField("User:");
         textFieldUser.setWidth("300px");
         textFieldUser.setIcon(FontAwesome.USER);
-        textFieldUser.setRequired(true);
+        //textFieldUser.setRequired(true);
         textFieldUser.setInputPrompt("Your username (eg. joe@email.com)");
         textFieldUser.setNullRepresentation("");
         textFieldUser.addValidator(new EmailValidator(
@@ -143,6 +138,13 @@ Button.ClickListener {
             }
         });
         registerButton.addStyleName(BaseTheme.BUTTON_LINK);
+
+        //FileManagement fileManagement = new FileManagement();
+        //final Button downloadFile = new Button("Download");
+        //fileManagement.downloadFileUrl("http://www.faros.be/images/tech/vaadin.png").extend(downloadFile);
+        Button emailButton = new Button("Email");
+        Resource res = new ExternalResource("http://www.faros.be/images/tech/vaadin.png");
+        final ResourceReference rr = ResourceReference.create(res, buttons, "email");
 
         buttons.addComponents(loginButton, gap, registerLabel, registerButton);
         Label tempLabel = new Label("Not registered?");

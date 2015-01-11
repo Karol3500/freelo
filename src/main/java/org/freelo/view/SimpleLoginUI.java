@@ -1,5 +1,6 @@
 package org.freelo.view;
 
+import com.vaadin.annotations.PreserveOnRefresh;
 import org.freelo.controller.users.LoginController;
 import org.freelo.view.Dashboard.DashboardMenuBean;
 import org.freelo.view.tasks.TaskPage;
@@ -19,6 +20,7 @@ import javax.annotation.PostConstruct;
  */
 @Theme("themefreelo")
 @VaadinUI
+@PreserveOnRefresh
 public class SimpleLoginUI extends UI {
 
     /**

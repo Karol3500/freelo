@@ -1,14 +1,19 @@
 package org.freelo.view;
 
+import com.vaadin.event.ShortcutAction;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Page;
 import com.vaadin.shared.Position;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
-import org.freelo.view.Dashboard.DashboardMenu;
+import org.freelo.view.Dashboard.DashboardMenuBean;
 import org.freelo.view.tasks.TaskPage;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
 
 /**
  * Created by Jan on 2014-12-08.
@@ -21,50 +26,32 @@ public class ProjectManagementPage extends HorizontalLayout implements View{
     private static final long serialVersionUID = -9002670791091569418L;
     public static final String NAME = "Project Management";
 
-
-    public final Button addProjectButton;
+    @Autowired
+    DashboardMenuBean dashboardMenuBean;
+    String name;
+    public Button addProjectButton;
+    final VerticalLayout container2 = new VerticalLayout();
+    HorizontalLayout container;
+    Panel panel;
 
     public ProjectManagementPage() {
         setSizeFull();
-        addStyleName("dashboard");
-        addComponent(new DashboardMenu());
 
-
-        VerticalLayout container = new VerticalLayout();
-        container.setWidth("80%");
+        container = new HorizontalLayout();
         container.setHeight("100%");
         addComponent(container);
 
 
-        Panel panel = new Panel("My Projects");
-
-        final VerticalLayout container2 = new VerticalLayout();
-        //container2.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+        panel = new Panel("My Projects");
         container2.addStyleName("projectPanelContainer");
-        panel.setWidth("50%");
-        container.addComponent(panel);
+        panel.setSizeFull();
+        panel.setWidth("1000px");
         panel.setContent(container2);
-
-        //Label MyProjectsLabel = new Label("My Projects");
-        //container.addComponent(MyProjectsLabel);
 
         //if (!SimpleLoginView.isAssigned) {
         //    Label NotAssignedLabel = new Label("You are not assigned to any project yet. You can create your own project by clicking 'Add project' button");
         //    container2.addComponent(NotAssignedLabel);
         //}
-
-
-        addProjectButton = new Button("Add project...", new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                //Method to display project creation popup called here
-                Window CreateNewProj = new Subwindow(container2);
-                UI.getCurrent().addWindow(CreateNewProj);
-            }
-        });
-        container2.addComponent(addProjectButton);
-
-
     }
 
     public class Subwindow extends Window {
@@ -75,15 +62,24 @@ public class ProjectManagementPage extends HorizontalLayout implements View{
 
             center();
             HorizontalLayout main = new HorizontalLayout();
+            main.addStyleName("projectpopup");
             main.setSizeFull();
             setContent(main);
-            setHeight("200px");
+            setHeight("350px");
             setWidth("300px");
             setPositionY(50);
             setPositionX(50);
 
             final TextField ProjectName = new TextField("Enter project name");
+            ProjectName.focus();
+
             // todo.add date
+            PopupDateField startDatePicker = new PopupDateField("Start date");
+            PopupDateField endDatePicker = new PopupDateField("End date");
+
+
+
+
             final Button CreateButton = new Button("Create", new Button.ClickListener() {
                 private static final long serialVersionUID = 2181474159749122119L;
                 @Override
@@ -94,14 +90,32 @@ public class ProjectManagementPage extends HorizontalLayout implements View{
                     close();
                 }
             });
+            CreateButton.setClickShortcut(ShortcutAction.KeyCode.ENTER);
             VerticalLayout itemplacement = new VerticalLayout();
             itemplacement.setSizeFull();
             itemplacement.addComponent(ProjectName);
+            itemplacement.addComponent(startDatePicker);
+            itemplacement.addComponent(endDatePicker);
             itemplacement.addComponent(CreateButton);
             main.addComponent(itemplacement);
 
         }
+    }
 
+    @PostConstruct
+    private void setup(){
+        addProjectButton = new Button("Add project...", new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                //Method to display project creation popup called here
+                Window CreateNewProj = new Subwindow(container2);
+                UI.getCurrent().addWindow(CreateNewProj);
+            }
+        });
+        container2.addComponent(addProjectButton);
+        container.addComponent(dashboardMenuBean.getNewDashboardMenu());
+        container.addComponent(panel);
+        container.setSpacing(true);
     }
 
     public class ProjectItem extends HorizontalLayout{
@@ -118,9 +132,9 @@ public class ProjectManagementPage extends HorizontalLayout implements View{
                     getUI().getNavigator().navigateTo(TaskPage.NAME);
                 }
             });
+            ProjectButton.addStyleName("ProjectButton");
             ProjectButton.setWidth("100%");
             container.addComponent(ProjectButton);
-
         }
 
 
@@ -128,8 +142,9 @@ public class ProjectManagementPage extends HorizontalLayout implements View{
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
         String username = String.valueOf(getSession().getAttribute("user"));
+        name = username;
         Notification welcome = new Notification("Welcome  " + username);
-        welcome.setDelayMsec(5000);
+        welcome.setDelayMsec(1500);
         welcome.setPosition(Position.BOTTOM_CENTER);
         welcome.show(Page.getCurrent());
 

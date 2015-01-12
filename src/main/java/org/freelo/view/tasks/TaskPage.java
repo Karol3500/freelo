@@ -1,8 +1,7 @@
 package org.freelo.view.tasks;
 
-import com.vaadin.data.Container;
-import com.vaadin.data.Property;
 import com.vaadin.data.util.IndexedContainer;
+import com.vaadin.event.ShortcutAction;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.VaadinSession;
@@ -11,6 +10,7 @@ import com.vaadin.ui.*;
 import com.vaadin.ui.Calendar;
 import com.vaadin.ui.components.calendar.event.BasicEvent;
 import com.vaadin.ui.themes.ValoTheme;
+import org.freelo.controller.tasks.TaskPageController;
 import org.freelo.model.files.FileDAO;
 import org.freelo.model.files.FileManagement;
 import org.freelo.model.files.FileUploader;
@@ -23,8 +23,6 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.*;
-import java.text.DateFormatSymbols;
-
 
 
 /**
@@ -36,10 +34,13 @@ public class TaskPage extends HorizontalLayout implements View {
 
     private static final long serialVersionUID = -906274928780939032L;
     public static final String NAME = "";
+    public Button shoutButton;
+    public TextField shoutField;
+    public TextArea shoutBoxArea;
+
+    public TaskPageController taskPageController;
 
     public List<CssLayout> columns;
-
-    VerticalLayout bottomPanel;
 
     final HorizontalLayout container = new HorizontalLayout();
     final HorizontalLayout taskPanelContainer = new HorizontalLayout();
@@ -53,7 +54,7 @@ public class TaskPage extends HorizontalLayout implements View {
     final Panel donepanel = new Panel("DONE");
     final CssLayout done = new CssLayout();
 
-    String userName = null;
+    public String userName = null;
 
     // fields for bottom container
     private Table fileList = new Table();
@@ -66,7 +67,6 @@ public class TaskPage extends HorizontalLayout implements View {
 
     FileManagement fileManagement = new FileManagement();
     IndexedContainer fileContainer = createFileContainer();
-
     ////////////////////////
 
     TabSheet tabSheet = new TabSheet();
@@ -76,17 +76,13 @@ public class TaskPage extends HorizontalLayout implements View {
     DashboardMenuBean dashboardMenuBean;
 
     public TaskPage() {
-        bottomPanel = new VerticalLayout();
         setSizeFull();
         addStyleName("taskpage");
-
-
 
         columns = new ArrayList<CssLayout>();
 
         container.addStyleName("container");
         container.setSizeFull();
-        // container.setHeight("100%");
         addComponent(container);
 
         todo.addStyleName("content");
@@ -108,22 +104,22 @@ public class TaskPage extends HorizontalLayout implements View {
     }
 
     private com.vaadin.ui.Component buildPageForm(){
-        com.vaadin.ui.Component bottom = buildBottomForm();
-
+        com.vaadin.ui.Component bottomPanel = buildBottomForm();
 
         final VerticalLayout pagePanel = new VerticalLayout();
         pagePanel.setSizeFull();
-        pagePanel.setMargin(new MarginInfo(true, true, true, true));
+        //pagePanel.setMargin(new MarginInfo(false, true, false, true));
         pagePanel.setSpacing(true);
         pagePanel.setStyleName(ValoTheme.LAYOUT_WELL);
-        ;
-        taskPanelContainer.setHeight("140%");
+
+        taskPanelContainer.setHeight("100%");
         taskPanelContainer.setWidth("100%");
         pagePanel.addComponent(taskPanelContainer);
-        pagePanel.addComponent(bottom);
+        pagePanel.addComponent(bottomPanel);
 
-        pagePanel.addComponent(bottom);
-        pagePanel.setComponentAlignment(bottom, Alignment.BOTTOM_LEFT);
+        pagePanel.setExpandRatio(taskPanelContainer, 2);
+        pagePanel.setExpandRatio(bottomPanel, 1);
+        pagePanel.setComponentAlignment(bottomPanel, Alignment.BOTTOM_LEFT);
         return pagePanel;
     }
 
@@ -205,21 +201,15 @@ public class TaskPage extends HorizontalLayout implements View {
 
     private com.vaadin.ui.Component buildBottomForm(){
         VerticalLayout bottomPanel = new VerticalLayout();
-        bottomPanel.setHeight("62%");
-        bottomPanel.setMargin(new MarginInfo(true, true, true, true));
-        bottomPanel.setSpacing(true);
-        bottomPanel.setStyleName(ValoTheme.LAYOUT_CARD);
-        //loginPanel.addStyleName("login-panel");
 
 
-        //bottomPanel.addComponent(upload);
         bottomPanel.addComponent(tabSheet);
+        bottomPanel.setSizeFull();
         //////////////////////////
         tabSheet.addStyleName(ValoTheme.TABSHEET_FRAMED);
-        tabSheet.addTab(buildTab1(), "Task Files");
-        tabSheet.addTab(buildTab2(), "ShoutBox");
-        //tabSheet.addTab(buildTab3(), "Calendar??? WTF??");
-
+        tabSheet.addTab(buildTab1(), "ShoutBox");
+        tabSheet.addTab(buildTab2(), "Task Files");
+        tabSheet.setSizeFull();
         //bottomPanel.addComponent(fileList);
         ///////////////////////////
         return bottomPanel;
@@ -227,12 +217,9 @@ public class TaskPage extends HorizontalLayout implements View {
 
     private com.vaadin.ui.Component buildSideForm(){
         final VerticalLayout sideLayout = new VerticalLayout();
-        sideLayout.setSpacing(false);
+        sideLayout.setSpacing(true);
         sideLayout.setHeight("100%");
         sideLayout.setWidth("400px");
-
-
-
 
         Panel projectMembersPanel = new Panel("Project Members");
         VerticalLayout projectMembersLayout = new VerticalLayout();
@@ -255,13 +242,14 @@ public class TaskPage extends HorizontalLayout implements View {
         return sideLayout;
     }
 
-    VerticalLayout buildTab1(){
-        VerticalLayout tab1 = new VerticalLayout();
-
+    VerticalLayout buildTab2(){
+        VerticalLayout tab2 = new VerticalLayout();
+        tab2.setSpacing(true);
+        tab2.setMargin(new MarginInfo(true, true, true, true));
         //Upload container
         FileUploader fileUploader = new FileUploader();
 
-        Upload upload = new Upload("Attach files to the task", fileUploader);
+        Upload upload = new Upload("Attach files to the project", fileUploader);
         upload.setButtonCaption("Upload");
         upload.addSucceededListener(fileUploader);
         upload.addSucceededListener(new UploadSuccededListener());
@@ -275,29 +263,63 @@ public class TaskPage extends HorizontalLayout implements View {
         //fileList.setColumnAlignments(Table.Align.CENTER);
 
         //fileList.setSizeFull();
-        fileList.setPageLength(2);
+        fileList.setPageLength(3);
 
-        tab1.addComponents(upload, fileList);
+        tab2.addComponents(upload, fileList);
+
+        return tab2;
+    }
+
+    VerticalLayout buildTab1(){
+        VerticalLayout tab1 = new VerticalLayout();
+        tab1.setSizeFull();
+        tab1.setSpacing(true);
+        tab1.setMargin(new MarginInfo(true, true, false, true));
+
+        shoutBoxArea = new TextArea();
+        //shoutBoxArea.setReadOnly(true);
+        shoutBoxArea.setEnabled(false);
+        shoutBoxArea.setSizeFull();
+        shoutBoxArea.setWordwrap(true);
+
+        HorizontalLayout writeTextArea = buildWritingArea();
+        writeTextArea.setWidth("90%");
+        tab1.addComponents(shoutBoxArea, writeTextArea);
+        tab1.setExpandRatio(shoutBoxArea, 2.0f);
+        tab1.setExpandRatio(writeTextArea, 1.0f);
 
         return tab1;
     }
 
-    VerticalLayout buildTab2(){
-        VerticalLayout tab2 = new VerticalLayout();
+    HorizontalLayout buildWritingArea(){
+        HorizontalLayout writingArea = new HorizontalLayout();
+        writingArea.setSpacing(true);
 
-        TextArea shoutBox = new TextArea();
-        shoutBox.setSizeFull();
+        shoutField = new TextField();
+        shoutButton = new Button("Shout");
 
-        tab2.addComponent(shoutBox);
+        shoutField.setWidth("100%");
+        shoutField.setValue("");
+        shoutField.setNullRepresentation("");
+        shoutField.setInputPrompt("Shout HERE...");
+        shoutField.setImmediate(true);
 
-        return tab2;
+        shoutButton.setClickShortcut(ShortcutAction.KeyCode.ENTER);
+        shoutButton.setStyleName(ValoTheme.BUTTON_PRIMARY);
+
+        writingArea.addComponents(shoutField, shoutButton);
+
+        return writingArea;
     }
+
     @PostConstruct
     private void setup(){
+
         taskPanelContainer.addComponent(todopanel);
         taskPanelContainer.addComponent(ongoingpanel);
         taskPanelContainer.addComponent(donepanel);
 
+        taskPanelContainer.setSpacing(true);
         columns.add(todo);
         columns.add(ongoing);
         columns.add(done);
@@ -325,11 +347,13 @@ public class TaskPage extends HorizontalLayout implements View {
 
         container.addComponent(pagePanel);
         container.addComponent(sidePanel);
+        container.setSpacing(true);
+
 
         container.setExpandRatio(pagePanel, 1f);
 
 
-
+        taskPageController = new TaskPageController(this);
     }
 
     public class CalendarPanel extends HorizontalLayout{

@@ -2,9 +2,12 @@ package org.freelo.model.users;
 
 
 import org.freelo.model.HibernateSessionFactoryBean;
+import org.freelo.model.sprints.SprintManagement;
 import org.hibernate.HibernateException;
+import org.hibernate.LockOptions;
 import org.hibernate.Session;
 
+import javax.jws.soap.SOAPBinding;
 import java.util.*;
 
 public class UserManagement {
@@ -228,6 +231,27 @@ public class UserManagement {
 
             session.getTransaction().commit();
         }catch (HibernateException e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        }finally {
+            session.close();
+        }
+    }
+
+    public static void updatePrivileges(int ID, Set<Privilege> privileges){
+        Session session = HibernateSessionFactoryBean.getSession();
+        try {
+            session.beginTransaction();
+
+            User tempUser = (User) session.get(User.class, ID);
+            if (tempUser != null) {
+                tempUser.setPrivileges(privileges);
+                session.update(tempUser);
+            }
+
+            session.getTransaction().commit();
+
+        }catch (HibernateException e){
             e.printStackTrace();
             session.getTransaction().rollback();
         }finally {

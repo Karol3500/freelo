@@ -1,7 +1,11 @@
 package org.freelo.model.users;
+import org.hibernate.cfg.annotations.PrimitiveArrayBinder;
+
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Artur on 12/8/2014.
@@ -29,8 +33,7 @@ public class Group {
     public void setGroupName(String newName) { groupName = newName; }
 
     //todo write code for below functions
-    public void addPrivilege(int privilegeID) {}
-    public void deletePrivilege(int privilegeID) {}
     public List<Privilege> getPrivileges() { return privileges; }
+    public void setPrivileges(List<Privilege> privileges) { this.privileges = new ArrayList<Privilege>(privileges); }
 
 }

@@ -76,18 +76,35 @@ public class User {
 	public void setPassword(String password) { this.password = password; }
 
 	public Date getDate() { return created; }
-	// public void setDate(Date createdDate) { this._created = createdDate; }
 
-    // todo write code for below functions
-    /*public void addPrivilege(int privilegeID) {
+	public void addUserToGroup(int groupID){
+		List<Group> groups = GroupManagement.listGroups();
+		for (Group element: groups){
+			if (element.getID() == groupID){
+				for (Privilege elem: element.getPrivileges()){
+					addPrivilege(elem.getID());
+				}
+			}
+		}
+	}
+
+    public void addPrivilege(int privilegeID) {
         for (Privilege element : privileges) {
-            //if (element.getID() == privilegeID)
-				//return;
-			System.out.println(element.getID()+" "+element.getDescription());
+            if (element.getID() == privilegeID)
+				return;
         }
-        //privileges.add()
+		Privilege privilege = PrivilegeManagement.getPrivilege(1);
+		privileges.add(privilege);
     }
-    public void deletePrivilege(int privilegeID) {}*/
+    public void deletePrivilege(int privilegeID) {
+		Iterator<Privilege> setIterator = privileges.iterator();
+		while (setIterator.hasNext()) {
+			Privilege currentElement = setIterator.next();
+			if (currentElement.getID() == privilegeID) {
+				setIterator.remove();
+			}
+		}
+	}
     public Set<Privilege> getPrivileges() { return privileges; }
 	public void setPrivileges(Set<Privilege> privileges) { this.privileges = new HashSet<Privilege>(privileges); }
 

@@ -4,6 +4,8 @@ import org.freelo.model.HibernateSessionFactoryBean;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -67,8 +69,8 @@ public class GroupManagement {
         try {
             session.beginTransaction();
 
-            Query query = session.createQuery("FROM Group");
-            groups = (List<Group>) query.list();
+            List<Group> query = (List<Group>) session.createQuery("FROM Group").list();
+            groups = new ArrayList<Group>(query);
 
             session.getTransaction().commit();
         }

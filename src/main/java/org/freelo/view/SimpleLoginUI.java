@@ -36,7 +36,7 @@ public class SimpleLoginUI extends UI {
 	@Autowired
 	public Register registerView;
     @Autowired
-    public ProjectManagementPage ProjectManagementView;
+    public ProjectManagementPage projectManagementView;
 
     public LoginController loginController;
 
@@ -70,7 +70,7 @@ public class SimpleLoginUI extends UI {
         //
         // Project management view displayed when user is not enrolled to any project
         //
-        getNavigator().addView(ProjectManagementPage.NAME, ProjectManagementView);
+        getNavigator().addView(ProjectManagementPage.NAME, projectManagementView);
 
 
         // We use a view change handler to ensure the user is always redirected

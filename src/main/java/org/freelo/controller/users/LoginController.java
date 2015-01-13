@@ -55,6 +55,7 @@ public class LoginController {
         	loginUI.loginView.storeCurrentUserInServiceSession();
             loginUI.loginView.storeCurrentUserInServiceSession(user);
             dashboardMenuBean.initUIs(loginUI);
+			loginUI.projectManagementView.pageController.populateProjectPageAfterLogin(loginUI.loginView.getUsername());
         	loginUI.loginView.navigateToMainView();
         }
     }

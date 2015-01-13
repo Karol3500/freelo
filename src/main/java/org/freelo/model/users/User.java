@@ -1,5 +1,7 @@
 package org.freelo.model.users;
 
+import org.freelo.model.tasks.Note;
+
 import javax.persistence.*;
 import javax.persistence.GeneratedValue;
 import java.util.*;
@@ -7,7 +9,7 @@ import java.util.*;
 
 @Entity
 @Table
-public class User {
+public class User{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE)
@@ -91,4 +93,17 @@ public class User {
     public Set<Privilege> getPrivileges() { return privileges; }
 	public void setPrivileges(Set<Privilege> privileges) { this.privileges = new HashSet<Privilege>(privileges); }
 
+	@Override
+	public boolean equals(Object secondUser){
+		if(secondUser instanceof User){
+			if((this.getEmail() == ((User) secondUser).getEmail()))
+				return true;
+		}
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		return this.getEmail().hashCode();
+	}
 }

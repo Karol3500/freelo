@@ -19,7 +19,7 @@ public class SprintMembersManagement {
         try {
             session.beginTransaction();
 
-            List members = session.createQuery("FROM SprintMembers S WHERE S.id = '" + newMembers.getId() + "'").list();
+            List members = session.createQuery("FROM SprintMembers S WHERE S.id = " + newMembers.getId()).list();
             if (members.isEmpty())
                 ID = (Integer) session.save(newMembers);
             session.getTransaction().commit();

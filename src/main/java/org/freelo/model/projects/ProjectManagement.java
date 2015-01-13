@@ -5,6 +5,7 @@ import org.freelo.model.users.User;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -79,6 +80,31 @@ public class ProjectManagement {
         return project;
     }
 
+    // returns project handler if found, null if project doesnt exist
+    public static List<Project> getProjects(User user){
+        Session session = HibernateSessionFactoryBean.getSession();
+        List returnProjects = new ArrayList();
+        try{
+            session.beginTransaction();
+
+            List<Project> projects = session.createQuery("FROM Project P WHERE 1 = "+1).list();
+            if (!projects.isEmpty()){
+                for(Project p : projects){
+                    if(p.getUsers().contains(user))
+                        returnProjects.add(p);
+                }
+            }
+
+            session.getTransaction().commit();
+        }catch (HibernateException e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        }finally {
+            session.close();
+        }
+        return returnProjects;
+    }
+
     // add a new project, return project ID, null if adding project failed (if the manager have the project with same name)
     public static Integer addProject(Project project){
         Session session = HibernateSessionFactoryBean.getSession();
@@ -91,6 +117,33 @@ public class ProjectManagement {
                 projectID = (Integer) session.save(project);
             }
 
+            session.getTransaction().commit();
+        }catch (HibernateException e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        }finally {
+            session.close();
+        }
+        return projectID;
+    }
+
+    public static Integer updateProject(Project project){
+        Session session = HibernateSessionFactoryBean.getSession();
+        Integer projectID = null;
+        try{
+            session.beginTransaction();
+
+            List projects = session.createQuery("FROM Project P WHERE P.manager = "+project.getManager()+" AND P.name = '"+project.getName()+"'").list();
+            if (!projects.isEmpty()) {
+                Project p = (Project)projects.get(0);
+                p.setManager(project.getManager());
+                p.setUsers(project.getUsers());
+                p.setSprints(project.getSprints());
+                p.setStart(project.getStart());
+                p.setEnd(project.getEnd());
+                p.setName(project.getName());
+                session.update(p);
+            }
             session.getTransaction().commit();
         }catch (HibernateException e) {
             e.printStackTrace();
@@ -139,5 +192,4 @@ public class ProjectManagement {
             session.close();
         }
     }
-
 }

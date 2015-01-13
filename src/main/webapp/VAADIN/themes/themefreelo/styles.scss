@@ -6,7 +6,7 @@
 
   //custom theme rules
 
-  .ProjectButton{
+  .SprintButton{
     color: #ecf2f8;
     font-weight: 400;
     border-radius: 4px;
@@ -61,7 +61,11 @@
     background-color: white;
     border: 1px solid #5c5f66;
   }
-  //.projectPanel .v-csslayout-projectPanel {
+
+  .projectPanel.v-panel{
+    background-color: white;
+  }
+  //.projectContainer .v-csslayout-projectContainer {
   //  overflow: auto;
   //}
  // .projectPanel {

@@ -12,7 +12,7 @@ public class addSprintWindow extends Window {
     //public Button createButton;
     //public ProjectItem pi;
     //CreateProjectSubwindowController c;
-
+    public String sprint_name;
     public addSprintWindow(final VerticalLayout nextcontainer) {
         super("New sprint");
         //c = new CreateProjectSubwindowController(this);
@@ -29,8 +29,8 @@ public class addSprintWindow extends Window {
         final TextField ProjectName = new TextField("Enter sprint name");
         ProjectName.focus();
         // todo.add date
-        PopupDateField startDatePicker = new PopupDateField("Start date");
-        PopupDateField endDatePicker = new PopupDateField("End date");
+        final PopupDateField startDatePicker = new PopupDateField("Start date");
+        final PopupDateField endDatePicker = new PopupDateField("End date");
 
         Button createButton = new Button("Create", new Button.ClickListener() {
             private static final long serialVersionUID = 2181474159749122119L;
@@ -38,13 +38,13 @@ public class addSprintWindow extends Window {
             @Override
             public void buttonClick(Button.ClickEvent event) {
                 //pi = createProject(ProjectName, container2);
-                close();
+
                 //c.createProject(pi);
 
-                SprintViewObject sprint = new SprintViewObject();
-                nextcontainer.addComponent(sprint.SprintButton);
-                sprint.SprintButton.addStyleName("SprintButton");
-                sprint.SprintButton.setWidth("100%");
+                SprintViewObject sprint = new SprintViewObject(ProjectName.getValue(),
+                        startDatePicker.getValue(), endDatePicker.getValue());
+                nextcontainer.addComponent(sprint.button);
+                close();
             }
         });
         createButton.setClickShortcut(ShortcutAction.KeyCode.ENTER);

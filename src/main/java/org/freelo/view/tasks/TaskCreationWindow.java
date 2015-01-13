@@ -19,11 +19,11 @@ public class TaskCreationWindow extends Window {
     TextField taskName;
     NativeSelect prioritySpinner;
     RichTextArea data;
-    public List<CssLayout> columns;
+    public List<VerticalLayout> columns;
     String userName;
     public Button createTaskButton;
 
-    public TaskCreationWindow(List<CssLayout> columns, String userName) {
+    public TaskCreationWindow(List<VerticalLayout> columns, String userName) {
         //Appearance of the popup window
         super("Task Creation Window");
         this.columns = columns;

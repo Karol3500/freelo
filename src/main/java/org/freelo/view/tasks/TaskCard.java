@@ -18,11 +18,11 @@ public class TaskCard extends VerticalLayout {
     public String taskName;
     public String taskNote;
     public String creator;
-    public CssLayout currentContainer;
+    public VerticalLayout currentContainer;
     public Button rightButton;
     public Button leftButton;
     public String priorityString;
-    public List<CssLayout> columns;
+    public List<VerticalLayout> columns;
     public final ArrayList<TaskCard> taskList = new ArrayList<>();
     private Integer dbId;
 
@@ -31,7 +31,7 @@ public class TaskCard extends VerticalLayout {
         taskName = name;
         taskNote = data;
         this.priorityString = priorityString;
-        final CssLayout taskCard = new CssLayout();
+        final VerticalLayout taskCard = new VerticalLayout();
         taskCard.addStyleName("task-card");
         taskCard.setWidth("97%");
 
@@ -49,10 +49,15 @@ public class TaskCard extends VerticalLayout {
         rightButton = new Button(">");
         rightButton.addStyleName("switchButton");
 
-
+        final HorizontalLayout buttonsContainer = new HorizontalLayout();
         taskCard.addComponent(new Label(name, ContentMode.HTML));
-        taskCard.addComponent(leftButton);
-        taskCard.addComponent(rightButton);
+
+
+        buttonsContainer.addComponent(leftButton);
+        buttonsContainer.addComponent(rightButton);
+
+        taskCard.addComponent(buttonsContainer);
+
         setSpacing(true);
         addComponent(taskCard);
 
@@ -66,7 +71,7 @@ public class TaskCard extends VerticalLayout {
 
     }
 
-    public void setColumns(List<CssLayout> c){
+    public void setColumns(List<VerticalLayout> c){
         this.columns = c;
     }
 

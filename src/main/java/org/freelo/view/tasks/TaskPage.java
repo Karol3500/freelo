@@ -40,19 +40,19 @@ public class TaskPage extends HorizontalLayout implements View {
 
     public TaskPageController taskPageController;
 
-    public List<CssLayout> columns;
+    public List<VerticalLayout> columns;
 
     final HorizontalLayout container = new HorizontalLayout();
     final HorizontalLayout taskPanelContainer = new HorizontalLayout();
 
     final Panel todopanel = new Panel("TODO");
-    final CssLayout todo = new CssLayout();
+    final VerticalLayout todo = new VerticalLayout();
 
     final Panel ongoingpanel = new Panel("ON GOING");
-    final CssLayout ongoing = new CssLayout();
+    final VerticalLayout ongoing = new VerticalLayout();
 
     final Panel donepanel = new Panel("DONE");
-    final CssLayout done = new CssLayout();
+    final VerticalLayout done = new VerticalLayout();
 
     public String userName = null;
 
@@ -79,7 +79,7 @@ public class TaskPage extends HorizontalLayout implements View {
         setSizeFull();
         addStyleName("taskpage");
 
-        columns = new ArrayList<CssLayout>();
+        columns = new ArrayList<VerticalLayout>();
 
         container.addStyleName("container");
         container.setSizeFull();

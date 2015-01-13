@@ -28,9 +28,6 @@ public class Sprint {
     @Column
     private int sprintId;
 
-    @Column
-    private String sprintName;
-
     @OneToMany
     @JoinColumn(name="id")
 
@@ -67,10 +64,6 @@ public class Sprint {
 
     public int getSprintId() { return sprintId; }
     public void setSprintId(int sprintId) { this.sprintId = sprintId; }
-
-    public String getSprint() { return sprintName; }
-    public void setSprint(String sprintname) { this.sprintName = sprintname; }
-
 
     public List<Note> getToDo() {
         return toDo;

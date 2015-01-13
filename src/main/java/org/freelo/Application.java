@@ -52,21 +52,21 @@ public class Application {
 
 
 
-        // todo delete beforee commit
-        System.out.print("\n\n\n\n\n\n\n\n\n\n");
-
-        int manageID = UserManagement.getUserID("arturwaz@freelo.com");
-
-        Project project = new Project();
-        project.setManager(manageID);
-
-        ProjectManagement.addProject(project);
-
-
-
-        Project test = ProjectManagement.getProject(1);
-        User manager = UserManagement.getUser(test.getManager());
-        System.out.println(manager.getEmail());
+//        // todo delete beforee commit
+//        System.out.print("\n\n\n\n\n\n\n\n\n\n");
+//
+//        int manageID = UserManagement.getUserID("arturwaz@freelo.com");
+//
+//        Project project = new Project();
+//        project.setManager(manageID);
+//
+//        ProjectManagement.addProject(project);
+//
+//
+//
+//        Project test = ProjectManagement.getProject(1);
+//        User manager = UserManagement.getUser(test.getManager());
+//        System.out.println(manager.getEmail());
 
 
 

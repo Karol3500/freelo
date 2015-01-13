@@ -1,6 +1,8 @@
 package org.freelo.view.ProjectManagement;
 
+import com.vaadin.event.LayoutEvents;
 import com.vaadin.ui.*;
+import org.freelo.view.tasks.TaskPage;
 
 import java.util.Date;
 
@@ -29,10 +31,15 @@ public class SprintViewObject {
         button.setSpacing(true);
         button.setStyleName("SprintButton");
         button.setWidth("100%");
-        button.setHeight("35px");
+        button.setHeight("41px");
         add_Labels(SprintName, start_date, end_date);
         //todo clickable layout
-//        button.addLayoutClickListener();
+        button.addLayoutClickListener(new LayoutEvents.LayoutClickListener() {
+            @Override
+            public void layoutClick(LayoutEvents.LayoutClickEvent event) {
+                UI.getCurrent().getNavigator().navigateTo(TaskPage.NAME);
+            }
+        });
     }
 
     private void add_Labels(String SprintName, Date start_date, Date end_date){

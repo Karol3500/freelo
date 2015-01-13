@@ -2,6 +2,7 @@ package org.freelo.controller.tasks;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.VerticalLayout;
 import org.freelo.view.tasks.TaskCard;
 
 /**
@@ -20,12 +21,12 @@ public class TaskController {
 
         @Override
         public void buttonClick(Button.ClickEvent event) {
-            CssLayout current = tc.currentContainer;
+            VerticalLayout current = tc.currentContainer;
             int currentContainerIndex = tc.columns.indexOf(current);
             if(currentContainerIndex==2)
                 return;
             current.removeComponent(tc);
-            CssLayout newContainer = tc.columns.get(currentContainerIndex+1);
+            VerticalLayout newContainer = tc.columns.get(currentContainerIndex+1);
             newContainer.addComponent(tc);
             tc.currentContainer = newContainer;
         }
@@ -35,12 +36,12 @@ public class TaskController {
 
         @Override
         public void buttonClick(Button.ClickEvent event) {
-            CssLayout current = tc.currentContainer;
+            VerticalLayout current = tc.currentContainer;
             int currentContainerIndex = tc.columns.indexOf(current);
             if(currentContainerIndex==0)
                 return;
             current.removeComponent(tc);
-            CssLayout newContainer = tc.columns.get(currentContainerIndex-1);
+            VerticalLayout newContainer = tc.columns.get(currentContainerIndex-1);
             newContainer.addComponent(tc);
             tc.currentContainer = newContainer;
         }

@@ -41,7 +41,7 @@ public class ProjectManagementPage extends HorizontalLayout implements View{
     public ProjectManagementPage() {
         setSizeFull();
         container = new HorizontalLayout();
-        container.setHeight("100%");
+        container.setSizeFull();
         addComponent(container);
 
 
@@ -49,7 +49,7 @@ public class ProjectManagementPage extends HorizontalLayout implements View{
         container2.addStyleName("projectPanelContainer");
         container2.setSpacing(true);
         panel.setSizeFull();
-        panel.setWidth("1000px");
+        //panel.setWidth("100%");
         panel.setContent(container2);
 
         //if (!SimpleLoginView.isAssigned) {
@@ -128,6 +128,7 @@ public class ProjectManagementPage extends HorizontalLayout implements View{
         container2.addComponent(addProjectButton);
         container.addComponent(dashboardMenuBean.getNewDashboardMenu());
         container.addComponent(panel);
+        container.setExpandRatio(panel, 1f);
     }
 
     public class ProjectItem extends HorizontalLayout{
@@ -139,10 +140,11 @@ public class ProjectManagementPage extends HorizontalLayout implements View{
             setSizeFull();
             HorizontalLayout container = new HorizontalLayout();
             final VerticalLayout nextcontainer = new VerticalLayout();
-            nextcontainer.setHeight("250px");
-            nextcontainer.setSpacing(true);
+            nextcontainer.addStyleName("projectPanel");
+            //nextcontainer.setHeight("200px");
+            //nextcontainer.setSpacing(true);
             Panel ProjectPanel = new Panel(name);
-            ProjectPanel.setWidth("950px");
+            ProjectPanel.setWidth("100%");
             ProjectPanel.setContent(nextcontainer);
             container.setWidth("100%");
             addComponent(container);
@@ -167,7 +169,7 @@ public class ProjectManagementPage extends HorizontalLayout implements View{
             nextcontainer.setHeight("250px");
             nextcontainer.setSpacing(true);
             Panel ProjectPanel = new Panel(name);
-            ProjectPanel.setWidth("950px");
+            ProjectPanel.setWidth("100%");
             ProjectPanel.setContent(nextcontainer);
             container.setWidth("100%");
             addComponent(container);

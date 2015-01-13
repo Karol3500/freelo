@@ -3,6 +3,7 @@ package org.freelo.view;
 import com.vaadin.annotations.PreserveOnRefresh;
 import org.freelo.controller.users.LoginController;
 import org.freelo.view.Dashboard.DashboardMenuBean;
+import org.freelo.view.ProjectManagement.ProjectManagementPage;
 import org.freelo.view.tasks.TaskPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.vaadin.spring.VaadinUI;

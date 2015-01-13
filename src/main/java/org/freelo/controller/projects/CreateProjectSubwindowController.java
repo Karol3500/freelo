@@ -5,7 +5,8 @@ import org.freelo.model.projects.ProjectManagement;
 import org.freelo.model.sprints.Sprint;
 import org.freelo.model.users.User;
 import org.freelo.model.users.UserManagement;
-import org.freelo.view.ProjectManagementPage;
+import org.freelo.view.ProjectManagement.ProjectItem;
+import org.freelo.view.ProjectManagement.Subwindow;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,19 +15,19 @@ import java.util.Date;
  * Created by karol on 13.01.15.
  */
 public class CreateProjectSubwindowController {
-    ProjectManagementPage.Subwindow subwindow;
-    public CreateProjectSubwindowController(ProjectManagementPage.Subwindow s){
+    Subwindow subwindow;
+    public CreateProjectSubwindowController(Subwindow s){
         this.subwindow = s;
 
     }
 
-    public void createProject(ProjectManagementPage.ProjectItem pi) {
+    public void createProject(ProjectItem pi) {
         Project pr = new Project();
         buildProjectFromProjectItem(pi, pr);
         ProjectManagement.addProject(pr);
     }
 
-    private void buildProjectFromProjectItem(ProjectManagementPage.ProjectItem pi, Project pr) {
+    private void buildProjectFromProjectItem(ProjectItem pi, Project pr) {
         pi.sprintButton.addClickListener(new SprintCreationListener(pr));
         pr.setStart(new Date());
         pr.setEnd(new Date());

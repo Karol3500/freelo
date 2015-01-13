@@ -5,7 +5,7 @@ import org.freelo.model.projects.Project;
 import org.freelo.model.projects.ProjectManagement;
 import org.freelo.model.users.User;
 import org.freelo.model.users.UserManagement;
-import org.freelo.view.ProjectManagementPage;
+import org.freelo.view.ProjectManagement.ProjectManagementPage;
 
 import java.util.List;
 

@@ -8,6 +8,7 @@ import com.vaadin.ui.*;
 import com.vaadin.ui.themes.BaseTheme;
 import com.vaadin.ui.themes.ValoTheme;
 import org.freelo.model.users.User;
+import org.freelo.view.ProjectManagement.ProjectManagementPage;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 

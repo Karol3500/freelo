@@ -2,7 +2,6 @@ package org.freelo.model.users;
 
 
 import org.freelo.model.HibernateSessionFactoryBean;
-import org.freelo.model.sprints.SprintManagement;
 import org.hibernate.HibernateException;
 import org.hibernate.LockOptions;
 import org.hibernate.Session;

@@ -9,13 +9,12 @@ import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.Component;
 import com.vaadin.ui.MenuBar.Command;
 import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.themes.ValoTheme;
 import org.freelo.model.users.User;
+import org.freelo.view.ProjectManagement.Subwindow;
 import org.freelo.view.SimpleLoginUI;
-import org.freelo.view.SimpleLoginView;
 
 /**
  * A responsive menu component providing user information and the controls for
@@ -47,6 +46,12 @@ public final class DashboardMenu extends CustomComponent implements View {
         menuContent.addComponent(buildUserMenu());
         menuContent.addComponent(buildToggleButton());
         menuContent.addComponent(buildMenuItems());
+        menuContent.addComponent(new Label(""));
+        Panel userPanel = buildFriendPanel();
+        userPanel.setHeight("100%");
+        menuContent.addComponent(userPanel);
+
+
     }
 
     private void buildContent() {
@@ -129,24 +134,57 @@ public final class DashboardMenu extends CustomComponent implements View {
 
         for (final DashboardViewType view : DashboardViewType.values()) {
             Component menuItemComponent = new ValoMenuItemButton(view);
-
             menuItemsLayout.addComponent(menuItemComponent);
         }
         return menuItemsLayout;
 
     }
 
-    private Component buildBadgeWrapper(final Component menuItemButton,
-            final Component badgeLabel) {
-        CssLayout dashboardWrapper = new CssLayout(menuItemButton);
-        dashboardWrapper.addStyleName("badgewrapper");
-        dashboardWrapper.addStyleName(ValoTheme.MENU_ITEM);
-        dashboardWrapper.setWidth(100.0f, Unit.PERCENTAGE);
-        badgeLabel.addStyleName(ValoTheme.MENU_BADGE);
-        badgeLabel.setWidthUndefined();
-        badgeLabel.setVisible(false);
-        dashboardWrapper.addComponent(badgeLabel);
-        return dashboardWrapper;
+    private Component buildFriendList() {
+        CssLayout friendListLayout = new CssLayout();
+        friendListLayout.addStyleName("valo-frienditems");
+        friendListLayout.setHeight(100.0f, Unit.PERCENTAGE);
+        /*
+        for (final DashboardViewType view : DashboardViewType.values()) {
+            Component menuItemComponent = new ValoMenuItemButton(view);
+
+            menuItemsLayout.addComponent(menuItemComponent);
+        }*/
+
+        Button addFriendButton = new Button("+ add Friend");
+        addFriendButton.setStyleName(ValoTheme.BUTTON_SMALL);
+        addFriendButton.setWidth("80%");
+        addFriendButton.setImmediate(true);
+        friendListLayout.addComponent(addFriendButton);
+        //friendListLayout.addComponent(new Label(""));
+        for (int i=0; i<3; ++i) {
+            Component friendListComponent = new friendViewButton(getCurrentUser());
+            friendListLayout.addComponent(friendListComponent);
+
+        }
+
+        friendListLayout.addComponent(new Label(""));
+        return friendListLayout;
+
+    }
+
+    Panel buildFriendPanel(){
+        Panel friendPanel = new Panel("List of friends");
+        Component friendList = buildFriendList();
+
+        VerticalLayout friendLayout = new VerticalLayout();
+
+        friendPanel.setContent(friendLayout);
+        friendPanel.setStyleName("FriendPanel");
+        friendPanel.setWidth("95%");
+        friendPanel.setHeight("100%");
+        friendLayout.setSizeFull();
+
+        friendLayout.addComponent(friendList);
+        //friendLayout.setComponentAlignment(friendPanel, Alignment.TOP_CENTER);
+
+
+        return friendPanel;
     }
 
     @Override
@@ -155,8 +193,6 @@ public final class DashboardMenu extends CustomComponent implements View {
     }
 
     public final class ValoMenuItemButton extends Button {
-
-        private static final String STYLE_SELECTED = "selected";
 
         private final DashboardViewType view;
 
@@ -177,6 +213,25 @@ public final class DashboardMenu extends CustomComponent implements View {
 
         }
     }
+
+    public final class friendViewButton extends Button {
+
+        public friendViewButton(User user) {
+            setPrimaryStyleName("valo-menu-item");
+            setIcon(FontAwesome.USER);
+            setCaption(user.getFirstName().substring(0, 1).toUpperCase()+ user.getFirstName().substring(1)+" "+
+                    user.getLastName().substring(0, 1).toUpperCase()+ user.getLastName().substring(1));
+
+            addClickListener(new ClickListener() {
+                @Override
+                public void buttonClick(final ClickEvent event) {
+                    MessageWindow.open(getCurrentUser());
+                }
+            });
+
+        }
+    }
+
     @Override
     public void enter(final ViewChangeListener.ViewChangeEvent event) {
         //String username = String.valueOf(getSession().getAttribute("user"));

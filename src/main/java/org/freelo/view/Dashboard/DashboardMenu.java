@@ -16,6 +16,8 @@ import org.freelo.model.users.User;
 import org.freelo.view.ProjectManagement.Subwindow;
 import org.freelo.view.SimpleLoginUI;
 
+import java.util.List;
+
 /**
  * A responsive menu component providing user information and the controls for
  * primary navigation between the views.
@@ -28,6 +30,7 @@ public final class DashboardMenu extends CustomComponent implements View {
     private MenuItem settingsItem;
     public SimpleLoginUI ui;
     final CssLayout menuContent = new CssLayout();
+    public List<User> friends;
     public DashboardMenu() {
         addStyleName("valo-menu");
         setId(ID);
@@ -144,14 +147,8 @@ public final class DashboardMenu extends CustomComponent implements View {
         CssLayout friendListLayout = new CssLayout();
         friendListLayout.addStyleName("valo-frienditems");
         friendListLayout.setHeight(100.0f, Unit.PERCENTAGE);
-        /*
-        for (final DashboardViewType view : DashboardViewType.values()) {
-            Component menuItemComponent = new ValoMenuItemButton(view);
 
-            menuItemsLayout.addComponent(menuItemComponent);
-        }*/
-
-        Button addFriendButton = new Button("+ add Friend");
+        Button addFriendButton = new Button("+ Add Friend");
         addFriendButton.setStyleName(ValoTheme.BUTTON_SMALL);
         addFriendButton.setWidth("80%");
         addFriendButton.setImmediate(true);
@@ -163,6 +160,12 @@ public final class DashboardMenu extends CustomComponent implements View {
 
         }
 
+        if (friends != null) {
+            for (User f : friends) {
+                Component friendListComponent = new friendViewButton(f);
+                friendListLayout.addComponent(friendListComponent);
+            }
+        }
         friendListLayout.addComponent(new Label(""));
         return friendListLayout;
 

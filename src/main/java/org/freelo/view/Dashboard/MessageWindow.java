@@ -35,6 +35,31 @@ public class MessageWindow extends Window {
 
     }
 
+    VerticalLayout buildMessageLayout(){
+        VerticalLayout messageLayout = new VerticalLayout();
+        messageLayout.setSizeFull();
+        messageLayout.setSpacing(true);
+        Label messageWindowLabel = new Label("Messages");
+        //tab1.setMargin(new MarginInfo(true, true, false, true));
+
+        Button deleteButton = new Button("Remove Friend");
+        deleteButton.setStyleName(ValoTheme.BUTTON_DANGER);
+
+        messagesHistoryArea = new TextArea();
+        //shoutBoxArea.setReadOnly(true);
+        messagesHistoryArea.setEnabled(false);
+        messagesHistoryArea.setSizeFull();
+        messagesHistoryArea.setWordwrap(true);
+
+        HorizontalLayout writeTextArea = buildWritingArea();
+        writeTextArea.setWidth("90%");
+        messageLayout.addComponents(deleteButton, messageWindowLabel, messagesHistoryArea, writeTextArea);
+        messageLayout.setExpandRatio(messagesHistoryArea, 5.0f);
+        messageLayout.setExpandRatio(writeTextArea, 1.0f);
+
+        return messageLayout;
+    }
+
     HorizontalLayout buildWritingArea(){
         HorizontalLayout writingArea = new HorizontalLayout();
         writingArea.setSpacing(true);
@@ -55,28 +80,6 @@ public class MessageWindow extends Window {
         writingArea.addComponents(messageToSendField,sendButton);
 
         return writingArea;
-    }
-
-    VerticalLayout buildMessageLayout(){
-        VerticalLayout messageLayout = new VerticalLayout();
-        messageLayout.setSizeFull();
-        messageLayout.setSpacing(true);
-        Label messageWindowLabel = new Label("Messages");
-        //tab1.setMargin(new MarginInfo(true, true, false, true));
-
-        messagesHistoryArea = new TextArea();
-        //shoutBoxArea.setReadOnly(true);
-        messagesHistoryArea.setEnabled(false);
-        messagesHistoryArea.setSizeFull();
-        messagesHistoryArea.setWordwrap(true);
-
-        HorizontalLayout writeTextArea = buildWritingArea();
-        writeTextArea.setWidth("90%");
-        messageLayout.addComponents(messageWindowLabel, messagesHistoryArea, writeTextArea);
-        messageLayout.setExpandRatio(messagesHistoryArea, 5.0f);
-        messageLayout.setExpandRatio(writeTextArea, 1.0f);
-
-        return messageLayout;
     }
 
     public static void open(final User user) {

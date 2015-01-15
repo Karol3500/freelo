@@ -1,10 +1,6 @@
 package org.freelo.controller.dashboard;
 
-import org.freelo.model.users.User;
-import org.freelo.model.users.UserManagement;
 import org.freelo.view.Dashboard.DashboardMenu;
-
-import java.util.List;
 
 /**
  * Created by Adrian on 14-01-2015.

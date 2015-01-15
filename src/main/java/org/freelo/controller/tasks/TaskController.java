@@ -1,9 +1,9 @@
 package org.freelo.controller.tasks;
 
-import com.vaadin.ui.Button;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.VerticalLayout;
 import org.freelo.view.tasks.TaskCard;
+
+import com.vaadin.ui.Button;
+import com.vaadin.ui.VerticalLayout;
 
 /**
  * Created by karol on 15.12.14.
@@ -18,8 +18,9 @@ public class TaskController {
     }
 
     class RightMover implements Button.ClickListener{
+		private static final long serialVersionUID = 1L;
 
-        @Override
+		@Override
         public void buttonClick(Button.ClickEvent event) {
             VerticalLayout current = tc.currentContainer;
             int currentContainerIndex = tc.columns.indexOf(current);
@@ -33,8 +34,9 @@ public class TaskController {
     }
 
     class LeftMover implements Button.ClickListener{
+		private static final long serialVersionUID = 1L;
 
-        @Override
+		@Override
         public void buttonClick(Button.ClickEvent event) {
             VerticalLayout current = tc.currentContainer;
             int currentContainerIndex = tc.columns.indexOf(current);

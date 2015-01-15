@@ -1,14 +1,11 @@
 package org.freelo.controller.tasks;
 
-import com.google.gwt.i18n.shared.DateTimeFormat;
-import com.vaadin.server.Page;
-import com.vaadin.shared.Position;
-import com.vaadin.ui.Button;
-import org.freelo.view.tasks.TaskPage;
-
-import javax.management.Notification;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import org.freelo.view.tasks.TaskPage;
+
+import com.vaadin.ui.Button;
 
 /**
  * Created by Adrian on 12-01-2015.
@@ -23,8 +20,9 @@ public class TaskPageController {
 
 
     class AddShoutLine implements Button.ClickListener{
+		private static final long serialVersionUID = 1L;
 
-        @Override
+		@Override
         public void buttonClick(Button.ClickEvent event) {
             addShout(tp.shoutField.getValue(), tp.userName);
             tp.shoutField.setValue("");
@@ -42,7 +40,7 @@ public class TaskPageController {
 
     public void updateShoutFromDB(){
 
-        String actualText = tp.shoutBoxArea.getValue();
+        //String actualText = tp.shoutBoxArea.getValue();
         //shout = get.from.database;
         //tp.shoutBoxArea.setValue(actualText + shout);
     }

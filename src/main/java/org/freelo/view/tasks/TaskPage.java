@@ -10,6 +10,7 @@ import com.vaadin.ui.*;
 import com.vaadin.ui.Calendar;
 import com.vaadin.ui.components.calendar.event.BasicEvent;
 import com.vaadin.ui.themes.ValoTheme;
+
 import org.freelo.controller.tasks.TaskPageController;
 import org.freelo.model.files.FileDAO;
 import org.freelo.model.files.FileManagement;
@@ -22,6 +23,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+
 import java.util.*;
 
 
@@ -137,8 +139,9 @@ public class TaskPage extends HorizontalLayout implements View {
     }
 
     class UploadSuccededListener implements Upload.SucceededListener {
+		private static final long serialVersionUID = 1L;
 
-        @Override
+		@Override
         public void uploadSucceeded(Upload.SucceededEvent event) {
             updateFileContainer();
         }
@@ -156,9 +159,9 @@ public class TaskPage extends HorizontalLayout implements View {
 //        }
 //    }
 
-    public IndexedContainer updateFileContainer() {
-        FileDAO fileDAO = new FileDAO();
-        List<UserFile> files = fileDAO.getFilesByUserName(userName);
+    @SuppressWarnings("unchecked")
+	public IndexedContainer updateFileContainer() {
+        List<UserFile> files = FileDAO.getFilesByUserName(userName);
 
         if(files == null)
             return fileContainer;
@@ -176,7 +179,9 @@ public class TaskPage extends HorizontalLayout implements View {
             final long fileId = f.getId();
 
             deleteFile.addClickListener(new Button.ClickListener() {
-                public void buttonClick(Button.ClickEvent event) {
+				private static final long serialVersionUID = 1L;
+
+				public void buttonClick(Button.ClickEvent event) {
                     fileManagement.deleteFile(fileId);
                     updateFileContainer();
                 }
@@ -214,7 +219,8 @@ public class TaskPage extends HorizontalLayout implements View {
         return bottomPanel;
     }
 
-    private com.vaadin.ui.Component buildSideForm(){
+    @SuppressWarnings("deprecation")
+	private com.vaadin.ui.Component buildSideForm(){
         final VerticalLayout sideLayout = new VerticalLayout();
         sideLayout.setSpacing(true);
         sideLayout.setHeight("100%");
@@ -231,7 +237,7 @@ public class TaskPage extends HorizontalLayout implements View {
         //Date startdate = startDatePicker.getValue();
         //Date enddate =  endDatePicker.getValue();
 
-        Date startDate = new Date(2015, 0, 1);
+		Date startDate = new Date(2015, 0, 1);
         Date endDate =  new Date(2015, 0, 14);
         CalendarPanel calendarPanel = new CalendarPanel(startDate, endDate);
 
@@ -255,7 +261,7 @@ public class TaskPage extends HorizontalLayout implements View {
 
         //Files table
         fileList.setContainerDataSource(fileContainer);
-        fileList.setVisibleColumns(new String[]{FNAME, FUPLOAD, FSIZE, "Download", "Delete"});
+        fileList.setVisibleColumns(new Object[]{FNAME, FUPLOAD, FSIZE, "Download", "Delete"});
         fileList.setSelectable(false);
         fileList.setImmediate(true);
         fileList.setWidth("100%");
@@ -356,8 +362,9 @@ public class TaskPage extends HorizontalLayout implements View {
     }
 
     public class CalendarPanel extends HorizontalLayout{
+		private static final long serialVersionUID = 1L;
 
-        public CalendarPanel(Date startdate, Date enddate){
+		public CalendarPanel(Date startdate, Date enddate){
             final Panel calPanel = new Panel("Sprint Calendar");
             calPanel.setStyleName("Calendar");
             calPanel.setWidth("400px");

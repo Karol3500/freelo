@@ -1,19 +1,26 @@
 package org.freelo.view.Dashboard;
 
+import org.freelo.model.users.User;
+
 import com.vaadin.event.ShortcutAction;
-import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.TextArea;
+import com.vaadin.ui.TextField;
+import com.vaadin.ui.UI;
+import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
-import org.freelo.model.users.User;
 
 /**
  * Created by Adrian on 14-01-2015.
  */
 public class MessageWindow extends Window {
-
-    private TextField messageToSendField;
+	private static final long serialVersionUID = 1L;
+	private TextField messageToSendField;
     private TextArea messagesHistoryArea;
     private Button sendButton;
 

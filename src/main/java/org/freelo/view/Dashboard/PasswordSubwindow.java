@@ -1,18 +1,22 @@
 package org.freelo.view.Dashboard;
 
-import com.vaadin.data.Validator;
-import com.vaadin.data.fieldgroup.BeanFieldGroup;
-import com.vaadin.data.fieldgroup.PropertyId;
-import com.vaadin.event.ShortcutAction;
-import com.vaadin.server.Page;
-import com.vaadin.server.VaadinSession;
-import com.vaadin.shared.Position;
-import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.*;
-import com.vaadin.ui.themes.ValoTheme;
 import org.freelo.model.users.User;
 import org.freelo.model.users.UserManagement;
-import org.freelo.view.ProjectManagement.ProjectItem;
+
+import com.vaadin.data.Validator;
+import com.vaadin.event.ShortcutAction;
+import com.vaadin.server.Page;
+import com.vaadin.shared.Position;
+import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.FormLayout;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.PasswordField;
+import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Window;
+import com.vaadin.ui.themes.ValoTheme;
 
 /**
  * Created by Konrad on 2015-01-13.
@@ -79,12 +83,14 @@ public class PasswordSubwindow extends Window {
         setButton.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 
         setButton.addClickListener(new Button.ClickListener() {
-            @Override
+			private static final long serialVersionUID = 1L;
+
+			@Override
             public void buttonClick(Button.ClickEvent event) {
                 repeatPasswordField.setValidationVisible(false);
                 try {
                     repeatPasswordField.validate();
-                    um.userUpdate(user);
+                    UserManagement.userUpdate(user);
                     Notification success = new Notification(
                             "Password updated successfully");
                     success.setDelayMsec(2000);
@@ -106,7 +112,9 @@ public class PasswordSubwindow extends Window {
     }
 
     class MatchValidator implements Validator {
-        @Override
+		private static final long serialVersionUID = 1L;
+
+		@Override
         public void validate(Object value)
                 throws InvalidValueException {
             if (!(value instanceof String &&

@@ -60,7 +60,9 @@ public class ProjectManagementPage extends VerticalLayout implements View{
     private void setup(){
         pageController = new ProjectManagementPageController(this);
         addProjectButton = new Button("Add project...", new Button.ClickListener() {
-            @Override
+			private static final long serialVersionUID = 1L;
+
+			@Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 //Method to display project creation popup called here
                 createNewProj = new Subwindow(container2);

@@ -185,7 +185,7 @@ public class ProfilePreferencesWindow extends Window {
                     // Updated user should also be persisted to database. But
                     // not in this demo.
                     fieldGroup.commit();
-                    um.userUpdate(user);
+                    UserManagement.userUpdate(user);
                     getSession().setAttribute("userClass", user);
                     Notification success = new Notification(
                             "Profile updated successfully");

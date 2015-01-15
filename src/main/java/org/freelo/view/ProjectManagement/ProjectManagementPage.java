@@ -25,8 +25,8 @@ public class ProjectManagementPage extends VerticalLayout implements View{
     public static final String NAME = "Project Management";
     public ProjectManagementPageController pageController;
     public Subwindow createNewProj;
-    public addSprintWindow createNewSprint;
-    public manageProjectWindow manageProject;
+    public AddSprintWindow createNewSprint;
+    public ManageProjectWindow manageProject;
 
     @Autowired
     DashboardMenuBean dashboardMenuBean;

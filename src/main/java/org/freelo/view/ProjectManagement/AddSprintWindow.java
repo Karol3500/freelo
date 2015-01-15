@@ -6,14 +6,14 @@ import com.vaadin.ui.*;
 /**
  * Created by Konrad on 2015-01-13.
  */
-public class addSprintWindow extends Window {
+public class AddSprintWindow extends Window {
     private static final long serialVersionUID = 5683290459141040269L;
     //        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     //public Button createButton;
     //public ProjectItem pi;
     //CreateProjectSubwindowController c;
     public String view_name;
-    public addSprintWindow(final VerticalLayout nextcontainer, final String Project_name) {
+    public AddSprintWindow(final VerticalLayout nextcontainer, final String Project_name) {
         super("New sprint");
         //c = new CreateProjectSubwindowController(this);
         center();

@@ -32,11 +32,9 @@ public class ProjectItem extends ProjectManagementPage {
 
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                createNewSprint = new addSprintWindow(nextcontainer, name);
+                createNewSprint = new AddSprintWindow(nextcontainer, name);
                 UI.getCurrent().addWindow(createNewSprint);
             }
-
-
         });
 
         Button manageProjectButton = new Button("Manage project", new Button.ClickListener() {
@@ -53,14 +51,12 @@ public class ProjectItem extends ProjectManagementPage {
         buttonsContainer.setSpacing(true);
         buttonsContainer.addComponent(manageProjectButton);
         buttonsContainer.addComponent(sprintButton);
-
-
         nextcontainer.addComponent(buttonsContainer);
 
     }
 
 	void displayProjectCreationPopup() {
-		manageProject = new manageProjectWindow();
+		manageProject = new ManageProjectWindow();
 		UI.getCurrent().addWindow(manageProject);
 	}
 }

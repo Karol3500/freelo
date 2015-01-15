@@ -9,14 +9,14 @@ import com.vaadin.ui.Window;
 /**
  * Created by Konrad on 2015-01-13.
  */
-public class manageProjectWindow extends Window {
+public class ManageProjectWindow extends Window {
     private static final long serialVersionUID = 5683290459141040269L;
     //        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     //public Button createButton;
     //public ProjectItem pi;
     //CreateProjectSubwindowController c;
 
-    public manageProjectWindow() {
+    public ManageProjectWindow() {
         super("Project");
         //c = new CreateProjectSubwindowController(this);
         center();

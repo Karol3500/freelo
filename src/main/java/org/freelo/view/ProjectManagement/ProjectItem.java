@@ -12,7 +12,7 @@ public class ProjectItem extends ProjectManagementPage {
     public Button sprintButton;
 
     public ProjectItem(final String name, String manager) {
-
+    	this.manager = manager;
         setSizeFull();
         HorizontalLayout container = new HorizontalLayout();
         final VerticalLayout nextcontainer = new VerticalLayout();
@@ -24,7 +24,7 @@ public class ProjectItem extends ProjectManagementPage {
         ProjectPanel.setContent(nextcontainer);
         container.setWidth("100%");
         addComponent(container);
-        Button addSprintButton = new Button("Add sprint..", new Button.ClickListener() {
+        sprintButton = new Button("Add sprint..", new Button.ClickListener() {
             private static final long serialVersionUID = 2181474159879122119L;
 
             @Override
@@ -51,7 +51,7 @@ public class ProjectItem extends ProjectManagementPage {
         final HorizontalLayout buttonsContainer = new HorizontalLayout();
         buttonsContainer.setSpacing(true);
         buttonsContainer.addComponent(manageProjectButton);
-        buttonsContainer.addComponent(addSprintButton);
+        buttonsContainer.addComponent(sprintButton);
 
 
         nextcontainer.addComponent(buttonsContainer);

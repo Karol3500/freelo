@@ -1,16 +1,16 @@
 package org.freelo.model.users;
 
-import org.freelo.model.HibernateSessionFactoryBean;
-import org.hibernate.HibernateException;
-import org.hibernate.Query;
-import org.hibernate.Session;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.freelo.model.HibernateSessionFactoryBean;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
 
 /**
  * Created by Artur on 12/8/2014.
  */
+@SuppressWarnings("unchecked")
 public class GroupManagement {
     // returns group ID if successful, returns null if error occurred (e.g. group already exists)
     public static Integer addGroup(Group newGroup) {
@@ -20,7 +20,7 @@ public class GroupManagement {
         try {
             session.beginTransaction();
 
-            List groups = session.createQuery("FROM Group G WHERE G.ID = '" + newGroup.getID() + "'").list();
+            List<Group> groups = session.createQuery("FROM Group G WHERE G.ID = '" + newGroup.getID() + "'").list();
             if (groups.isEmpty())
                 ID = (Integer) session.save(newGroup);
             session.getTransaction().commit();
@@ -43,7 +43,7 @@ public class GroupManagement {
         try {
             session.beginTransaction();
 
-            List groups = session.createQuery("FROM Group G WHERE G.ID = '"+ oldGroup.getID() +"'").list();
+            List<Group> groups = session.createQuery("FROM Group G WHERE G.ID = '"+ oldGroup.getID() +"'").list();
             if (!groups.isEmpty()) {
                 Group temp = (Group)session.get(Group.class, oldGroup.getID());
                 session.delete(temp);
@@ -68,8 +68,7 @@ public class GroupManagement {
 
         try {
             session.beginTransaction();
-
-            List<Group> query = (List<Group>) session.createQuery("FROM Group").list();
+			List<Group> query = (List<Group>) session.createQuery("FROM Group").list();
             groups = new ArrayList<Group>(query);
 
             session.getTransaction().commit();

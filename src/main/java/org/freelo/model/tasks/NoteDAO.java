@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Scope;
 /**
  * Created by karol on 30.11.14.
  */
+@SuppressWarnings("unchecked")
 @org.springframework.stereotype.Component
 @Scope("singleton")
 public class NoteDAO {
@@ -50,9 +51,9 @@ public class NoteDAO {
         }
     }
 
-    public static List<Note> getNotesBelongingToUser(String userName){
+	public static List<Note> getNotesBelongingToUser(String userName){
         Session session = HibernateSessionFactoryBean.getSession();
-        List notes = null;
+        List<Note> notes = null;
         try {
             notes = session.createQuery("FROM Note N WHERE N.user= '"+userName+"'").list();
         }

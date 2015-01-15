@@ -9,7 +9,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
 import java.util.List;
-
+@SuppressWarnings("unchecked")
 public class FileDAO {
 
     public static UserFile getFile(long id){
@@ -35,7 +35,7 @@ public class FileDAO {
         try{
             session.beginTransaction();
 
-            List files = session.createQuery("FROM UserFile U WHERE U.fileName = '"+fileToSave.getFileName()+"'").list();
+            List<UserFile> files = session.createQuery("FROM UserFile U WHERE U.fileName = '"+fileToSave.getFileName()+"'").list();
             if (files.isEmpty()) {
                 session.save(fileToSave);
             }
@@ -56,7 +56,7 @@ public class FileDAO {
         try{
             session.beginTransaction();
 
-            List files = session.createQuery("FROM UserFile U WHERE U.id = "+ id).list();
+            List<UserFile> files = session.createQuery("FROM UserFile U WHERE U.id = "+ id).list();
             if (!files.isEmpty()) {
                 UserFile userFile = (UserFile)session.get(UserFile.class, ((UserFile) files.get(0)).getId());
                 session.delete(userFile);
@@ -71,7 +71,7 @@ public class FileDAO {
         }
     }
 
-    public static List<UserFile> getFilesBelongingToUser(int userId){
+	public static List<UserFile> getFilesBelongingToUser(int userId){
         Session session = HibernateSessionFactoryBean.getSession();
         List<UserFile> files = null;
         try {

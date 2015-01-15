@@ -1,10 +1,10 @@
 package org.freelo.model.projects;
 
 import org.freelo.model.HibernateSessionFactoryBean;
-
 import org.freelo.model.users.User;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+
 import java.util.List;
 
 /**
@@ -18,7 +18,8 @@ public class ProjectMembersManagement {
         try{
             session.beginTransaction();
 
-            List users = session.createQuery("FROM User U WHERE U.email = '"+email+"'").list();
+            @SuppressWarnings("unchecked")
+			List<User> users = session.createQuery("FROM User U WHERE U.email = '"+email+"'").list();
             if (!users.isEmpty())
                 user = (User) users.get(0);
 

@@ -4,12 +4,13 @@ import org.freelo.model.HibernateSessionFactoryBean;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+
 import java.util.List;
 
 /**
  * Created by Artur on 12/8/2014.
  */
-
+@SuppressWarnings("unchecked")
 public class PrivilegeManagement {
 
     // returns privilege ID if successful, returns null if error occurred (e.g. privilege already exists)
@@ -20,7 +21,7 @@ public class PrivilegeManagement {
         try {
             session.beginTransaction();
 
-            List privileges = session.createQuery("FROM Privilege P WHERE P.description = '" + description + "'").list();
+            List<Privilege> privileges = session.createQuery("FROM Privilege P WHERE P.description = '" + description + "'").list();
             if (privileges.isEmpty()) {
                 Privilege privilege = new Privilege();
                 privilege.setDescription(description);
@@ -46,8 +47,7 @@ public class PrivilegeManagement {
 
         try {
             session.beginTransaction();
-
-            List privileges = session.createQuery("FROM Privilege P WHERE P.ID = '"+ oldPrivilege.getID() +"'").list();
+			List<Privilege> privileges = session.createQuery("FROM Privilege P WHERE P.ID = '"+ oldPrivilege.getID() +"'").list();
             if (!privileges.isEmpty()) {
                 Privilege temp = (Privilege)session.get(Privilege.class, oldPrivilege.getID());
                 session.delete(temp);
@@ -96,7 +96,7 @@ public class PrivilegeManagement {
         try {
             session.beginTransaction();
 
-            List list = session.createQuery("FROM Privilege P WHERE P.ID ="+ID).list();
+            List<Privilege> list = session.createQuery("FROM Privilege P WHERE P.ID ="+ID).list();
             if (!list.isEmpty()){
                 privilege = (Privilege)session.get(Privilege.class, ((Privilege) list.get(0)).getID());
             }

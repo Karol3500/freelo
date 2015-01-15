@@ -1,15 +1,16 @@
 package org.freelo.model.sprints;
 
 import org.freelo.model.HibernateSessionFactoryBean;
-
 import org.freelo.model.users.User;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+
 import java.util.List;
 
 /**
  * Created by piotr on 2014-12-09.
  */
+@SuppressWarnings("unchecked")
 public class SprintMembersManagement {
 
     public static Integer addMember(SprintMembers newMembers) {
@@ -19,7 +20,7 @@ public class SprintMembersManagement {
         try {
             session.beginTransaction();
 
-            List members = session.createQuery("FROM SprintMembers S WHERE S.id = " + newMembers.getId()).list();
+            List<SprintMembers> members = session.createQuery("FROM SprintMembers S WHERE S.id = " + newMembers.getId()).list();
             if (members.isEmpty())
                 ID = (Integer) session.save(newMembers);
             session.getTransaction().commit();
@@ -41,7 +42,7 @@ public class SprintMembersManagement {
         try {
             session.beginTransaction();
 
-            List members = session.createQuery("FROM SprintMembers P WHERE P.id = '"+ oldMembers.getId() +"'").list();
+            List<SprintMembers> members = session.createQuery("FROM SprintMembers P WHERE P.id = '"+ oldMembers.getId() +"'").list();
             if (!members.isEmpty()) {
                 SprintMembers temp = (SprintMembers)session.get(SprintMembers.class, oldMembers.getId());
                 session.delete(temp);
@@ -67,8 +68,7 @@ public class SprintMembersManagement {
         User user = null;
         try{
             session.beginTransaction();
-
-            List users = session.createQuery("FROM User U WHERE U.email = '"+email+"'").list();
+			List<User> users = session.createQuery("FROM User U WHERE U.email = '"+email+"'").list();
             if (!users.isEmpty())
                 user = (User) users.get(0);
 

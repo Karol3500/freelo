@@ -12,8 +12,8 @@ public class addSprintWindow extends Window {
     //public Button createButton;
     //public ProjectItem pi;
     //CreateProjectSubwindowController c;
-    public String sprint_name;
-    public addSprintWindow(final VerticalLayout nextcontainer) {
+    public String view_name;
+    public addSprintWindow(final VerticalLayout nextcontainer, final String Project_name) {
         super("New sprint");
         //c = new CreateProjectSubwindowController(this);
         center();
@@ -38,10 +38,9 @@ public class addSprintWindow extends Window {
             @Override
             public void buttonClick(Button.ClickEvent event) {
                 //pi = createProject(ProjectName, container2);
-
                 //c.createProject(pi);
-
-                SprintViewObject sprint = new SprintViewObject(ProjectName.getValue(),
+                view_name = Project_name+"."+ProjectName.getValue();
+                SprintViewObject sprint = new SprintViewObject(view_name, ProjectName.getValue(),
                         startDatePicker.getValue(), endDatePicker.getValue());
                 nextcontainer.addComponent(sprint.button);
                 close();

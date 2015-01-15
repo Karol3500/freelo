@@ -9,7 +9,7 @@ public class ProjectItem extends ProjectManagementPage {
     public String manager;
     public Button sprintButton;
 
-    public ProjectItem(String name, String manager) {
+    public ProjectItem(final String name, String manager) {
 
         setSizeFull();
         HorizontalLayout container = new HorizontalLayout();
@@ -27,7 +27,7 @@ public class ProjectItem extends ProjectManagementPage {
             @Override
             public void buttonClick(Button.ClickEvent event) {
 
-                createNewSprint = new addSprintWindow(nextcontainer);
+                createNewSprint = new addSprintWindow(nextcontainer, name);
                 UI.getCurrent().addWindow(createNewSprint);
 
             }

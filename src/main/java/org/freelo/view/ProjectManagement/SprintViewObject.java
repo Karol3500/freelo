@@ -10,24 +10,13 @@ import java.util.Date;
  * Created by Konrad on 2015-01-13.
  */
 public class SprintViewObject {
-//    public final Button SprintButton;
-//    public TaskPage taskPageView;
-//    SprintViewObject() {
-//        SprintButton = new Button("Sprint", new Button.ClickListener() {
-//            private static final long serialVersionUID = 2181474159879122119L;
-//            @Override
-//            public void buttonClick(Button.ClickEvent event) {
-//                getUI().getNavigator().navigateTo(TaskPage.NAME);
-//            }
-//        });
-//    }
-
     public HorizontalLayout button = new HorizontalLayout();
-    SprintViewObject(String SprintName, Date start_date, Date end_date) {
-        init_button(SprintName, start_date, end_date);
-    }
 
-    private void init_button(String SprintName, Date start_date, Date end_date) {
+    SprintViewObject(String ViewName, String SprintName, Date start_date, Date end_date) {
+
+        init_button(ViewName, SprintName, start_date, end_date);
+    }
+    private void init_button(final String ViewName, String SprintName, Date start_date, Date end_date) {
         button.setSpacing(true);
         button.setStyleName("SprintButton");
         button.setWidth("100%");
@@ -37,7 +26,10 @@ public class SprintViewObject {
         button.addLayoutClickListener(new LayoutEvents.LayoutClickListener() {
             @Override
             public void layoutClick(LayoutEvents.LayoutClickEvent event) {
-                UI.getCurrent().getNavigator().navigateTo(TaskPage.NAME);
+                new TaskPage();
+                TaskPage.NAME = ViewName;
+                final SprintViewType view = new SprintViewType(TaskPage.NAME, TaskPage.class);
+                UI.getCurrent().getNavigator().navigateTo(view.getViewName());
             }
         });
     }

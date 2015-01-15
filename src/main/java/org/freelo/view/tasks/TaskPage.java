@@ -33,11 +33,10 @@ import java.util.*;
 public class TaskPage extends HorizontalLayout implements View {
 
     private static final long serialVersionUID = -906274928780939032L;
-    public static final String NAME = "";
+    public static String NAME = "";
     public Button shoutButton;
     public TextField shoutField;
     public TextArea shoutBoxArea;
-
     public TaskPageController taskPageController;
 
     public List<VerticalLayout> columns;

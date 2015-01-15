@@ -12,13 +12,14 @@ import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.themes.ValoTheme;
 import org.freelo.model.users.User;
+import org.freelo.model.users.UserManagement;
 
 @SuppressWarnings("serial")
 public class ProfilePreferencesWindow extends Window {
 
     public static final String ID = "profilepreferenceswindow";
 
-   // private final BeanFieldGroup<User> fieldGroup;
+    private final BeanFieldGroup<User> fieldGroup;
     /*
      * Fields for editing the User object are defined here as class members.
      * They are later bound to a FieldGroup by calling
@@ -30,23 +31,15 @@ public class ProfilePreferencesWindow extends Window {
     private TextField firstNameField;
     @PropertyId("lastName")
     private TextField lastNameField;
-    @PropertyId("title")
-    private ComboBox titleField;
-    @PropertyId("male")
-    private OptionGroup sexField;
     @PropertyId("email")
     private TextField emailField;
-    @PropertyId("location")
-    private TextField locationField;
-    @PropertyId("phone")
-    private TextField phoneField;
-    @PropertyId("website")
-    private TextField websiteField;
-    @PropertyId("bio")
-    private TextArea bioField;
+    @PropertyId("password")
+    private PasswordField passwordField;
 
-    //todo delete me
-    User userTemp;
+    Button changePasswordButton;
+
+    UserManagement um = new UserManagement();
+    User user;
 
     private ProfilePreferencesWindow(final User user,
                                      final boolean preferencesTabOpen) {
@@ -58,10 +51,11 @@ public class ProfilePreferencesWindow extends Window {
         setCloseShortcut(KeyCode.ESCAPE, null);
         setResizable(false);
         setClosable(false);
-        setHeight(80.0f, Unit.PERCENTAGE);
-        setWidth(70.0f, Unit.PERCENTAGE);
+        setHeight(50.0f, Unit.PERCENTAGE);
+        setWidth(40.0f, Unit.PERCENTAGE);
 
-        userTemp = user;
+        this.user = user;
+        //userTemp = user;
 
         VerticalLayout content = new VerticalLayout();
         content.setSizeFull();
@@ -83,6 +77,10 @@ public class ProfilePreferencesWindow extends Window {
             detailsWrapper.setSelectedTab(1);
         }
 
+        fieldGroup = new BeanFieldGroup<User>(User.class);
+        fieldGroup.bindMemberFields(this);
+        fieldGroup.setItemDataSource(user);
+
         content.addComponent(buildFooter());
 
     }
@@ -95,7 +93,7 @@ public class ProfilePreferencesWindow extends Window {
         root.setMargin(true);
         root.setSizeFull();
 
-        Label message = new Label(userTemp.getFirstName());
+        Label message = new Label(user.getFirstName());
         message.setSizeUndefined();
         message.addStyleName(ValoTheme.LABEL_LIGHT);
         root.addComponent(message);
@@ -137,49 +135,38 @@ public class ProfilePreferencesWindow extends Window {
         root.addComponent(details);
         root.setExpandRatio(details, 1);
 
-        firstNameField = new TextField("First Name");
-        details.addComponent(firstNameField);
-        lastNameField = new TextField("Last Name");
-        details.addComponent(lastNameField);
-
-        titleField = new ComboBox("Title");
-        titleField.setInputPrompt("Please specify");
-        titleField.addItem("Mr.");
-        titleField.addItem("Mrs.");
-        titleField.addItem("Ms.");
-        titleField.setNewItemsAllowed(true);
-        details.addComponent(titleField);
-
-        sexField = new OptionGroup("Sex");
-        sexField.addItem(Boolean.FALSE);
-        sexField.setItemCaption(Boolean.FALSE, "Female");
-        sexField.addItem(Boolean.TRUE);
-        sexField.setItemCaption(Boolean.TRUE, "Male");
-        sexField.addStyleName("horizontal");
-        details.addComponent(sexField);
-
-        Label section = new Label("Contact Info");
+        Label section = new Label("User Details");
         section.addStyleName(ValoTheme.LABEL_H4);
         section.addStyleName(ValoTheme.LABEL_COLORED);
         details.addComponent(section);
 
+        firstNameField = new TextField("First Name");
+        details.addComponent(firstNameField);
+        firstNameField.setWidth("100%");
+
+        lastNameField = new TextField("Last Name");
+        details.addComponent(lastNameField);
+
         emailField = new TextField("Email");
         emailField.setWidth("100%");
-        emailField.setRequired(true);
         emailField.setNullRepresentation("");
         details.addComponent(emailField);
 
-        locationField = new TextField("Location");
-        locationField.setWidth("100%");
-        locationField.setNullRepresentation("");
-        locationField.setComponentError(new UserError(
-                "This address doesn't exist"));
-        details.addComponent(locationField);
+        passwordField = new PasswordField("Password");
+        passwordField.setWidth("100%");
+        passwordField.setReadOnly(true);
 
-        phoneField = new TextField("Phone");
-        phoneField.setWidth("100%");
-        phoneField.setNullRepresentation("");
-        details.addComponent(phoneField);
+        changePasswordButton = new Button("Change Password..");
+
+        changePasswordButton.addClickListener(new ClickListener() {
+            public void buttonClick(ClickEvent event) {
+                PasswordSubwindow sub = new PasswordSubwindow(user);
+                // Add it to the root component
+                UI.getCurrent().addWindow(sub);
+            }
+        });
+
+        details.addComponents(emailField, passwordField, changePasswordButton);
 
         return root;
     }
@@ -197,7 +184,9 @@ public class ProfilePreferencesWindow extends Window {
                 try {
                     // Updated user should also be persisted to database. But
                     // not in this demo.
-
+                    fieldGroup.commit();
+                    um.userUpdate(user);
+                    getSession().setAttribute("userClass", user);
                     Notification success = new Notification(
                             "Profile updated successfully");
                     success.setDelayMsec(2000);
@@ -205,7 +194,7 @@ public class ProfilePreferencesWindow extends Window {
                     success.setPosition(Position.BOTTOM_CENTER);
                     success.show(Page.getCurrent());
 
-                    //DashboardEventBus.post(new ProfileUpdatedEvent());
+
                     close();
                 } catch (Exception e) {
                     Notification.show("Error while updating profile",

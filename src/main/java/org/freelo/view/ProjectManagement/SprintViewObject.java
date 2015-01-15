@@ -28,8 +28,8 @@ public class SprintViewObject {
             public void layoutClick(LayoutEvents.LayoutClickEvent event) {
                 new TaskPage();
                 TaskPage.NAME = ViewName;
-                final SprintViewType view = SprintViewType.TASKPAGE;
-                UI.getCurrent().getNavigator().navigateTo(view.getViewName());
+                //final SprintViewType view = new SprintViewType(TaskPage.NAME, TaskPage.class);
+                //UI.getCurrent().getNavigator().navigateTo(view.getViewName());
             }
         });
     }

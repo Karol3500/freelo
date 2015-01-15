@@ -1,6 +1,8 @@
 package org.freelo.view.ProjectManagement;
 
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
+import org.freelo.model.projects.Project;
 
 /**
  * Created by Konrad on 2015-01-13.
@@ -16,6 +18,7 @@ public class ProjectItem extends ProjectManagementPage {
         final VerticalLayout nextcontainer = new VerticalLayout();
         nextcontainer.addStyleName("projectContainer");
         Panel ProjectPanel = new Panel(name);
+
         ProjectPanel.addStyleName("projectPanel");
         ProjectPanel.setWidth("100%");
         ProjectPanel.setContent(nextcontainer);
@@ -46,6 +49,7 @@ public class ProjectItem extends ProjectManagementPage {
         container.addComponent(ProjectPanel);
 
         final HorizontalLayout buttonsContainer = new HorizontalLayout();
+        buttonsContainer.setSpacing(true);
         buttonsContainer.addComponent(manageProjectButton);
         buttonsContainer.addComponent(addSprintButton);
 

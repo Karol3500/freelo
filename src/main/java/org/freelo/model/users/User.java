@@ -28,6 +28,9 @@ public class User{
 	@Column
 	private String password;
 
+    @Column
+    private String picturePath;
+
 	@Column
 	private Date created; // user's register time
 
@@ -79,7 +82,15 @@ public class User{
 
 	public Date getDate() { return created; }
 
-	public void addUserToGroup(int groupID){
+    public String getPicturePath() {
+        return picturePath;
+    }
+
+    public void setPicturePath(String picturePath) {
+        this.picturePath = picturePath;
+    }
+
+    public void addUserToGroup(int groupID){
 		List<Group> groups = GroupManagement.listGroups();
 		for (Group element: groups){
 			if (element.getID() == groupID){

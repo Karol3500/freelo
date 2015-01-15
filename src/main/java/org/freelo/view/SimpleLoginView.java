@@ -140,15 +140,8 @@ Button.ClickListener {
         });
         registerButton.addStyleName(BaseTheme.BUTTON_LINK);
 
-        //FileManagement fileManagement = new FileManagement();
-        //final Button downloadFile = new Button("Download");
-        //fileManagement.downloadFileUrl("http://www.faros.be/images/tech/vaadin.png").extend(downloadFile);
-        Button emailButton = new Button("Email");
-        Resource res = new ExternalResource("http://www.faros.be/images/tech/vaadin.png");
-        final ResourceReference rr = ResourceReference.create(res, buttons, "email");
-
         buttons.addComponents(loginButton, gap, registerLabel, registerButton);
-        Label tempLabel = new Label("Not registered?");
+
         return buttons;
 
     }

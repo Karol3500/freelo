@@ -54,7 +54,6 @@ public final class DashboardMenu extends CustomComponent implements View {
         userPanel.setHeight("100%");
         menuContent.addComponent(userPanel);
 
-
     }
 
     private void buildContent() {
@@ -150,7 +149,7 @@ public final class DashboardMenu extends CustomComponent implements View {
 
         Button addFriendButton = new Button("+ Add Friend");
         addFriendButton.setStyleName(ValoTheme.BUTTON_SMALL);
-        addFriendButton.setWidth("80%");
+        addFriendButton.setWidth("100%");
         addFriendButton.setImmediate(true);
         friendListLayout.addComponent(addFriendButton);
         //friendListLayout.addComponent(new Label(""));

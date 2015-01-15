@@ -1,14 +1,17 @@
 package org.freelo.view.ProjectManagement;
 
-import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.*;
-import org.freelo.model.projects.Project;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Panel;
+import com.vaadin.ui.UI;
+import com.vaadin.ui.VerticalLayout;
 
 /**
  * Created by Konrad on 2015-01-13.
  */
 public class ProjectItem extends ProjectManagementPage {
-    public String manager;
+	private static final long serialVersionUID = 1L;
+	public String manager;
     public Button sprintButton;
 
     public ProjectItem(final String name, String manager) {
@@ -29,21 +32,19 @@ public class ProjectItem extends ProjectManagementPage {
 
             @Override
             public void buttonClick(Button.ClickEvent event) {
-
                 createNewSprint = new addSprintWindow(nextcontainer, name);
                 UI.getCurrent().addWindow(createNewSprint);
-
             }
 
 
         });
 
         Button manageProjectButton = new Button("Manage project", new Button.ClickListener() {
-            @Override
+			private static final long serialVersionUID = 1L;
+
+			@Override
             public void buttonClick(Button.ClickEvent clickEvent) {
-                //Method to display project creation popup called here
-                manageProject = new manageProjectWindow();
-                UI.getCurrent().addWindow(manageProject);
+                displayProjectCreationPopup();
             }
         });
         container.addComponent(ProjectPanel);
@@ -57,4 +58,9 @@ public class ProjectItem extends ProjectManagementPage {
         nextcontainer.addComponent(buttonsContainer);
 
     }
+
+	void displayProjectCreationPopup() {
+		manageProject = new manageProjectWindow();
+		UI.getCurrent().addWindow(manageProject);
+	}
 }

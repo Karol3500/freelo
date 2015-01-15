@@ -11,6 +11,7 @@ import java.util.List;
 /**
  * Created by piotr on 2014-12-15.
  **/
+@SuppressWarnings("unchecked")
 public class ProjectManagement {
 
     // returns project ID if found, null if user project exist
@@ -20,9 +21,9 @@ public class ProjectManagement {
         try{
             session.beginTransaction();
 
-            List projects = session.createQuery("FROM Project P WHERE P.manager = "+managerID+" AND P.name = '"+projectName+"'").list();
+            List<Project> projects = session.createQuery("FROM Project P WHERE P.manager = "+managerID+" AND P.name = '"+projectName+"'").list();
             if (!projects.isEmpty())
-                projectID = ((User) projects.get(0)).getId();
+                projectID = projects.get(0).getId();
 
             session.getTransaction().commit();
         }catch (HibernateException e) {
@@ -41,7 +42,7 @@ public class ProjectManagement {
         try{
             session.beginTransaction();
 
-            List projects = session.createQuery("FROM Project P WHERE P.manager = "+managerID+" AND P.name = '"+projectName+"'").list();
+            List<Project> projects = session.createQuery("FROM Project P WHERE P.manager = "+managerID+" AND P.name = '"+projectName+"'").list();
             if (!projects.isEmpty()) {
                 project = (Project) projects.get(0);
                 project.setSprints(project.getSprints());
@@ -64,7 +65,7 @@ public class ProjectManagement {
         try{
             session.beginTransaction();
 
-            List projects = session.createQuery("FROM Project P WHERE P.id = "+ID).list();
+			List<Project> projects = session.createQuery("FROM Project P WHERE P.id = "+ID).list();
             if (!projects.isEmpty()){
                 project = (Project) projects.get(0);
             project.setSprints(project.getSprints());
@@ -83,7 +84,7 @@ public class ProjectManagement {
     // returns project handler if found, null if project doesnt exist
     public static List<Project> getProjects(User user){
         Session session = HibernateSessionFactoryBean.getSession();
-        List returnProjects = new ArrayList();
+        List<Project> returnProjects = new ArrayList<Project>();
         try{
             session.beginTransaction();
 
@@ -112,7 +113,7 @@ public class ProjectManagement {
         try{
             session.beginTransaction();
 
-            List projects = session.createQuery("FROM Project P WHERE P.manager = "+project.getManager()+" AND P.name = '"+project.getName()+"'").list();
+            List<Project> projects = session.createQuery("FROM Project P WHERE P.manager = "+project.getManager()+" AND P.name = '"+project.getName()+"'").list();
             if (projects.isEmpty()) {
                 projectID = (Integer) session.save(project);
             }
@@ -133,7 +134,7 @@ public class ProjectManagement {
         try{
             session.beginTransaction();
 
-            List projects = session.createQuery("FROM Project P WHERE P.manager = "+project.getManager()+" AND P.name = '"+project.getName()+"'").list();
+            List<Project> projects = session.createQuery("FROM Project P WHERE P.manager = "+project.getManager()+" AND P.name = '"+project.getName()+"'").list();
             if (!projects.isEmpty()) {
                 Project p = (Project)projects.get(0);
                 p.setManager(project.getManager());
@@ -160,7 +161,7 @@ public class ProjectManagement {
         try{
             session.beginTransaction();
 
-            List projects = session.createQuery("FROM Project P WHERE P.manager = "+managerID+" AND P.name = '"+projectName+"'").list();
+            List<Project> projects = session.createQuery("FROM Project P WHERE P.manager = "+managerID+" AND P.name = '"+projectName+"'").list();
             if (!projects.isEmpty()) {
                 Project project = (Project)session.get(Project.class, ((Project) projects.get(0)).getId());
                 session.delete(project);

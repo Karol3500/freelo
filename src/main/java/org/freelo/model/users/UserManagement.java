@@ -1,14 +1,15 @@
 package org.freelo.model.users;
 
 
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+
 import org.freelo.model.HibernateSessionFactoryBean;
 import org.hibernate.HibernateException;
-import org.hibernate.LockOptions;
 import org.hibernate.Session;
 
-import javax.jws.soap.SOAPBinding;
-import java.util.*;
-
+@SuppressWarnings("unchecked")
 public class UserManagement {
 
     // only for test do not use in final program !!!
@@ -22,10 +23,10 @@ public class UserManagement {
             System.out.println();
             //System.out.println(user.getId()+" "+user.getFirstName()+" "+user.getLastName()+" "+user.getEmail()+" "+user.getPassword()+" "+user.getDate());
 
-            List users = session.createQuery("FROM User").list();
+			List<User> users = session.createQuery("FROM User").list();
             System.out.println();
             System.out.println("/n/nID/t name/t lastname/t email/t password/t date/t time/t/n");
-            for (Iterator iterator = users.iterator(); iterator.hasNext();){
+            for (Iterator<User> iterator = users.iterator(); iterator.hasNext();){
                 User user = (User) iterator.next();
                 System.out.println(user.getId()+" "+user.getFirstName()+" "+user.getLastName()+" "+user.getEmail()+" "+user.getPassword()+" "+user.getDate());
             }
@@ -45,7 +46,7 @@ public class UserManagement {
         try{
             session.beginTransaction();
 
-            List users = session.createQuery("FROM User U WHERE U.email = '"+email+"'").list();
+            List<User> users = session.createQuery("FROM User U WHERE U.email = '"+email+"'").list();
             if (!users.isEmpty())
                 user = ((User) users.get(0)).getId();
 
@@ -66,7 +67,7 @@ public class UserManagement {
         try{
             session.beginTransaction();
 
-            List users = session.createQuery("FROM User U WHERE U.email = '"+email+"'").list();
+            List<User> users = session.createQuery("FROM User U WHERE U.email = '"+email+"'").list();
             if (!users.isEmpty()) {
                 user = (User) session.load(User.class, ((User) users.get(0)).getId());
                 user.setPrivileges(user.getPrivileges());
@@ -89,7 +90,7 @@ public class UserManagement {
         try{
             session.beginTransaction();
 
-            List users = session.createQuery("FROM User U WHERE U.id = "+UserID).list();
+            List<User> users = session.createQuery("FROM User U WHERE U.id = "+UserID).list();
             if (!users.isEmpty()) {
                 user = (User) session.load(User.class, UserID);
                 user.setPrivileges(user.getPrivileges());
@@ -112,7 +113,7 @@ public class UserManagement {
         try{
             session.beginTransaction();
 
-            List users = session.createQuery("FROM User U WHERE U.email = '"+email+"'").list();
+            List<User> users = session.createQuery("FROM User U WHERE U.email = '"+email+"'").list();
             if (users.isEmpty()) {
                 User user = new User(fname, lname, email, password);
                 userID = (Integer) session.save(user);
@@ -135,7 +136,7 @@ public class UserManagement {
         try{
             session.beginTransaction();
 
-            List users = session.createQuery("FROM User U WHERE U.email = '"+user.getEmail()+"'").list();
+            List<User> users = session.createQuery("FROM User U WHERE U.email = '"+user.getEmail()+"'").list();
             if (users.isEmpty()) {
                 userID = (Integer) session.save(user);
             }
@@ -156,7 +157,7 @@ public class UserManagement {
         try{
             session.beginTransaction();
 
-            List users = session.createQuery("FROM User U WHERE U.email = '"+email+"'").list();
+            List<User> users = session.createQuery("FROM User U WHERE U.email = '"+email+"'").list();
             if (!users.isEmpty()) {
                 User user = (User)session.get(User.class, ((User) users.get(0)).getId());
                 session.delete(user);

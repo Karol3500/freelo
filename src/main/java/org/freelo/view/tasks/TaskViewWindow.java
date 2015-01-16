@@ -8,7 +8,8 @@ import org.freelo.controller.tasks.TaskViewController;
  * Created by karol on 16.12.14.
  */
 public class TaskViewWindow extends Window {
-    TaskViewController controller;
+	private static final long serialVersionUID = 1L;
+	TaskViewController controller;
     public TaskCard tc;
     public Button deleteTaskButton;
     VerticalLayout menu;

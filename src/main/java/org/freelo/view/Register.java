@@ -119,7 +119,9 @@ public class Register extends VerticalLayout implements View {
     }
 
     public static class PasswordValidator extends RegexpValidator {
-        public PasswordValidator(String errorMessage) {
+		private static final long serialVersionUID = 1L;
+
+		public PasswordValidator(String errorMessage) {
             super(PASSWORD_PATTERN, true, errorMessage);
         }
     }
@@ -136,7 +138,9 @@ public class Register extends VerticalLayout implements View {
 
 
     class UserRegisteredWindow extends Window {
-        public UserRegisteredWindow() {
+		private static final long serialVersionUID = 1L;
+
+		public UserRegisteredWindow() {
             //super("Subs on Sale"); // Set window caption
             center();
 
@@ -155,7 +159,9 @@ public class Register extends VerticalLayout implements View {
             Button ok = new Button("OK");
             content.addComponent(ok);
             ok.addClickListener(new Button.ClickListener() {
-                public void buttonClick(Button.ClickEvent event) {
+				private static final long serialVersionUID = 1L;
+
+				public void buttonClick(Button.ClickEvent event) {
                     getUI().getNavigator().navigateTo(SimpleLoginView.NAME);
                     close();
                 }

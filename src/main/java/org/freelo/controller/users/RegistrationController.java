@@ -1,9 +1,9 @@
 package org.freelo.controller.users;
 
-import com.vaadin.ui.Button;
 import org.freelo.model.users.UserManagement;
 import org.freelo.view.Register;
-import org.freelo.view.SimpleLoginUI;
+
+import com.vaadin.ui.Button;
 
 /**
  * Created by artur on 15.12.14.
@@ -38,8 +38,7 @@ public class RegistrationController {
                 return;
             }
 
-            UserManagement user = new UserManagement();
-            if (user.userAdd(registerView.getName(),registerView.getSurname(),registerView.getMail(),registerView.getPassword()) == null){
+            if (UserManagement.userAdd(registerView.getName(),registerView.getSurname(),registerView.getMail(),registerView.getPassword()) == null){
                 registerView.setEmailExistError();
                 return;
             }

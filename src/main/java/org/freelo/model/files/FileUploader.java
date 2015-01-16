@@ -1,23 +1,22 @@
 package org.freelo.model.files;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Upload;
-import org.freelo.view.tasks.TaskPage;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
 
 /**
  * Created by Adrian on 08-12-2014.
  */
 public class FileUploader implements Upload.Receiver, Upload.SucceededListener {
-    File fileToUpload;
+	private static final long serialVersionUID = 1L;
+	File fileToUpload;
     FileManagement fileManagement = new FileManagement();
     String userName=null;
-    private TaskPage taskPage;
 
     public OutputStream receiveUpload(String filename, String mimeType) {
         // Create upload stream

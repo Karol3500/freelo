@@ -10,7 +10,8 @@ import org.freelo.model.users.UserManagement;
  * Created by karol on 13.01.15.
  */
 public class SprintCreationListener implements Button.ClickListener {
-    Project project;
+	private static final long serialVersionUID = 1L;
+	Project project;
     public SprintCreationListener(Project pr){
         project = pr;
     }

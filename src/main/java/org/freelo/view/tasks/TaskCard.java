@@ -36,7 +36,9 @@ public class TaskCard extends VerticalLayout {
         taskCard.setWidth("97%");
 
         taskCard.addLayoutClickListener(new LayoutEvents.LayoutClickListener() {
-            @Override
+			private static final long serialVersionUID = 1L;
+
+			@Override
             public void layoutClick(LayoutEvents.LayoutClickEvent event) {
                 Window CreateComponent = new TaskViewWindow(TaskCard.this);
                 UI.getCurrent().addWindow(CreateComponent);

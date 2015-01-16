@@ -24,7 +24,9 @@ public class SprintViewObject {
         add_Labels(SprintName, start_date, end_date);
         //todo clickable layout
         button.addLayoutClickListener(new LayoutEvents.LayoutClickListener() {
-            @Override
+			private static final long serialVersionUID = 1L;
+
+			@Override
             public void layoutClick(LayoutEvents.LayoutClickEvent event) {
                 new TaskPage();
                 TaskPage.NAME = ViewName;

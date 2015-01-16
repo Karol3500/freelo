@@ -18,8 +18,9 @@ public class TaskViewController {
     }
 
     class deleteButtonOnClickListener implements ClickListener{
+		private static final long serialVersionUID = 1L;
 
-        @Override
+		@Override
         public void buttonClick(Button.ClickEvent event) {
             removeFromDb(window.tc);
             window.deleteTask();

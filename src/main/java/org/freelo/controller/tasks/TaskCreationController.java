@@ -19,7 +19,9 @@ public class TaskCreationController {
     }
 
     class CreateTaskButtonOnClickListener implements Button.ClickListener{
-        @Override
+		private static final long serialVersionUID = 1L;
+
+		@Override
         public void buttonClick(Button.ClickEvent event) {
             try {
                 TaskCard tc = createAndPersistTaskAfterCreateButtonClicked();

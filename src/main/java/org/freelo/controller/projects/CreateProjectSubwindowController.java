@@ -1,5 +1,7 @@
 package org.freelo.controller.projects;
 
+import java.util.ArrayList;
+
 import org.freelo.model.projects.Project;
 import org.freelo.model.projects.ProjectManagement;
 import org.freelo.model.sprints.Sprint;
@@ -7,9 +9,6 @@ import org.freelo.model.users.User;
 import org.freelo.model.users.UserManagement;
 import org.freelo.view.ProjectManagement.ProjectItem;
 import org.freelo.view.ProjectManagement.Subwindow;
-
-import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Created by karol on 13.01.15.
@@ -22,18 +21,18 @@ public class CreateProjectSubwindowController {
     }
 
     public void createProject(ProjectItem pi) {
-        Project pr = new Project();
-        buildProjectFromProjectItem(pi, pr);
+        Project pr = buildProjectFromProjectItem(pi);
         ProjectManagement.addProject(pr);
     }
 
-    private void buildProjectFromProjectItem(ProjectItem pi, Project pr) {
+    private Project buildProjectFromProjectItem(ProjectItem pi) {
+    	Project pr = new Project();
         pi.sprintButton.addClickListener(new SprintCreationListener(pr));
-        pr.setStart(new Date());
-        pr.setEnd(new Date());
         User theOneThatCreates = UserManagement.getUser(pi.manager);
+        pr.setName(pi.name);
         pr.setManager(theOneThatCreates.getId());
         pr.addUser(theOneThatCreates);
         pr.setSprints(new ArrayList<Sprint>());
+        return pr;
     }
 }

@@ -13,9 +13,11 @@ public class ProjectItem extends ProjectManagementPage {
 	private static final long serialVersionUID = 1L;
 	public String manager;
     public Button sprintButton;
+    public String name;
 
     public ProjectItem(final String name, String manager) {
     	this.manager = manager;
+    	this.name = name;
         setSizeFull();
         HorizontalLayout container = new HorizontalLayout();
         final VerticalLayout nextcontainer = new VerticalLayout();

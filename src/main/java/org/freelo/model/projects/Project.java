@@ -21,12 +21,6 @@ public class Project {
     @Column
     private String name;
 
-    @Column
-    private Date start;
-
-    @Column
-    private Date end;
-
     // todo list of the sprints
     @OneToMany
     private List<Sprint> sprints;
@@ -53,22 +47,6 @@ public class Project {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Date getStart() {
-        return start;
-    }
-
-    public void setStart(Date start) {
-        this.start = start;
-    }
-
-    public Date getEnd() {
-        return end;
-    }
-
-    public void setEnd(Date end) {
-        this.end = end;
     }
 
     public List<Sprint> getSprints() {

@@ -140,8 +140,6 @@ public class ProjectManagement {
                 p.setManager(project.getManager());
                 p.setUsers(project.getUsers());
                 p.setSprints(project.getSprints());
-                p.setStart(project.getStart());
-                p.setEnd(project.getEnd());
                 p.setName(project.getName());
                 session.update(p);
             }

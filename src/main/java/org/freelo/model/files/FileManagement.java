@@ -25,7 +25,7 @@ public class FileManagement {
             userFile.setFileSize(file.length());
             userFile.setUserName(userName);
 
-            fileDAO.saveFile(userFile);
+            FileDAO.saveFile(userFile);
 
             showNotif("File: " + file.getName() + " uploaded successfully.");
             return true;
@@ -38,7 +38,7 @@ public class FileManagement {
 
     public FileDownloader downloadFile(long ID){
         FileDownloader downloader = null;
-        userFile = fileDAO.getFile(ID);
+        userFile = FileDAO.getFile(ID);
 
         try {
             Resource resource = new FileResource(new File(userFile.getFilePath()));
@@ -53,12 +53,12 @@ public class FileManagement {
 
     public boolean deleteFile(long ID){
         File fileToDelete;
-        userFile = fileDAO.getFile(ID);
+        userFile = FileDAO.getFile(ID);
         String filePath = userFile.getFilePath();
         fileToDelete = new File(filePath);
 
         try {
-            fileDAO.deleteFile(ID);
+            FileDAO.deleteFile(ID);
             if(fileToDelete.delete()){
                 showNotif("File: " + fileToDelete.getName() + " is deleted.");
                 return true;

@@ -1,15 +1,14 @@
 package org.freelo.controller.files;
 
-import org.freelo.model.files.FileDAO;
-import org.freelo.model.files.UserFile;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 
-import java.io.*;
+import org.freelo.model.files.UserFile;
 
 public class FileController {
 
     private UserFile fileFromDatabase = new UserFile();
-    private FileDAO fileDAO = new FileDAO();
-
     public boolean deleteFile(Long fileId) {
 
         //filesService.delete(fileFromDatabase.get_filePath());
@@ -24,8 +23,8 @@ public class FileController {
         try{
             fileToDownload = new File(fileFromDatabase.getFilePath());
             InputStream inputStream = new FileInputStream(fileToDownload);
-            String headerKey = "Content-Disposition";
-            String headerValue = String.format("attachment; filename=\"%s\"", fileFromDatabase.getFileName());
+            //String headerKey = "Content-Disposition";
+            //String headerValue = String.format("attachment; filename=\"%s\"", fileFromDatabase.getFileName());
 
 
             inputStream.close();

@@ -132,8 +132,6 @@ public class ProjectManagement {
         Session session = HibernateSessionFactoryBean.getSession();
         Integer projectID = null;
         try{
-            session.beginTransaction();
-
             List<Project> projects = session.createQuery("FROM Project P WHERE P.manager = "+project.getManager()+" AND P.name = '"+project.getName()+"'").list();
             if (!projects.isEmpty()) {
                 Project p = (Project)projects.get(0);
@@ -143,10 +141,8 @@ public class ProjectManagement {
                 p.setName(project.getName());
                 session.update(p);
             }
-            session.getTransaction().commit();
         }catch (HibernateException e) {
             e.printStackTrace();
-            session.getTransaction().rollback();
         }finally {
             session.close();
         }

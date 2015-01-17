@@ -16,14 +16,20 @@ public class FileUploader implements Upload.Receiver, Upload.SucceededListener {
 	private static final long serialVersionUID = 1L;
 	File fileToUpload;
     FileManagement fileManagement = new FileManagement();
-    String userName=null;
+    String userName = null;
+    String projectName = null;
+
+    public FileUploader(String projectName)
+    {
+        this.projectName = projectName;
+    }
 
     public OutputStream receiveUpload(String filename, String mimeType) {
         // Create upload stream
+        userName = (String) VaadinSession.getCurrent().getAttribute("user");
         FileOutputStream fos = null; // Stream to write to
         try {
-            userName = (String) VaadinSession.getCurrent().getAttribute("user");
-            File dir = new File("user_files" + File.separator + userName);
+            File dir = new File("user_files" + File.separator + projectName);
             if(!dir.exists())
                 dir.mkdirs();
 
@@ -48,7 +54,7 @@ public class FileUploader implements Upload.Receiver, Upload.SucceededListener {
     }
 
     public void uploadSucceeded(Upload.SucceededEvent event) {
-        fileManagement.uploadFile(userName, fileToUpload);
+        fileManagement.uploadFile(projectName, userName, fileToUpload);
 
     }
 

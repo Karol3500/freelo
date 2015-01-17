@@ -35,7 +35,7 @@ public class FileManagement {
 
     }
 
-    public boolean uploadFile(String userName, File file){
+    public boolean uploadFile(String projectName, String userName, File file){
 
         if(file.length() != 0){
 
@@ -43,6 +43,7 @@ public class FileManagement {
             userFile.setFilePath(file.getPath());
             userFile.setFileSize(file.length());
             userFile.setUserName(userName);
+            userFile.setProjectName(projectName);
 
             FileDAO.saveFile(userFile);
 

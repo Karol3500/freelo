@@ -108,4 +108,22 @@ public class FileDAO {
         return files;
     }
 
+    public static List<UserFile>  getFilesByProjectName(String projectName){
+        Session session = HibernateSessionFactoryBean.getSession();
+        List<UserFile> files = null;
+        try{
+            session.beginTransaction();
+
+            files = session.createQuery("FROM UserFile UF WHERE UF.projectName = '"+ projectName+"'").list();
+
+            session.getTransaction().commit();
+        }catch (HibernateException e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        }finally {
+            session.close();
+        }
+        return files;
+    }
+
 }

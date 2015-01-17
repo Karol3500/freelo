@@ -29,11 +29,15 @@ public class UserFile {
     @Column
     private String userName;
 
+    @Column
+    private String projectName;
+
     public UserFile(){
         fileName = "";
         filePath = "";
         fileSize = null;
         userName = "";
+        projectName = "";
     }
 
     public Long getFileSize() {
@@ -83,5 +87,13 @@ public class UserFile {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
     }
 }

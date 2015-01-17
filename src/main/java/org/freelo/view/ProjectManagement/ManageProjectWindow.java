@@ -1,10 +1,8 @@
 package org.freelo.view.ProjectManagement;
 
 import com.vaadin.event.ShortcutAction;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.Window;
+import com.vaadin.ui.*;
+import org.freelo.view.tasks.TaskPage;
 
 /**
  * Created by Konrad on 2015-01-13.
@@ -35,10 +33,8 @@ public class ManageProjectWindow extends Window {
 
             @Override
             public void buttonClick(Button.ClickEvent event) {
-
+                //UI.getCurrent().getNavigator().navigateTo(TaskPage.NAME);
                 close();
-
-
             }
         });
         updateButton.setClickShortcut(ShortcutAction.KeyCode.ENTER);

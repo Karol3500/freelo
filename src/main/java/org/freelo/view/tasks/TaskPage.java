@@ -70,6 +70,7 @@ public class TaskPage extends HorizontalLayout implements View {
 
     FileManagement fileManagement = new FileManagement();
     IndexedContainer fileContainer = createFileContainer();
+    private String projectName;
     ////////////////////////
 
     TabSheet tabSheet = new TabSheet();
@@ -79,6 +80,9 @@ public class TaskPage extends HorizontalLayout implements View {
     DashboardMenuBean dashboardMenuBean;
 
     public TaskPage() {
+
+        //todo set project name
+        projectName = "testProject";
         setSizeFull();
         addStyleName("taskpage");
 
@@ -163,7 +167,7 @@ public class TaskPage extends HorizontalLayout implements View {
 
     @SuppressWarnings("unchecked")
 	public IndexedContainer updateFileContainer() {
-        List<UserFile> files = FileDAO.getFilesByUserName(userName);
+        List<UserFile> files = FileDAO.getFilesByProjectName(projectName);
 
         if(files == null)
             return fileContainer;
@@ -254,7 +258,7 @@ public class TaskPage extends HorizontalLayout implements View {
         tab2.setSpacing(true);
         tab2.setMargin(new MarginInfo(true, true, true, true));
         //Upload container
-        FileUploader fileUploader = new FileUploader();
+        FileUploader fileUploader = new FileUploader(projectName);
 
         Upload upload = new Upload("Attach files to the project", fileUploader);
         upload.setButtonCaption("Upload");

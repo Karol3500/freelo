@@ -1,4 +1,4 @@
-package org.freelo.view.Dashboard;
+package org.freelo.view.Dashboard.Subwindows;
 
 import org.freelo.model.users.User;
 

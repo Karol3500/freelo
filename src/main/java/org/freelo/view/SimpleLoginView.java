@@ -1,4 +1,5 @@
 package org.freelo.view;
+import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -239,6 +240,8 @@ Button.ClickListener {
 	}
 
     public void storeCurrentUserInServiceSession(User user){
+        user.setPicturePath(VaadinService.getCurrent().getBaseDirectory().getAbsolutePath()+
+                File.separator + "WEB-INF" + File.separator + "images" + File.separator + "common" + File.separator + "profile-pic-300px.jpg");
         getSession().setAttribute("userClass", user);
     }
 	

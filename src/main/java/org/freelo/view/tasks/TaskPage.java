@@ -16,6 +16,7 @@ import org.freelo.model.files.FileDAO;
 import org.freelo.model.files.FileManagement;
 import org.freelo.model.files.FileUploader;
 import org.freelo.model.files.UserFile;
+import org.freelo.model.users.User;
 import org.freelo.view.Dashboard.DashboardMenu;
 import org.freelo.view.Dashboard.DashboardMenuBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +57,7 @@ public class TaskPage extends HorizontalLayout implements View {
     final VerticalLayout done = new VerticalLayout();
 
     public String userName = null;
+    User user = null;
 
     // fields for bottom container
     private Table fileList = new Table();
@@ -265,9 +267,6 @@ public class TaskPage extends HorizontalLayout implements View {
         fileList.setSelectable(false);
         fileList.setImmediate(true);
         fileList.setWidth("100%");
-        //fileList.setColumnAlignments(Table.Align.CENTER);
-
-        //fileList.setSizeFull();
         fileList.setPageLength(3);
 
         tab2.addComponents(upload, fileList);
@@ -403,7 +402,9 @@ public class TaskPage extends HorizontalLayout implements View {
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
-        userName = (String) VaadinSession.getCurrent().getAttribute("user");
+        user = (User) VaadinSession.getCurrent().getAttribute("userClass");
+        userName = user.getEmail();
+
         fileContainer = updateFileContainer();
     }
 

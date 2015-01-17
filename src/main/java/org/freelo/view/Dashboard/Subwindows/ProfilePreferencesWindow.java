@@ -1,4 +1,4 @@
-package org.freelo.view.Dashboard;
+package org.freelo.view.Dashboard.Subwindows;
 
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.fieldgroup.PropertyId;
@@ -13,6 +13,8 @@ import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.themes.ValoTheme;
 import org.freelo.model.users.User;
 import org.freelo.model.users.UserManagement;
+
+import java.io.File;
 
 @SuppressWarnings("serial")
 public class ProfilePreferencesWindow extends Window {
@@ -41,7 +43,9 @@ public class ProfilePreferencesWindow extends Window {
     UserManagement um = new UserManagement();
     User user;
 
-    private ProfilePreferencesWindow(final User user,
+    Image profilePic;
+
+    public ProfilePreferencesWindow(final User user,
                                      final boolean preferencesTabOpen) {
         addStyleName("profile-window");
         setId(ID);
@@ -114,15 +118,22 @@ public class ProfilePreferencesWindow extends Window {
         VerticalLayout pic = new VerticalLayout();
         pic.setSizeUndefined();
         pic.setSpacing(true);
-        Image profilePic = new Image(null, new ThemeResource(
-                "img/profile-pic-300px.jpg"));
+        //final Image profilePic = new Image(null, new ThemeResource("img/profile-pic-300px.jpg"));
+        final Image profilePic = new Image(null, new FileResource(new File(user.getPicturePath())));
         profilePic.setWidth(100.0f, Unit.PIXELS);
         pic.addComponent(profilePic);
 
         Button upload = new Button("Change…", new ClickListener() {
             @Override
             public void buttonClick(ClickEvent event) {
-                Notification.show("Not implemented in this demo");
+                PictureSubwindow subPic = new PictureSubwindow();
+                // Add it to the root component
+                UI.getCurrent().addWindow(subPic);
+                subPic.addCloseListener(new CloseListener() {
+                    public void windowClose(CloseEvent e) {
+                        profilePic.setSource(new FileResource(new File(user.getPicturePath())));
+                    }
+                });
             }
         });
         upload.addStyleName(ValoTheme.BUTTON_TINY);
@@ -153,6 +164,7 @@ public class ProfilePreferencesWindow extends Window {
         details.addComponent(emailField);
 
         passwordField = new PasswordField("Password");
+        passwordField.setValue(user.getPassword());
         passwordField.setWidth("100%");
         passwordField.setReadOnly(true);
 
@@ -181,20 +193,19 @@ public class ProfilePreferencesWindow extends Window {
         ok.addClickListener(new ClickListener() {
             @Override
             public void buttonClick(ClickEvent event) {
+
                 try {
-                    // Updated user should also be persisted to database. But
-                    // not in this demo.
-                    fieldGroup.commit();
-                    UserManagement.userUpdate(user);
-                    getSession().setAttribute("userClass", user);
-                    Notification success = new Notification(
-                            "Profile updated successfully");
-                    success.setDelayMsec(2000);
-                    success.setStyleName("bar success small");
-                    success.setPosition(Position.BOTTOM_CENTER);
-                    success.show(Page.getCurrent());
-
-
+                    if (fieldGroup.isModified()) {
+                        fieldGroup.commit();
+                        um.userUpdate(user);
+                        getSession().setAttribute("userClass", user);
+                        Notification success = new Notification(
+                                "Profile updated successfully");
+                        success.setDelayMsec(2000);
+                        success.setStyleName("bar success small");
+                        success.setPosition(Position.BOTTOM_CENTER);
+                        success.show(Page.getCurrent());
+                    }
                     close();
                 } catch (Exception e) {
                     Notification.show("Error while updating profile",

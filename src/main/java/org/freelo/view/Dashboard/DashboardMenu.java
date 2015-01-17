@@ -1,32 +1,24 @@
 package org.freelo.view.Dashboard;
 
-import java.util.List;
-
-import org.freelo.model.users.User;
-import org.freelo.view.SimpleLoginUI;
-
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.server.FileResource;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.Command;
 import com.vaadin.ui.MenuBar.MenuItem;
-import com.vaadin.ui.Panel;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
+import org.freelo.model.users.User;
+import org.freelo.view.Dashboard.Subwindows.MessageWindow;
+import org.freelo.view.Dashboard.Subwindows.ProfilePreferencesWindow;
+import org.freelo.view.SimpleLoginUI;
+
+import java.io.File;
+import java.util.List;
 
 /**
  * A responsive menu component providing user information and the controls for
@@ -38,6 +30,7 @@ public final class DashboardMenu extends CustomComponent implements View {
 	public static final String ID = "dashboard-menu";
     private static final String STYLE_VISIBLE = "valo-menu-visible";
     private MenuItem settingsItem;
+    final MenuBar settings = new MenuBar();
     public SimpleLoginUI ui;
     final CssLayout menuContent = new CssLayout();
     public List<User> friends;
@@ -90,21 +83,28 @@ public final class DashboardMenu extends CustomComponent implements View {
     }
 
     private Component buildUserMenu() {
-        final MenuBar settings = new MenuBar();
         settings.addStyleName("user-menu");
         final User user = getCurrentUser();
-        settingsItem = settings.addItem("", new ThemeResource(
-                "img/profile-pic-300px.jpg"), null);
-        String username = String.valueOf(ui.getSession().getAttribute("user"));
+        String username = user.getEmail();
+        settings.addStyleName("user-menu");
+
+        settingsItem = settings.addItem("", new FileResource(new File(user.getPicturePath())), null);
         settingsItem.setText(username);
         settingsItem.addItem("Edit Profile", new Command() {
 			private static final long serialVersionUID = 1L;
-
 			@Override
             public void menuSelected(final MenuItem selectedItem) {
-                ProfilePreferencesWindow.open(user, false);
+                ProfilePreferencesWindow subWind = new ProfilePreferencesWindow(user, false);
+                // Add it to the root component
+                UI.getCurrent().addWindow(subWind);
+                subWind.addCloseListener(new Window.CloseListener() {
+                    public void windowClose(Window.CloseEvent e) {
+                        updateUserMenu();
+                    }
+                });
             }
         });
+
         settingsItem.addItem("Preferences", new Command() {
 			private static final long serialVersionUID = 1L;
 
@@ -125,6 +125,11 @@ public final class DashboardMenu extends CustomComponent implements View {
             }
         });
         return settings;
+    }
+
+    private void updateUserMenu() {
+        settings.removeItems();
+        buildUserMenu();
     }
 
     private Component buildToggleButton() {
@@ -215,17 +220,22 @@ public final class DashboardMenu extends CustomComponent implements View {
     public final class ValoMenuItemButton extends Button {
 		private static final long serialVersionUID = 1L;
 
+        private final DashboardViewType view;
+
         public ValoMenuItemButton(final DashboardViewType view) {
+            this.view = view;
             setPrimaryStyleName("valo-menu-item");
             setIcon(view.getIcon());
             setCaption(view.getViewName().substring(0, 1).toUpperCase()
                     + view.getViewName().substring(1));
+            //DashboardEventBus.register(this);
             addClickListener(new ClickListener() {
 				private static final long serialVersionUID = 1L;
 
 				@Override
                 public void buttonClick(final ClickEvent event) {
                     UI.getCurrent().getNavigator().navigateTo(view.getViewName());
+                    //UI.getCurrent().getNavigator().navigateTo(ProjectManagementPage.NAME);
                 }
             });
 
@@ -235,7 +245,7 @@ public final class DashboardMenu extends CustomComponent implements View {
     public final class friendViewButton extends Button {
 		private static final long serialVersionUID = 1L;
 
-		public friendViewButton(User user) {
+        public friendViewButton(User user) {
             setPrimaryStyleName("valo-menu-item");
             setIcon(FontAwesome.USER);
             setCaption(user.getFirstName().substring(0, 1).toUpperCase()+ user.getFirstName().substring(1)+" "+

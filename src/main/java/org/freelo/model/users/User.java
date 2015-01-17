@@ -1,26 +1,17 @@
 package org.freelo.model.users;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import org.freelo.model.tasks.Note;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.*;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import java.util.*;
 
 
 @Entity
 @Table
 public class User{
-
+    static String DEFAULT_PICTURE = "img/profile-pic-300px.jpg";
+  
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE)
 	@Column(name = "USER_ID")
@@ -57,6 +48,7 @@ public class User{
 		this.lastName = "";
 		this.email = "";
 		this.password = "";
+        this.picturePath = DEFAULT_PICTURE;
 		this.created = new Date();
 	}
 
@@ -66,6 +58,7 @@ public class User{
 		this.email = email;
 		this.password = password;
 		this.created = new Date();
+        this.picturePath = DEFAULT_PICTURE;
 	}
 
 	public int getId() {

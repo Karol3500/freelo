@@ -5,6 +5,8 @@ import com.vaadin.server.FileResource;
 import com.vaadin.server.Page;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Notification;
+import org.freelo.model.users.User;
+import org.freelo.model.users.UserManagement;
 
 import java.io.File;
 
@@ -15,6 +17,23 @@ public class FileManagement {
 
     UserFile userFile = new UserFile();
     FileDAO fileDAO = new FileDAO();
+    UserManagement um = new UserManagement();
+
+    public boolean updatePicture (User user, File file){
+
+        if(file.length() != 0){
+
+            user.setPicturePath(file.getPath());
+            um.userUpdate(user);
+
+            showNotif("Picture: " + file.getName() + " updated successfully.");
+            return true;
+        }
+
+        showNotif("Picture: " + file.getName() + " update failed.");
+        return false;
+
+    }
 
     public boolean uploadFile(String userName, File file){
 

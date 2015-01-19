@@ -31,6 +31,14 @@ public class Message {
     private boolean read;
 
 
+    public Message(){
+        this.sender = -1;
+        this.receiver = -1;
+        this.message = "";
+        this.date =  new Date();
+        this.read = false;
+    }
+
     public Message(int sender, int receiver, String message){
         this.sender = sender;
         this.receiver = receiver;

@@ -87,4 +87,24 @@ public class MessageDAO {
         }
         return ID;
     }
+
+    // returns message ID, sent the message to other user
+    public static int sendMessage(Message message){
+        Session session = HibernateSessionFactoryBean.getSession();
+        Integer ID = null;
+        try{
+            session.beginTransaction();
+
+            Message message1 = new Message(message.getSender(),message.getReceiver(),message.getMessage());
+            ID = (Integer) session.save(message1);
+
+            session.getTransaction().commit();
+        }catch (HibernateException e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        }finally {
+            session.close();
+        }
+        return ID;
+    }
 }

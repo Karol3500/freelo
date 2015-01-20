@@ -12,6 +12,7 @@ import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.MenuBar.Command;
 import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.themes.ValoTheme;
+import org.freelo.model.users.Friends;
 import org.freelo.model.users.User;
 import org.freelo.view.Dashboard.Subwindows.MessageWindow;
 import org.freelo.view.Dashboard.Subwindows.ProfilePreferencesWindow;
@@ -33,7 +34,8 @@ public final class DashboardMenu extends CustomComponent implements View {
     final MenuBar settings = new MenuBar();
     public SimpleLoginUI ui;
     final CssLayout menuContent = new CssLayout();
-    public List<User> friends;
+    CssLayout friendListLayout = new CssLayout();
+    public List<Friends> friends;
     public DashboardMenu() {
         addStyleName("valo-menu");
         setId(ID);
@@ -166,7 +168,7 @@ public final class DashboardMenu extends CustomComponent implements View {
     }
 
     private Component buildFriendList() {
-        CssLayout friendListLayout = new CssLayout();
+        friendListLayout = new CssLayout();
         friendListLayout.addStyleName("valo-frienditems");
         friendListLayout.setHeight(100.0f, Unit.PERCENTAGE);
 
@@ -176,21 +178,22 @@ public final class DashboardMenu extends CustomComponent implements View {
         addFriendButton.setImmediate(true);
         friendListLayout.addComponent(addFriendButton);
         //friendListLayout.addComponent(new Label(""));
-        for (int i=0; i<3; ++i) {
-            Component friendListComponent = new friendViewButton(getCurrentUser());
-            friendListLayout.addComponent(friendListComponent);
-
-        }
-
+        /*
         if (friends != null) {
-            for (User f : friends) {
+            for (Friends f : friends) {
                 Component friendListComponent = new friendViewButton(f);
                 friendListLayout.addComponent(friendListComponent);
             }
         }
-        friendListLayout.addComponent(new Label(""));
+        friendListLayout.addComponent(new Label(""));*/
+
         return friendListLayout;
 
+    }
+
+    public void buildFriend(String firstName, String lastName){
+        Component friendListComponent = new friendViewButton(firstName, lastName);
+        friendListLayout.addComponent(friendListComponent);
     }
 
     Panel buildFriendPanel(){
@@ -245,11 +248,11 @@ public final class DashboardMenu extends CustomComponent implements View {
     public final class friendViewButton extends Button {
 		private static final long serialVersionUID = 1L;
 
-        public friendViewButton(User user) {
+        public friendViewButton(String firstName, String lastName) {
             setPrimaryStyleName("valo-menu-item");
             setIcon(FontAwesome.USER);
-            setCaption(user.getFirstName().substring(0, 1).toUpperCase()+ user.getFirstName().substring(1)+" "+
-                    user.getLastName().substring(0, 1).toUpperCase()+ user.getLastName().substring(1));
+            setCaption(firstName.substring(0, 1).toUpperCase()+ firstName.substring(1)+" "+
+                    lastName.substring(0, 1).toUpperCase()+ lastName.substring(1));
 
             addClickListener(new ClickListener() {
 				private static final long serialVersionUID = 1L;

@@ -1,7 +1,10 @@
 package org.freelo.view.ProjectManagement;
 
 import com.vaadin.event.LayoutEvents;
+import com.vaadin.navigator.Navigator;
+import com.vaadin.navigator.View;
 import com.vaadin.ui.*;
+import org.freelo.view.SimpleLoginUI;
 import org.freelo.view.tasks.TaskPage;
 
 import java.util.Date;
@@ -11,35 +14,44 @@ import java.util.Date;
  */
 public class SprintViewObject {
     public HorizontalLayout button = new HorizontalLayout();
+    private String ViewName;
+    private String SprintName;
+    private Date start_date;
+    private Date end_date;
+    private TaskPage TP = new TaskPage();
+    public Navigator navi = new Navigator(SimpleLoginUI.getCurrent(), button);
 
     SprintViewObject(String ViewName, String SprintName, Date start_date, Date end_date) {
-
-        init_button(ViewName, SprintName, start_date, end_date);
+        this.ViewName = ViewName;
+        this.SprintName = SprintName;
+        this.start_date = start_date;
+        this.end_date = end_date;
+        init_button();
+        navi.addView(this.ViewName, TP);
     }
-    private void init_button(final String ViewName, String SprintName, Date start_date, Date end_date) {
+    private void init_button() {
         button.setSpacing(true);
         button.setStyleName("SprintButton");
         button.setWidth("100%");
         button.setHeight("41px");
-        add_Labels(SprintName, start_date, end_date);
+        add_Labels();
         //todo clickable layout
         button.addLayoutClickListener(new LayoutEvents.LayoutClickListener() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
             public void layoutClick(LayoutEvents.LayoutClickEvent event) {
-                new TaskPage();
-                TaskPage.NAME = ViewName;
+                TP.NAME = ViewName;
                 //final SprintViewType view = new SprintViewType(TaskPage.NAME, TaskPage.class);
-                //UI.getCurrent().getNavigator().navigateTo(view.getViewName());
+                navi.navigateTo(TP.NAME);
             }
         });
     }
 
-    private void add_Labels(String SprintName, Date start_date, Date end_date){
-        Label Sprint_Name = new Label(SprintName);
-        Label Sprint_Start = new Label("Start: "+start_date);
-        Label Sprint_End = new Label("End: "+end_date);
+    private void add_Labels(){
+        Label Sprint_Name = new Label(this.SprintName);
+        Label Sprint_Start = new Label("Start: "+this.start_date);
+        Label Sprint_End = new Label("End: "+this.end_date);
         button.addComponent(Sprint_Name);
         button.addComponent(Sprint_Start);
         button.addComponent(Sprint_End);

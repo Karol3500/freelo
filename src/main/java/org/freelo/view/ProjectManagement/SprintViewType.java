@@ -26,7 +26,6 @@ public enum SprintViewType {
         return viewClass;
     }
 
-
     public static SprintViewType getByViewName(final String viewName) {
         SprintViewType result = null;
         for (SprintViewType viewType : values()) {

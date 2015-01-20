@@ -172,29 +172,34 @@ public final class DashboardMenu extends CustomComponent implements View {
         friendListLayout.addStyleName("valo-frienditems");
         friendListLayout.setHeight(100.0f, Unit.PERCENTAGE);
 
-        Button addFriendButton = new Button("+ Add Friend");
-        addFriendButton.setStyleName(ValoTheme.BUTTON_SMALL);
-        addFriendButton.setWidth("100%");
-        addFriendButton.setImmediate(true);
-        friendListLayout.addComponent(addFriendButton);
-        //friendListLayout.addComponent(new Label(""));
-        /*
-        if (friends != null) {
-            for (Friends f : friends) {
-                Component friendListComponent = new friendViewButton(f);
-                friendListLayout.addComponent(friendListComponent);
-            }
-        }
-        friendListLayout.addComponent(new Label(""));*/
+
+        friendListLayout.addComponent(addFriendButton());
 
         return friendListLayout;
 
     }
 
+    private Button addFriendButton(){
+        Button addFriendButton = new Button("+ Add Friend");
+        addFriendButton.setStyleName(ValoTheme.BUTTON_SMALL);
+        addFriendButton.setWidth("100%");
+        addFriendButton.setImmediate(true);
+
+        return addFriendButton;
+    }
+
     public void buildFriend(String firstName, String lastName){
         Component friendListComponent = new friendViewButton(firstName, lastName);
+
         friendListLayout.addComponent(friendListComponent);
     }
+
+    public void removeFriends(){
+        friendListLayout.removeAllComponents();
+        friendListLayout.addComponent(addFriendButton());
+
+    }
+
 
     Panel buildFriendPanel(){
         Panel friendPanel = new Panel("List of friends");
@@ -209,9 +214,27 @@ public final class DashboardMenu extends CustomComponent implements View {
         friendLayout.setSizeFull();
 
         friendLayout.addComponent(friendList);
+
+        Button delete = new Button("Delete");
+
+        delete.addClickListener(new ClickListener() {
+            @Override
+            public void buttonClick(ClickEvent event) {
+                removeFriends();
+            }
+        });
+
+        Button add = new Button("Add");
+        add.addClickListener(new ClickListener() {
+            @Override
+            public void buttonClick(ClickEvent event) {
+                buildFriend("gfdshdfs", "dfhsdh");
+            }
+        });
+
         //friendLayout.setComponentAlignment(friendPanel, Alignment.TOP_CENTER);
 
-
+        friendLayout.addComponents(delete, add);
         return friendPanel;
     }
 

@@ -43,6 +43,9 @@ public class TaskPage extends HorizontalLayout implements View {
     public TaskPageController taskPageController;
 
     public List<VerticalLayout> columns;
+    public void change_task_name(String new_name){
+        this.NAME = new_name;
+    }
 
     final HorizontalLayout container = new HorizontalLayout();
     final HorizontalLayout taskPanelContainer = new HorizontalLayout();

@@ -18,11 +18,12 @@ public class SprintViewObject {
     private String SprintName;
     private Date start_date;
     private Date end_date;
-    private TaskPage TP = new TaskPage();
-    public Navigator navi = new Navigator(SimpleLoginUI.getCurrent(), button);
+    public TaskPage TP = new TaskPage();
+    public Navigator navi = new Navigator(UI.getCurrent(), UI.getCurrent());
 
     SprintViewObject(String ViewName, String SprintName, Date start_date, Date end_date) {
         this.ViewName = ViewName;
+        this.TP.change_task_name(this.ViewName);
         this.SprintName = SprintName;
         this.start_date = start_date;
         this.end_date = end_date;
@@ -41,9 +42,7 @@ public class SprintViewObject {
 
 			@Override
             public void layoutClick(LayoutEvents.LayoutClickEvent event) {
-                TP.NAME = ViewName;
-                //final SprintViewType view = new SprintViewType(TaskPage.NAME, TaskPage.class);
-                navi.navigateTo(TP.NAME);
+                navi.navigateTo(ViewName);
             }
         });
     }

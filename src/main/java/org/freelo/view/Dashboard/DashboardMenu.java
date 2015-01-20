@@ -16,6 +16,7 @@ import org.freelo.model.users.Friends;
 import org.freelo.model.users.User;
 import org.freelo.view.Dashboard.Subwindows.MessageWindow;
 import org.freelo.view.Dashboard.Subwindows.ProfilePreferencesWindow;
+import org.freelo.view.Dashboard.Subwindows.addFriendWindow;
 import org.freelo.view.SimpleLoginUI;
 
 import java.io.File;
@@ -55,9 +56,10 @@ public final class DashboardMenu extends CustomComponent implements View {
         menuContent.addComponent(buildToggleButton());
         menuContent.addComponent(buildMenuItems());
         menuContent.addComponent(new Label(""));
-        Panel userPanel = buildFriendPanel();
-        userPanel.setHeight("100%");
-        menuContent.addComponent(userPanel);
+        Panel friendPanel = buildFriendPanel();
+        friendPanel.setSizeFull();
+        //friendPanel.setHeight("100px");
+        menuContent.addComponent(friendPanel);
 
     }
 
@@ -172,15 +174,27 @@ public final class DashboardMenu extends CustomComponent implements View {
         friendListLayout.addStyleName("valo-frienditems");
         friendListLayout.setHeight(100.0f, Unit.PERCENTAGE);
 
-
         friendListLayout.addComponent(addFriendButton());
-
         return friendListLayout;
 
     }
 
     private Button addFriendButton(){
-        Button addFriendButton = new Button("+ Add Friend");
+        Button addFriendButton = new Button("+ Add Friend", new ClickListener() {
+            @Override
+            public void buttonClick(ClickEvent event) {
+                final addFriendWindow subWind = new addFriendWindow();
+                // Add it to the root component
+                UI.getCurrent().addWindow(subWind);
+                subWind.addCloseListener(new Window.CloseListener() {
+                    public void windowClose(Window.CloseEvent e) {
+                        //profilePic.setSource(new FileResource(new File(user.getPicturePath())));
+                        String friendName = subWind.getUserName();
+                        if (friendName != null) buildFriend(friendName, "..");
+                    }
+                });
+            }
+        });
         addFriendButton.setStyleName(ValoTheme.BUTTON_SMALL);
         addFriendButton.setWidth("100%");
         addFriendButton.setImmediate(true);
@@ -204,6 +218,7 @@ public final class DashboardMenu extends CustomComponent implements View {
     Panel buildFriendPanel(){
         Panel friendPanel = new Panel("List of friends");
         Component friendList = buildFriendList();
+        friendList.setSizeFull();
 
         VerticalLayout friendLayout = new VerticalLayout();
 
@@ -212,29 +227,9 @@ public final class DashboardMenu extends CustomComponent implements View {
         friendPanel.setWidth("95%");
         friendPanel.setHeight("100%");
         friendLayout.setSizeFull();
-
         friendLayout.addComponent(friendList);
 
-        Button delete = new Button("Delete");
-
-        delete.addClickListener(new ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent event) {
-                removeFriends();
-            }
-        });
-
-        Button add = new Button("Add");
-        add.addClickListener(new ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent event) {
-                buildFriend("gfdshdfs", "dfhsdh");
-            }
-        });
-
-        //friendLayout.setComponentAlignment(friendPanel, Alignment.TOP_CENTER);
-
-        friendLayout.addComponents(delete, add);
+        //friendLayout.setComponentAlignment(friendList, Alignment.TOP_CENTER);
         return friendPanel;
     }
 

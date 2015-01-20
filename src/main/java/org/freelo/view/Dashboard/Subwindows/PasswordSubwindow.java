@@ -122,9 +122,9 @@ public class PasswordSubwindow extends Window {
     }
 
     class MatchValidator implements Validator {
-		private static final long serialVersionUID = 1L;
+        private static final long serialVersionUID = 1L;
 
-		@Override
+        @Override
         public void validate(Object value)
                 throws InvalidValueException {
             if (!(value instanceof String &&

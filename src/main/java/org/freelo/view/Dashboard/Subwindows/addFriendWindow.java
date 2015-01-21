@@ -15,7 +15,8 @@ public class addFriendWindow extends Window {
     private static final long serialVersionUID = 5678234591401040269L;
 
     private String userName = null;
-    TextField friendField;
+    public TextField friendField;
+    public Button addFriendButton;
 
     public addFriendWindow() {
         super("Add User");
@@ -59,7 +60,7 @@ public class addFriendWindow extends Window {
         friendField.addValidator(new UserValidator());
         friendField.setWidth("100%");
 
-        Button addFriendButton= new Button("+ Add Friend");
+        addFriendButton= new Button("+ Add Friend");
         addFriendButton.addStyleName(ValoTheme.BUTTON_PRIMARY);
         addFriendButton.setClickShortcut(ShortcutAction.KeyCode.ENTER);
         addFriendButton.addClickListener(new Button.ClickListener() {

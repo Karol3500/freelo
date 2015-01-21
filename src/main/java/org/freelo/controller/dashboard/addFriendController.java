@@ -5,6 +5,7 @@ import com.vaadin.ui.Button;
 import org.freelo.model.users.FriendsDAO;
 import org.freelo.model.users.User;
 import org.freelo.model.users.UserManagement;
+import org.freelo.view.Dashboard.DashboardMenu;
 import org.freelo.view.Dashboard.Subwindows.addFriendWindow;
 
 /**
@@ -12,15 +13,16 @@ import org.freelo.view.Dashboard.Subwindows.addFriendWindow;
  */
 public class addFriendController {
 
-  /*  private addFriendWindow friendWindow;
+    private addFriendWindow friendWindow;
+    private DashboardMenu dashboardMenu;
 
-    public addFriendController(addFriendWindow friendUI){
-        this.friendWindow = friendUI;
-        setFriendAddButtonListener();
+    public addFriendController(DashboardMenu dashboardMenu){
+        this.dashboardMenu = dashboardMenu;
     }
 
-    public void setFriendAddButtonListener(){
-        friendWindow.addFriendButton.addClickListener(new addFriendButtonClickListenerEventHandler());
+    public void addFriend(addFriendWindow friendUI){
+        this.friendWindow = friendUI;
+        this.friendWindow.addFriendButton.addClickListener(new addFriendButtonClickListenerEventHandler());
     }
 
     class addFriendButtonClickListenerEventHandler implements Button.ClickListener {
@@ -32,12 +34,16 @@ public class addFriendController {
 
             int friendID = UserManagement.getUserID(friendWindow.friendField.getValue());
 
-            System.out.println("user: ");
             // todo user doesnt exist
             User user = (User) VaadinSession.getCurrent().getAttribute("userClass");
 
-            System.out.println(user.getId() +" "+ user.getEmail());
+            //System.out.println("user: "+user.getEmail());
+            //System.out.println("friend id: "+friendID);
+
+            FriendsDAO.addFriend(user.getId(),friendID);
+
+            //DashboardMenu
 
         }
-    }*/
+    }
 }

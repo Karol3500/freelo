@@ -12,6 +12,7 @@ import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.MenuBar.Command;
 import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.themes.ValoTheme;
+import org.freelo.controller.dashboard.addFriendController;
 import org.freelo.model.users.Friends;
 import org.freelo.model.users.User;
 import org.freelo.view.Dashboard.Subwindows.MessageWindow;
@@ -37,6 +38,8 @@ public final class DashboardMenu extends CustomComponent implements View {
     final CssLayout menuContent = new CssLayout();
     CssLayout friendListLayout = new CssLayout();
     public List<Friends> friends;
+    public addFriendController friendController;
+
     public DashboardMenu() {
         addStyleName("valo-menu");
         setId(ID);
@@ -44,6 +47,7 @@ public final class DashboardMenu extends CustomComponent implements View {
         buildContent();
         setCompositionRoot(menuContent);
         menuContent.addComponent(buildTitle());
+        friendController = new addFriendController(this);
     }
 
     public void setupUI(SimpleLoginUI ui){
@@ -184,6 +188,7 @@ public final class DashboardMenu extends CustomComponent implements View {
             @Override
             public void buttonClick(ClickEvent event) {
                 final addFriendWindow subWind = new addFriendWindow();
+                friendController.addFriend(subWind);
                 // Add it to the root component
                 UI.getCurrent().addWindow(subWind);
                 subWind.addCloseListener(new Window.CloseListener() {

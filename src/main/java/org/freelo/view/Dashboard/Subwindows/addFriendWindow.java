@@ -4,9 +4,10 @@ import com.vaadin.data.Validator;
 import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.Page;
-import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
+import org.freelo.controller.dashboard.addFriendController;
+
 
 /**
  * Created by Adrian on 20-01-2015.
@@ -17,6 +18,8 @@ public class addFriendWindow extends Window {
     private String userName = null;
     public TextField friendField;
     public Button addFriendButton;
+
+    public addFriendController friendController;
 
     public addFriendWindow() {
         super("Add User");
@@ -31,6 +34,7 @@ public class addFriendWindow extends Window {
         setWidth("500px");
 
         main.addComponent(buildFriendField());
+        //friendController.addFriend(this);
         //VerticalLayout content = new VerticalLayout();
         //content.setSizeFull();
         //content.setMargin(new MarginInfo(true, true, true, true));

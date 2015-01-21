@@ -71,6 +71,14 @@
  // .projectPanel {
   //  max-height: 250px;
   //}
+  .v-table-multirowheaders .v-table-header-wrap {
+    height:     60px;
+    background: #e0e0e0;
+    text-transform: none;
+  }
+  .v-table-multirowheaders .v-table-header {
+    display: table-cell;
+  }
 }
 
 .container {

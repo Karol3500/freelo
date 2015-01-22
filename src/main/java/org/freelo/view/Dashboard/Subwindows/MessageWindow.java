@@ -14,6 +14,7 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
+import org.freelo.model.users.UserManagement;
 
 /**
  * Created by Adrian on 14-01-2015.
@@ -23,14 +24,17 @@ public class MessageWindow extends Window {
 	private TextField messageToSendField;
     private TextArea messagesHistoryArea;
     private Button sendButton;
+    private User friend;
 
-    private MessageWindow(final User user){
+    private MessageWindow(User user){
         super(user.getFirstName().substring(0, 1).toUpperCase()+ user.getFirstName().substring(1)+" "+
                 user.getLastName().substring(0, 1).toUpperCase()+ user.getLastName().substring(1));
         setCloseShortcut(ShortcutAction.KeyCode.ESCAPE, null);
         setModal(true);
         setHeight(60.0f, Unit.PERCENTAGE);
         setWidth(60.0f, Unit.PERCENTAGE);
+        this.friend = user;
+        System.out.println(friend.getEmail());
 
         VerticalLayout content = new VerticalLayout();
         //content = buildMessageLayout();
@@ -89,8 +93,9 @@ public class MessageWindow extends Window {
         return writingArea;
     }
 
-    public static void open(final User user) {
-        Window w = new MessageWindow(user);
+    public static void open(User user, int friendID) {
+        User friend = UserManagement.getUser(friendID);
+        Window w = new MessageWindow(friend);
         UI.getCurrent().addWindow(w);
         w.focus();
     }

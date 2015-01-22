@@ -57,7 +57,7 @@ public class FriendController {
         if (friends.isEmpty()) return;
         for (Friends friend:friends){
             user = UserManagement.getUser(friend.getFriendID());
-            dashboardMenu.buildFriend(user.getFirstName(),user.getLastName());
+            dashboardMenu.buildFriend(user.getFirstName(),user.getLastName(), user.getId());
         }
     }
 

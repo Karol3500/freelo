@@ -72,6 +72,7 @@ public class addFriendWindow extends Window {
             public void buttonClick(Button.ClickEvent event) {
                 userName = null;
                 friendField.setValidationVisible(false);
+                //friendController.updateFriends();
                 try {
                     friendField.validate();
                     userName = friendField.getValue();

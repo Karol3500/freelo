@@ -192,13 +192,13 @@ public final class DashboardMenu extends CustomComponent implements View {
                 friendController.addFriend(subWind);
                 // Add it to the root component
                 UI.getCurrent().addWindow(subWind);
-                subWind.addCloseListener(new Window.CloseListener() {
+                /*subWind.addCloseListener(new Window.CloseListener() {
                     public void windowClose(Window.CloseEvent e) {
                         //profilePic.setSource(new FileResource(new File(user.getPicturePath())));
                         String friendName = subWind.getUserName();
-                        if (friendName != null) buildFriend(friendName, "..");
+                        if (friendName != null) buildFriend(friendName, "..", );
                     }
-                });
+                });*/
             }
         });
         addFriendButton.setStyleName(ValoTheme.BUTTON_SMALL);
@@ -208,8 +208,8 @@ public final class DashboardMenu extends CustomComponent implements View {
         return addFriendButton;
     }
 
-    public void buildFriend(String firstName, String lastName){
-        Component friendListComponent = new friendViewButton(firstName, lastName);
+    public void buildFriend(String firstName, String lastName, int friendID){
+        Component friendListComponent = new friendViewButton(firstName, lastName, friendID);
         friendListLayout.addComponent(friendListComponent);
     }
 
@@ -271,7 +271,10 @@ public final class DashboardMenu extends CustomComponent implements View {
     public final class friendViewButton extends Button {
 		private static final long serialVersionUID = 1L;
 
-        public friendViewButton(String firstName, String lastName) {
+        private int friendID;
+
+        public friendViewButton(String firstName, String lastName, int inFriendID) {
+            this.friendID = inFriendID;
             setPrimaryStyleName("valo-menu-item");
             setIcon(FontAwesome.USER);
             setCaption(firstName.substring(0, 1).toUpperCase()+ firstName.substring(1)+" "+
@@ -282,7 +285,7 @@ public final class DashboardMenu extends CustomComponent implements View {
 
 				@Override
                 public void buttonClick(final ClickEvent event) {
-                    MessageWindow.open(getCurrentUser());
+                    MessageWindow.open(getCurrentUser(),friendID);
                 }
             });
 

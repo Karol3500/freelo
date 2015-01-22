@@ -1,13 +1,11 @@
 package org.freelo.model.files;
 
 import com.vaadin.server.Page;
-import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinService;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Upload;
 import org.freelo.model.users.User;
-import org.freelo.view.tasks.TaskPage;
 
 import java.io.File;
 import java.io.FileOutputStream;

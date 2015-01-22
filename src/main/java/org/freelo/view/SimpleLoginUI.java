@@ -33,8 +33,6 @@ public class SimpleLoginUI extends UI {
     @Autowired
 	public SimpleLoginView loginView;
 	@Autowired
-	public TaskPage taskPageView;
-	@Autowired
 	public Register registerView;
     @Autowired
     public ProjectManagementPage projectManagementView;
@@ -61,13 +59,10 @@ public class SimpleLoginUI extends UI {
         getNavigator().addView(SimpleLoginView.NAME, loginView);
 
         //
-        // Add the main view of the application
-        //
-        getNavigator().addView(TaskPage.NAME, taskPageView);
-
-        //
         getNavigator().addView(Register.NAME, registerView);
 
+        getNavigator().addView("",loginView);
+        
         //
         // Project management view displayed when user is not enrolled to any project
         //

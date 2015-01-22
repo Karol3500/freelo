@@ -52,8 +52,10 @@ public class ProjectManagementPage extends VerticalLayout implements View{
 
     }
 
-    public void addProject(String email, String name) {
-        container2.addComponent(new ProjectItem(name, email));
+    public ProjectItem addProject(String email, String name) {
+    	ProjectItem p = new ProjectItem(name, email);
+        container2.addComponent(p);
+        return p;
     }
 
     @PostConstruct
@@ -85,7 +87,4 @@ public class ProjectManagementPage extends VerticalLayout implements View{
         welcome.setPosition(Position.BOTTOM_CENTER);
         welcome.show(Page.getCurrent());
     }
-
-
-
 }

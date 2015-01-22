@@ -6,6 +6,8 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
+
+import org.freelo.model.sprints.Sprint;
 import org.freelo.model.users.User;
 
 /**
@@ -16,19 +18,19 @@ public class ProjectItem extends ProjectManagementPage {
 	public String manager;
     public Button sprintButton;
     public String name;
-
+    final VerticalLayout nextcontainer;
     private User getCurrentUser() {
         return (User) VaadinSession.getCurrent().getAttribute("userClass");
     }
     final User user = getCurrentUser();
 
-    public ProjectItem(final String name, String manager) {
+    public ProjectItem(final String name, final String manager) {
 
     	this.manager = manager;
     	this.name = name;
         setSizeFull();
         HorizontalLayout container = new HorizontalLayout();
-        final VerticalLayout nextcontainer = new VerticalLayout();
+        nextcontainer = new VerticalLayout();
         nextcontainer.addStyleName("projectContainer");
         Panel ProjectPanel = new Panel("Project: "+name);
 
@@ -42,7 +44,7 @@ public class ProjectItem extends ProjectManagementPage {
 
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                createNewSprint = new AddSprintWindow(nextcontainer, name);
+                createNewSprint = new AddSprintWindow(nextcontainer, name, manager);
                 UI.getCurrent().addWindow(createNewSprint);
             }
         });
@@ -69,5 +71,11 @@ public class ProjectItem extends ProjectManagementPage {
         final User user = getCurrentUser();
 		manageProject = new ManageProjectWindow(user, name);
 		UI.getCurrent().addWindow(manageProject);
+	}
+
+	public void addSprint(Sprint s, String projectName) {
+        SprintViewObject sprint = new SprintViewObject(projectName,
+        		String.valueOf(s.getId()),s.getStartDate(), s.getEndDate());
+        nextcontainer.addComponent(sprint.button);		
 	}
 }

@@ -1,34 +1,33 @@
 package org.freelo.view.ProjectManagement;
 
-import com.vaadin.event.LayoutEvents;
-import com.vaadin.navigator.Navigator;
-import com.vaadin.navigator.View;
-import com.vaadin.ui.*;
-import org.freelo.view.SimpleLoginUI;
+import java.util.Date;
+
 import org.freelo.view.tasks.TaskPage;
 
-import java.util.Date;
+import com.vaadin.event.LayoutEvents;
+import com.vaadin.navigator.Navigator;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.UI;
 
 /**
  * Created by Konrad on 2015-01-13.
  */
 public class SprintViewObject {
     public HorizontalLayout button = new HorizontalLayout();
-    private String ViewName;
-    private String SprintName;
-    private Date start_date;
-    private Date end_date;
-    public TaskPage TP = new TaskPage();
+    private String viewName;
+    private String sprintName;
+    private Date startDate;
+    private Date endDate;
     public Navigator navi = new Navigator(UI.getCurrent(), UI.getCurrent());
 
-    SprintViewObject(String ViewName, String SprintName, Date start_date, Date end_date) {
-        this.ViewName = ViewName;
-        this.TP.change_task_name(this.ViewName);
-        this.SprintName = SprintName;
-        this.start_date = start_date;
-        this.end_date = end_date;
+    SprintViewObject(String projectName, String sprintName, Date start_date, Date end_date) {
+        this.viewName = projectName+"_"+sprintName;
+        this.sprintName = sprintName;
+        this.startDate = start_date;
+        this.endDate = end_date;
         init_button();
-        navi.addView(this.ViewName, TP);
     }
     private void init_button() {
         button.setSpacing(true);
@@ -37,20 +36,25 @@ public class SprintViewObject {
         button.setHeight("41px");
         add_Labels();
         //todo clickable layout
-        button.addLayoutClickListener(new LayoutEvents.LayoutClickListener() {
-			private static final long serialVersionUID = 1L;
+        button.addLayoutClickListener(new goToSprintClickListener());
+    }
+    
+    private class goToSprintClickListener implements LayoutEvents.LayoutClickListener{
+		private static final long serialVersionUID = 1L;
 
-			@Override
-            public void layoutClick(LayoutEvents.LayoutClickEvent event) {
-                navi.navigateTo(ViewName);
-            }
-        });
+		@Override
+        public void layoutClick(LayoutEvents.LayoutClickEvent event) {
+    		TaskPage tp = new TaskPage();
+    		tp.change_task_name(viewName);
+	        navi.addView(viewName, tp);
+            navi.navigateTo(viewName);
+        }
     }
 
     private void add_Labels(){
-        Label Sprint_Name = new Label(this.SprintName);
-        Label Sprint_Start = new Label("Start: "+this.start_date);
-        Label Sprint_End = new Label("End: "+this.end_date);
+        Label Sprint_Name = new Label(this.sprintName);
+        Label Sprint_Start = new Label("Start: "+this.startDate);
+        Label Sprint_End = new Label("End: "+this.endDate);
         button.addComponent(Sprint_Name);
         button.addComponent(Sprint_Start);
         button.addComponent(Sprint_End);

@@ -31,8 +31,6 @@ import java.util.*;
 /**
  * Created by Jan on 2014-11-08.
  */
-@Component
-@Scope("prototype")
 public class TaskPage extends HorizontalLayout implements View {
 
     private static final long serialVersionUID = -906274928780939032L;
@@ -111,6 +109,7 @@ public class TaskPage extends HorizontalLayout implements View {
         donepanel.addStyleName("donepanel");
         donepanel.setHeight("100%");
         donepanel.setContent(done);
+        setup();
     }
 
     private com.vaadin.ui.Component buildPageForm(){
@@ -155,18 +154,6 @@ public class TaskPage extends HorizontalLayout implements View {
             updateFileContainer();
         }
     }
-//
-//    class FileDeletedListener implements Button.ClickListener{
-//        long fileId;
-//        public FileDeletedListener(long fileId){
-//            this.fileId = fileId;
-//        }
-//
-//        @Override
-//        public void buttonClick(Button.ClickEvent event) {
-//
-//        }
-//    }
 
     @SuppressWarnings("unchecked")
 	public IndexedContainer updateFileContainer() {
@@ -178,8 +165,6 @@ public class TaskPage extends HorizontalLayout implements View {
         fileContainer.removeAllContainerFilters();
 
         for (UserFile f : files) {
-            //System.out.println(f.get_fileName());
-
             final Button deleteFile = new Button("Delete");
             final Button downloadFile = new Button("Download");
 
@@ -215,16 +200,12 @@ public class TaskPage extends HorizontalLayout implements View {
     private com.vaadin.ui.Component buildBottomForm(){
         VerticalLayout bottomPanel = new VerticalLayout();
 
-
         bottomPanel.addComponent(tabSheet);
         bottomPanel.setSizeFull();
-        //////////////////////////
         tabSheet.addStyleName(ValoTheme.TABSHEET_FRAMED);
         tabSheet.addTab(buildTab1(), "ShoutBox");
         tabSheet.addTab(buildTab2(), "Task Files");
         tabSheet.setSizeFull();
-        //bottomPanel.addComponent(fileList);
-        ///////////////////////////
         return bottomPanel;
     }
 
@@ -241,10 +222,6 @@ public class TaskPage extends HorizontalLayout implements View {
         projectMembersPanel.setStyleName("ProjectMembersPanel");
         projectMembersPanel.setHeight("100%");
         projectMembersPanel.setWidth("100%");
-
-        //controller for project/sprint page needed
-        //Date startdate = startDatePicker.getValue();
-        //Date enddate =  endDatePicker.getValue();
 
 		Date startDate = new Date(2015, 0, 1);
         Date endDate =  new Date(2015, 0, 14);
@@ -323,7 +300,6 @@ public class TaskPage extends HorizontalLayout implements View {
         return writingArea;
     }
 
-    @PostConstruct
     private void setup(){
 
         taskPanelContainer.addComponent(todopanel);
@@ -335,7 +311,7 @@ public class TaskPage extends HorizontalLayout implements View {
         columns.add(ongoing);
         columns.add(done);
 
-        dashBoard = dashboardMenuBean.getNewDashboardMenu();
+        dashBoard = new DashboardMenu();
         final Button addComponentButton = new Button("Add Task");
         addComponentButton.addStyleName("button1");
         addComponentButton.addClickListener(new Button.ClickListener() {

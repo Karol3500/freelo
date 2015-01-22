@@ -30,9 +30,6 @@ public class LoginController {
     }
     
     class loginButtonClickListenerEventHandler implements Button.ClickListener {
-		/**
-		 * 
-		 */
 		private static final long serialVersionUID = -8080776772321261004L;
 		private String userName;
         private String password;

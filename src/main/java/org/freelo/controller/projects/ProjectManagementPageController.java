@@ -3,8 +3,10 @@ package org.freelo.controller.projects;
 
 import org.freelo.model.projects.Project;
 import org.freelo.model.projects.ProjectManagement;
+import org.freelo.model.sprints.Sprint;
 import org.freelo.model.users.User;
 import org.freelo.model.users.UserManagement;
+import org.freelo.view.ProjectManagement.ProjectItem;
 import org.freelo.view.ProjectManagement.ProjectManagementPage;
 
 import java.util.List;
@@ -26,9 +28,15 @@ public class ProjectManagementPageController {
         if(existingProjectsForUser==null)
             return;
         for(Project proj : existingProjectsForUser){
-            projectPage.addProject(UserManagement.getUser(proj.getManager()).getEmail(),proj.getName());
+            ProjectItem p = projectPage.addProject(UserManagement.
+            		getUser(proj.getManager()).getEmail(),proj.getName());
+            populateSprintButtons(p,proj);
         }
     }
 
-
+	private void populateSprintButtons(ProjectItem p, Project proj) {
+		for(Sprint s : proj.getSprints()){
+			p.addSprint(s,proj.getName());
+		}
+	}
 }

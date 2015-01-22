@@ -261,7 +261,6 @@ public class ManageProjectWindow extends Window {
 
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                //UI.getCurrent().getNavigator().navigateTo(TaskPage.NAME);
                 close();
             }
         });

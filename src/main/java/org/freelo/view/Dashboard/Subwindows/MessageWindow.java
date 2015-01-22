@@ -17,6 +17,9 @@ import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
 import org.freelo.model.users.UserManagement;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by Adrian on 14-01-2015.
  */
@@ -24,6 +27,7 @@ public class MessageWindow extends Window {
 	private static final long serialVersionUID = 1L;
 	public TextField messageToSendField;
     public TextArea messagesHistoryArea;
+    public String messageHistory;
     public Button sendButton;
     public User friend;
     public Button deleteButton;
@@ -48,6 +52,7 @@ public class MessageWindow extends Window {
 
         content.addComponent(buildMessageLayout());
         friendController.addMessage(this);
+        messageHistory = new String();
     }
 
     VerticalLayout buildMessageLayout(){
@@ -102,6 +107,12 @@ public class MessageWindow extends Window {
         Window w = new MessageWindow(friend, friendController);
         UI.getCurrent().addWindow(w);
         w.focus();
+    }
+
+    public void addMessage(Date date, String userName, String message){
+        SimpleDateFormat ft = new SimpleDateFormat ("yyyy.MM.dd HH:mm:ss");
+        messageHistory += ft.format(date)+" "+userName+":  "+message+"\n";
+        messagesHistoryArea.setValue(messageHistory);
     }
 
 }

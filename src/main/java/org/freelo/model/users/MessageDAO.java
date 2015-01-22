@@ -107,4 +107,24 @@ public class MessageDAO {
         }
         return ID;
     }
+
+
+    public static void setAsRead(int ID){
+        Session session = HibernateSessionFactoryBean.getSession();
+        try{
+            session.beginTransaction();
+
+            Message message = (Message)session.get(Message.class, ID);
+            if (message == null) return;
+            message.setAsRead();
+            session.update(message);
+
+            session.getTransaction().commit();
+        }catch (HibernateException e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        }finally {
+            session.close();
+        }
+    }
 }

@@ -4,24 +4,21 @@ import com.vaadin.data.Validator;
 import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.Page;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
-import org.freelo.controller.dashboard.FriendController;
-
 
 /**
  * Created by Adrian on 20-01-2015.
  */
-public class addFriendWindow extends Window {
+public class AddFriendWindow extends Window {
     private static final long serialVersionUID = 5678234591401040269L;
 
     private String userName = null;
     public TextField friendField;
     public Button addFriendButton;
 
-    public FriendController friendController;
-
-    public addFriendWindow() {
+    public AddFriendWindow() {
         super("Add User");
         center();
         setClosable(true);
@@ -34,7 +31,6 @@ public class addFriendWindow extends Window {
         setWidth("500px");
 
         main.addComponent(buildFriendField());
-        //friendController.addFriend(this);
         //VerticalLayout content = new VerticalLayout();
         //content.setSizeFull();
         //content.setMargin(new MarginInfo(true, true, true, true));
@@ -72,12 +68,10 @@ public class addFriendWindow extends Window {
             public void buttonClick(Button.ClickEvent event) {
                 userName = null;
                 friendField.setValidationVisible(false);
-                //friendController.updateFriends();
                 try {
                     friendField.validate();
                     userName = friendField.getValue();
-                    Notification success = new Notification(
-                            "Friend added successfully");
+                    Notification success = new Notification(userName + " added successfully");
                     success.setDelayMsec(1500);
                     success.show(Page.getCurrent());
                     close();

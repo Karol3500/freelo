@@ -15,9 +15,9 @@ import com.vaadin.ui.themes.ValoTheme;
 import org.freelo.controller.dashboard.FriendController;
 import org.freelo.model.users.Friends;
 import org.freelo.model.users.User;
+import org.freelo.view.Dashboard.Subwindows.AddFriendWindow;
 import org.freelo.view.Dashboard.Subwindows.MessageWindow;
 import org.freelo.view.Dashboard.Subwindows.ProfilePreferencesWindow;
-import org.freelo.view.Dashboard.Subwindows.addFriendWindow;
 import org.freelo.view.SimpleLoginUI;
 
 import java.io.File;
@@ -188,7 +188,7 @@ public final class DashboardMenu extends CustomComponent implements View {
         Button addFriendButton = new Button("+ Add Friend", new ClickListener() {
             @Override
             public void buttonClick(ClickEvent event) {
-                final addFriendWindow subWind = new addFriendWindow();
+                final AddFriendWindow subWind = new AddFriendWindow();
                 friendController.addFriend(subWind);
                 // Add it to the root component
                 UI.getCurrent().addWindow(subWind);

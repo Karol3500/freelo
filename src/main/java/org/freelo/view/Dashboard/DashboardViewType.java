@@ -37,16 +37,4 @@ public enum DashboardViewType {
     public Resource getIcon() {
         return icon;
     }
-
-    public static DashboardViewType getByViewName(final String viewName) {
-        DashboardViewType result = null;
-        for (DashboardViewType viewType : values()) {
-            if (viewType.getViewName().equals(viewName)) {
-                result = viewType;
-                break;
-            }
-        }
-        return result;
-    }
-
 }

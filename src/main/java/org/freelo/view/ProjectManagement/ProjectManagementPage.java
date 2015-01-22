@@ -22,7 +22,7 @@ import javax.annotation.PostConstruct;
 public class ProjectManagementPage extends VerticalLayout implements View{
 
     private static final long serialVersionUID = -9002670791091569418L;
-    public static final String NAME = "Project Management";
+    public static final String NAME = "Project_management";
     public ProjectManagementPageController pageController;
     public Subwindow createNewProj;
     public AddSprintWindow createNewSprint;

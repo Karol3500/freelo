@@ -20,7 +20,7 @@ public class SprintViewObject {
     private String sprintName;
     private Date startDate;
     private Date endDate;
-    public Navigator navi = new Navigator(UI.getCurrent(), UI.getCurrent());
+    public Navigator navi = UI.getCurrent().getNavigator();
 
     SprintViewObject(String projectName, String sprintName, Date start_date, Date end_date) {
         this.viewName = projectName+"_"+sprintName;

@@ -1,27 +1,40 @@
 package org.freelo.view.Dashboard;
 
+import java.io.File;
+import java.util.List;
+
+import org.freelo.controller.dashboard.FriendController;
+import org.freelo.model.users.Friends;
+import org.freelo.model.users.User;
+import org.freelo.view.SimpleLoginUI;
+import org.freelo.view.Dashboard.Subwindows.MessageWindow;
+import org.freelo.view.Dashboard.Subwindows.ProfilePreferencesWindow;
+import org.freelo.view.Dashboard.Subwindows.addFriendWindow;
+import org.freelo.view.ProjectManagement.ProjectManagementPage;
+
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.FileResource;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.CustomComponent;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.Command;
 import com.vaadin.ui.MenuBar.MenuItem;
+import com.vaadin.ui.Panel;
+import com.vaadin.ui.UI;
+import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
-import org.freelo.controller.dashboard.FriendController;
-import org.freelo.model.users.Friends;
-import org.freelo.model.users.User;
-import org.freelo.view.Dashboard.Subwindows.addFriendWindow;
-import org.freelo.view.Dashboard.Subwindows.MessageWindow;
-import org.freelo.view.Dashboard.Subwindows.ProfilePreferencesWindow;
-import org.freelo.view.SimpleLoginUI;
-
-import java.io.File;
-import java.util.List;
 
 /**
  * A responsive menu component providing user information and the controls for
@@ -182,15 +195,7 @@ public final class DashboardMenu extends CustomComponent implements View {
             public void buttonClick(ClickEvent event) {
                 final addFriendWindow subWind = new addFriendWindow();
                 friendController.addFriend(subWind);
-                // Add it to the root component
                 UI.getCurrent().addWindow(subWind);
-                /*subWind.addCloseListener(new Window.CloseListener() {
-                    public void windowClose(Window.CloseEvent e) {
-                        //profilePic.setSource(new FileResource(new File(user.getPicturePath())));
-                        String friendName = subWind.getUserName();
-                        if (friendName != null) buildFriend(friendName, "..", );
-                    }
-                });*/
             }
         });
         addFriendButton.setStyleName(ValoTheme.BUTTON_SMALL);
@@ -225,8 +230,6 @@ public final class DashboardMenu extends CustomComponent implements View {
         friendPanel.setHeight("100%");
         friendLayout.setSizeFull();
         friendLayout.addComponent(friendList);
-
-        //friendLayout.setComponentAlignment(friendList, Alignment.TOP_CENTER);
         return friendPanel;
     }
 
@@ -238,25 +241,20 @@ public final class DashboardMenu extends CustomComponent implements View {
     public final class ValoMenuItemButton extends Button {
 		private static final long serialVersionUID = 1L;
 
-        private final DashboardViewType view;
 
         public ValoMenuItemButton(final DashboardViewType view) {
-            this.view = view;
             setPrimaryStyleName("valo-menu-item");
             setIcon(view.getIcon());
             setCaption(view.getViewName().substring(0, 1).toUpperCase()
                     + view.getViewName().substring(1));
-            //DashboardEventBus.register(this);
             addClickListener(new ClickListener() {
 				private static final long serialVersionUID = 1L;
 
 				@Override
                 public void buttonClick(final ClickEvent event) {
-                    UI.getCurrent().getNavigator().navigateTo(view.getViewName());
-                    //UI.getCurrent().getNavigator().navigateTo(ProjectManagementPage.NAME);
+					getUI().getNavigator().navigateTo(ProjectManagementPage.NAME);
                 }
             });
-
         }
     }
 

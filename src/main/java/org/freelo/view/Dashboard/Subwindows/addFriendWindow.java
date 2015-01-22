@@ -11,14 +11,14 @@ import com.vaadin.ui.themes.ValoTheme;
 /**
  * Created by Adrian on 20-01-2015.
  */
-public class AddFriendWindow extends Window {
+public class addFriendWindow extends Window {
     private static final long serialVersionUID = 5678234591401040269L;
 
     private String userName = null;
     public TextField friendField;
     public Button addFriendButton;
 
-    public AddFriendWindow() {
+    public addFriendWindow() {
         super("Add User");
         center();
         setClosable(true);

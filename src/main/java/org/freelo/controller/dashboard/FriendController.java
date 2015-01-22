@@ -4,11 +4,9 @@ import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import org.freelo.model.users.*;
 import org.freelo.view.Dashboard.DashboardMenu;
-import org.freelo.view.Dashboard.Subwindows.MessageWindow;
 import org.freelo.view.Dashboard.Subwindows.addFriendWindow;
+import org.freelo.view.Dashboard.Subwindows.MessageWindow;
 
-import javax.jws.soap.SOAPBinding;
-import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;

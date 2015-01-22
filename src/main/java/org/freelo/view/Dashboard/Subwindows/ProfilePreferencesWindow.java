@@ -45,8 +45,7 @@ public class ProfilePreferencesWindow extends Window {
 
     Image profilePic;
 
-    public ProfilePreferencesWindow(final User user,
-                                     final boolean preferencesTabOpen) {
+    public ProfilePreferencesWindow(final User user) {
         addStyleName("profile-window");
         setId(ID);
         Responsive.makeResponsive(this);
@@ -75,11 +74,6 @@ public class ProfilePreferencesWindow extends Window {
         content.setExpandRatio(detailsWrapper, 1f);
 
         detailsWrapper.addComponent(buildProfileTab());
-        detailsWrapper.addComponent(buildPreferencesTab());
-
-        if (preferencesTabOpen) {
-            detailsWrapper.setSelectedTab(1);
-        }
 
         fieldGroup = new BeanFieldGroup<User>(User.class);
         fieldGroup.bindMemberFields(this);
@@ -87,23 +81,6 @@ public class ProfilePreferencesWindow extends Window {
 
         content.addComponent(buildFooter());
 
-    }
-
-    private Component buildPreferencesTab() {
-        VerticalLayout root = new VerticalLayout();
-        root.setCaption("Preferences");
-        root.setIcon(FontAwesome.COGS);
-        root.setSpacing(true);
-        root.setMargin(true);
-        root.setSizeFull();
-
-        Label message = new Label(user.getFirstName());
-        message.setSizeUndefined();
-        message.addStyleName(ValoTheme.LABEL_LIGHT);
-        root.addComponent(message);
-        root.setComponentAlignment(message, Alignment.MIDDLE_CENTER);
-
-        return root;
     }
 
     private Component buildProfileTab() {
@@ -221,7 +198,7 @@ public class ProfilePreferencesWindow extends Window {
     }
 
     public static void open(final User user, final boolean preferencesTabActive) {
-        Window w = new ProfilePreferencesWindow(user, preferencesTabActive);
+        Window w = new ProfilePreferencesWindow(user);
         UI.getCurrent().addWindow(w);
         w.focus();
     }

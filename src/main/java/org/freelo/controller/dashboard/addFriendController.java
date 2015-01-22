@@ -6,21 +6,21 @@ import org.freelo.model.users.FriendsDAO;
 import org.freelo.model.users.User;
 import org.freelo.model.users.UserManagement;
 import org.freelo.view.Dashboard.DashboardMenu;
-import org.freelo.view.Dashboard.Subwindows.AddFriendWindow;
+import org.freelo.view.Dashboard.Subwindows.addFriendWindow;
 
 /**
  * Created by Artur on 1/21/2015.
  */
 public class addFriendController {
 
-    private AddFriendWindow friendWindow;
+    private addFriendWindow friendWindow;
     private DashboardMenu dashboardMenu;
 
     public addFriendController(DashboardMenu dashboardMenu){
         this.dashboardMenu = dashboardMenu;
     }
 
-    public void addFriend(AddFriendWindow friendUI){
+    public void addFriend(addFriendWindow friendUI){
         this.friendWindow = friendUI;
         this.friendWindow.addFriendButton.addClickListener(new addFriendButtonClickListenerEventHandler());
     }

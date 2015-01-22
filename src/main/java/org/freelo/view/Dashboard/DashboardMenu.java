@@ -15,7 +15,7 @@ import com.vaadin.ui.themes.ValoTheme;
 import org.freelo.controller.dashboard.FriendController;
 import org.freelo.model.users.Friends;
 import org.freelo.model.users.User;
-import org.freelo.view.Dashboard.Subwindows.AddFriendWindow;
+import org.freelo.view.Dashboard.Subwindows.addFriendWindow;
 import org.freelo.view.Dashboard.Subwindows.MessageWindow;
 import org.freelo.view.Dashboard.Subwindows.ProfilePreferencesWindow;
 import org.freelo.view.SimpleLoginUI;
@@ -103,7 +103,7 @@ public final class DashboardMenu extends CustomComponent implements View {
 			private static final long serialVersionUID = 1L;
 			@Override
             public void menuSelected(final MenuItem selectedItem) {
-                ProfilePreferencesWindow subWind = new ProfilePreferencesWindow(user, false);
+                ProfilePreferencesWindow subWind = new ProfilePreferencesWindow(user);
                 // Add it to the root component
                 UI.getCurrent().addWindow(subWind);
                 subWind.addCloseListener(new Window.CloseListener() {
@@ -114,14 +114,6 @@ public final class DashboardMenu extends CustomComponent implements View {
             }
         });
 
-        settingsItem.addItem("Preferences", new Command() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-            public void menuSelected(final MenuItem selectedItem) {
-                ProfilePreferencesWindow.open(user, true);
-            }
-        });
         settingsItem.addSeparator();
             settingsItem.addItem("Sign Out", new Command() {
 				private static final long serialVersionUID = 1L;
@@ -188,7 +180,7 @@ public final class DashboardMenu extends CustomComponent implements View {
         Button addFriendButton = new Button("+ Add Friend", new ClickListener() {
             @Override
             public void buttonClick(ClickEvent event) {
-                final AddFriendWindow subWind = new AddFriendWindow();
+                final addFriendWindow subWind = new addFriendWindow();
                 friendController.addFriend(subWind);
                 // Add it to the root component
                 UI.getCurrent().addWindow(subWind);

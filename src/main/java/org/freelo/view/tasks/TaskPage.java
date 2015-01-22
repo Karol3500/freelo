@@ -1,15 +1,9 @@
 package org.freelo.view.tasks;
 
-import com.vaadin.data.util.IndexedContainer;
-import com.vaadin.event.ShortcutAction;
-import com.vaadin.navigator.View;
-import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.server.VaadinSession;
-import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.*;
-import com.vaadin.ui.Calendar;
-import com.vaadin.ui.components.calendar.event.BasicEvent;
-import com.vaadin.ui.themes.ValoTheme;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 import org.freelo.controller.tasks.TaskPageController;
 import org.freelo.model.files.FileDAO;
@@ -17,15 +11,29 @@ import org.freelo.model.files.FileManagement;
 import org.freelo.model.files.FileUploader;
 import org.freelo.model.files.UserFile;
 import org.freelo.model.users.User;
+import org.freelo.view.SimpleLoginUI;
 import org.freelo.view.Dashboard.DashboardMenu;
-import org.freelo.view.Dashboard.DashboardMenuBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
-
-import java.util.*;
+import com.vaadin.data.util.IndexedContainer;
+import com.vaadin.event.ShortcutAction;
+import com.vaadin.navigator.View;
+import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.server.VaadinSession;
+import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Calendar;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Panel;
+import com.vaadin.ui.TabSheet;
+import com.vaadin.ui.Table;
+import com.vaadin.ui.TextArea;
+import com.vaadin.ui.TextField;
+import com.vaadin.ui.UI;
+import com.vaadin.ui.Upload;
+import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.components.calendar.event.BasicEvent;
+import com.vaadin.ui.themes.ValoTheme;
 
 
 /**
@@ -76,9 +84,6 @@ public class TaskPage extends HorizontalLayout implements View {
 
     TabSheet tabSheet = new TabSheet();
     DashboardMenu dashBoard;
-
-    @Autowired
-    DashboardMenuBean dashboardMenuBean;
 
     public TaskPage() {
 
@@ -312,6 +317,7 @@ public class TaskPage extends HorizontalLayout implements View {
         columns.add(done);
 
         dashBoard = new DashboardMenu();
+        dashBoard.setupUI((SimpleLoginUI)getUI());
         final Button addComponentButton = new Button("Add Task");
         addComponentButton.addStyleName("button1");
         addComponentButton.addClickListener(new Button.ClickListener() {

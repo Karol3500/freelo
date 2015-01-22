@@ -121,7 +121,7 @@ public final class DashboardMenu extends CustomComponent implements View {
 			@Override
             public void menuSelected(final MenuItem selectedItem) {
                 getSession().setAttribute("user", null);
-                ui.getSession().close();
+                getUI().getSession().close();
                 getUI().getPage().setLocation( "/" );
             }
         });

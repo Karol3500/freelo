@@ -2,6 +2,7 @@ package org.freelo.view.ProjectManagement;
 
 import com.vaadin.data.Item;
 
+import com.vaadin.data.Property;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
@@ -37,8 +38,8 @@ public class ManageProjectWindow extends Window {
         setCloseShortcut(ShortcutAction.KeyCode.ESCAPE, null);
         setResizable(false);
         setClosable(false);
-        setHeight("500px");
-        setWidth("640px");
+        setHeight("650px");
+        setWidth("700px");
         //setHeight(50.0f, Unit.PERCENTAGE);
         //setWidth(40.0f, Unit.PERCENTAGE);
         //setPositionY(50);
@@ -96,7 +97,7 @@ public class ManageProjectWindow extends Window {
     }
 
     private Component buildProjectMembersTab() {
-        VerticalLayout root = new VerticalLayout();
+        final VerticalLayout root = new VerticalLayout();
         root.setCaption("Project members");
         root.setIcon(FontAwesome.USER);
         root.setSpacing(true);
@@ -113,6 +114,7 @@ public class ManageProjectWindow extends Window {
 
         //////////Members table
         final Table membersTable = new Table();
+        membersTable.setWidth("670px");
         membersTable.addStyleName("multirowheaders");
         membersTable.addContainerProperty("Name", String.class, null);
         membersTable.addContainerProperty("Deleting project", CheckBox.class,  null);
@@ -143,55 +145,42 @@ public class ManageProjectWindow extends Window {
         **/
 
 
-
-        final CheckBox deletingProjectCheckbox = new CheckBox();
-        final CheckBox managingSprintsCheckbox = new CheckBox();
-        final CheckBox addingMembersCheckbox = new CheckBox();
-        final CheckBox deletingMembersCheckbox = new CheckBox();
-        final CheckBox addingTasksCheckbox = new CheckBox();
-        final CheckBox deletingTasksCheckbox = new CheckBox();
-
-
-        //Adding user to table
-        deletingProjectCheckbox.setValue(true);
-        managingSprintsCheckbox.setValue(true);
-        addingMembersCheckbox.setValue(true);
-        deletingMembersCheckbox.setValue(true);
-        addingTasksCheckbox.setValue(true);
-        deletingTasksCheckbox.setValue(true);
-        membersTable.addItem(new Object[] {member, deletingProjectCheckbox, managingSprintsCheckbox, addingMembersCheckbox,
-                        deletingMembersCheckbox, addingTasksCheckbox, deletingTasksCheckbox},
-                0);
-        //Object newItemId = membersTable.addItem();
-        //Item row1 = membersTable.getItem(newItemId);
-        //CheckBox addingMembersCheckbox = new CheckBox();
-        //row1.getItemProperty("Name").setValue(member);
-        //row1.getItemProperty("Adding members").setValue(true);
-        //}
-        membersTable.setPageLength(membersTable.size());
+        membersTable.setPageLength(6);
         membersTable.setSelectable(true);
-        //membersTable.setEditable(true);
+        membersTable.setImmediate(true);
 
-        Button deleteMemberButton = new Button("Delete member", new Button.ClickListener() {
+        //todo: controller - method retrieving application members from database
+        //todo: controller - method retrieving project members from database
+        String[] members = {"Jan Dziergwa", "Konrad Jażownik", "Karol Posiła", "Adrian Cyga", "Artur Wąż", "Piotr Bienias", "Rubens Diaz"};
+        int size =  members.length;
+
+        for (int i=0; i<size; i++){
+            getProjectMembers(members[i], membersTable);
+        }
+
+                Button deleteMemberButton = new Button("Delete member", new Button.ClickListener() {
             private static final long serialVersionUID = 2181474159749122119L;
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                membersTable.removeItem(0);
+                //todo: controller - method removing project members from database
+                membersTable.removeItem(membersTable.getValue());
             }
         });
 
+
         //////////Adding user field
         HorizontalLayout addMemberContainer = new HorizontalLayout();
-        //addMemberContainer.setCaption("Add member");
         final ComboBox addMemberBox = new ComboBox();
-        addMemberBox.addItem(member);
+
+        for (int i=0; i<size; i++){
+            addMemberBox.addItem(members[i]);
+        }
+
         Button addMemberButton = new Button("Add member", new Button.ClickListener() {
             private static final long serialVersionUID = 2181474159749122119L;
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                membersTable.addItem(new Object[] {addMemberBox.getValue(), deletingProjectCheckbox, managingSprintsCheckbox, addingMembersCheckbox,
-                                deletingMembersCheckbox, addingTasksCheckbox, deletingTasksCheckbox},
-                        0);
+                addProjectMember(membersTable, addMemberBox);
             }
         });
 
@@ -210,6 +199,53 @@ public class ManageProjectWindow extends Window {
         return root;
     }
 
+
+    private void addProjectMember(final Table membersTable, ComboBox addMemberBox) {
+        //Adding user to table
+
+
+
+        final CheckBox deletingProjectCheckbox = new CheckBox();
+        final CheckBox managingSprintsCheckbox = new CheckBox();
+        final CheckBox addingMembersCheckbox = new CheckBox();
+        final CheckBox deletingMembersCheckbox = new CheckBox();
+        final CheckBox addingTasksCheckbox = new CheckBox();
+        final CheckBox deletingTasksCheckbox = new CheckBox();
+
+        deletingProjectCheckbox.setValue(false);
+        managingSprintsCheckbox.setValue(false);
+        addingMembersCheckbox.setValue(false);
+        deletingMembersCheckbox.setValue(false);
+        addingTasksCheckbox.setValue(true);
+        deletingTasksCheckbox.setValue(false);
+
+        //todo: controller - method adding member to project database
+        membersTable.addItem(new Object[]{addMemberBox.getValue().toString(), deletingProjectCheckbox, managingSprintsCheckbox, addingMembersCheckbox,
+                        deletingMembersCheckbox, addingTasksCheckbox, deletingTasksCheckbox},
+                null);
+
+    }
+    private void getProjectMembers(String members, final Table membersTable){
+
+        //todo: controller -  method retrieving permissions from database
+        final CheckBox deletingProjectCheckbox = new CheckBox();
+        final CheckBox managingSprintsCheckbox = new CheckBox();
+        final CheckBox addingMembersCheckbox = new CheckBox();
+        final CheckBox deletingMembersCheckbox = new CheckBox();
+        final CheckBox addingTasksCheckbox = new CheckBox();
+        final CheckBox deletingTasksCheckbox = new CheckBox();
+
+        deletingProjectCheckbox.setValue(true);
+        managingSprintsCheckbox.setValue(true);
+        addingMembersCheckbox.setValue(true);
+        deletingMembersCheckbox.setValue(true);
+        addingTasksCheckbox.setValue(true);
+        deletingTasksCheckbox.setValue(true);
+
+        membersTable.addItem(new Object[]{members, deletingProjectCheckbox, managingSprintsCheckbox, addingMembersCheckbox,
+                        deletingMembersCheckbox, addingTasksCheckbox, deletingTasksCheckbox},
+                null);
+    }
 
     private Component buildFooter() {
         HorizontalLayout footer = new HorizontalLayout();

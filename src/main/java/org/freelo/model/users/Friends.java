@@ -20,6 +20,7 @@ public class Friends {
     @Column
     private int friendID;
 
+    public Friends(){}
 
     public Friends(int userID, int friendID){
         this.friendID = friendID;

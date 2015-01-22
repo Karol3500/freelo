@@ -2,21 +2,24 @@ package org.freelo.controller.dashboard;
 
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
+import org.freelo.model.users.Friends;
 import org.freelo.model.users.FriendsDAO;
 import org.freelo.model.users.User;
 import org.freelo.model.users.UserManagement;
 import org.freelo.view.Dashboard.DashboardMenu;
 import org.freelo.view.Dashboard.Subwindows.addFriendWindow;
 
+import java.util.List;
+
 /**
  * Created by Artur on 1/21/2015.
  */
-public class addFriendController {
+public class FriendController {
 
     private addFriendWindow friendWindow;
     private DashboardMenu dashboardMenu;
 
-    public addFriendController(DashboardMenu dashboardMenu){
+    public FriendController(DashboardMenu dashboardMenu){
         this.dashboardMenu = dashboardMenu;
     }
 
@@ -34,16 +37,28 @@ public class addFriendController {
 
             int friendID = UserManagement.getUserID(friendWindow.friendField.getValue());
 
-            // todo user doesnt exist
             User user = (User) VaadinSession.getCurrent().getAttribute("userClass");
 
-            //System.out.println("user: "+user.getEmail());
-            //System.out.println("friend id: "+friendID);
+            System.out.println("user: "+user.getEmail());
+            System.out.println("friend id: "+friendID);
 
             FriendsDAO.addFriend(user.getId(),friendID);
 
-            //DashboardMenu
+            dashboardMenu.removeFriends();
+            showFriends();
 
         }
     }
+
+
+    public void showFriends(){
+        User user = (User) VaadinSession.getCurrent().getAttribute("userClass");
+        List<Friends> friends = FriendsDAO.getFriends(user.getId());
+        if (friends.isEmpty()) return;
+        for (Friends friend:friends){
+            user = UserManagement.getUser(friend.getFriendID());
+            dashboardMenu.buildFriend(user.getFirstName(),user.getLastName());
+        }
+    }
+
 }

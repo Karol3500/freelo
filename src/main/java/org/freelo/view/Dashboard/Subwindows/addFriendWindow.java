@@ -6,7 +6,7 @@ import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.Page;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
-import org.freelo.controller.dashboard.addFriendController;
+import org.freelo.controller.dashboard.FriendController;
 
 
 /**
@@ -19,7 +19,7 @@ public class addFriendWindow extends Window {
     public TextField friendField;
     public Button addFriendButton;
 
-    public addFriendController friendController;
+    public FriendController friendController;
 
     public addFriendWindow() {
         super("Add User");

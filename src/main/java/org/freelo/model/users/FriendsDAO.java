@@ -72,4 +72,26 @@ public class FriendsDAO {
         return ID;
     }
 
+    public static void deleteFriend(int userID, int friendID){
+        Session session = HibernateSessionFactoryBean.getSession();
+        Integer ID = null;
+        try{
+            session.beginTransaction();
+
+            List<Friends> friends = session.createQuery("FROM Friends U WHERE U.userID = " + userID + " AND U.friendID =" + friendID).list();
+            if (!friends.isEmpty()) {
+                ID = ((Friends) friends.get(0)).getId();
+                Friends friend = (Friends)session.get(Friends.class, ID);
+                session.delete(friend);
+            }
+
+            session.getTransaction().commit();
+        }catch (HibernateException e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        }finally {
+            session.close();
+        }
+    }
+
 }

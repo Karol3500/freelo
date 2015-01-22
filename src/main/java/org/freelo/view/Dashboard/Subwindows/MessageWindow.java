@@ -1,5 +1,6 @@
 package org.freelo.view.Dashboard.Subwindows;
 
+import org.freelo.controller.dashboard.FriendController;
 import org.freelo.model.users.User;
 
 import com.vaadin.event.ShortcutAction;
@@ -21,20 +22,23 @@ import org.freelo.model.users.UserManagement;
  */
 public class MessageWindow extends Window {
 	private static final long serialVersionUID = 1L;
-	private TextField messageToSendField;
-    private TextArea messagesHistoryArea;
-    private Button sendButton;
-    private User friend;
+	public TextField messageToSendField;
+    public TextArea messagesHistoryArea;
+    public Button sendButton;
+    public User friend;
+    public Button deleteButton;
 
-    private MessageWindow(User user){
-        super(user.getFirstName().substring(0, 1).toUpperCase()+ user.getFirstName().substring(1)+" "+
-                user.getLastName().substring(0, 1).toUpperCase()+ user.getLastName().substring(1));
+    private FriendController friendController;
+
+    private MessageWindow(User user, FriendController inFriendController) {
+        super(user.getFirstName().substring(0, 1).toUpperCase() + user.getFirstName().substring(1) + " " +
+                user.getLastName().substring(0, 1).toUpperCase() + user.getLastName().substring(1));
         setCloseShortcut(ShortcutAction.KeyCode.ESCAPE, null);
         setModal(true);
         setHeight(60.0f, Unit.PERCENTAGE);
         setWidth(60.0f, Unit.PERCENTAGE);
         this.friend = user;
-        System.out.println(friend.getEmail());
+        friendController = inFriendController;
 
         VerticalLayout content = new VerticalLayout();
         //content = buildMessageLayout();
@@ -43,7 +47,7 @@ public class MessageWindow extends Window {
         setContent(content);
 
         content.addComponent(buildMessageLayout());
-
+        friendController.addMessage(this);
     }
 
     VerticalLayout buildMessageLayout(){
@@ -53,7 +57,7 @@ public class MessageWindow extends Window {
         Label messageWindowLabel = new Label("Messages");
         //tab1.setMargin(new MarginInfo(true, true, false, true));
 
-        Button deleteButton = new Button("Remove Friend");
+        deleteButton = new Button("Remove Friend");
         deleteButton.setStyleName(ValoTheme.BUTTON_DANGER);
 
         messagesHistoryArea = new TextArea();
@@ -93,9 +97,9 @@ public class MessageWindow extends Window {
         return writingArea;
     }
 
-    public static void open(User user, int friendID) {
+    public static void open(User user, int friendID, FriendController friendController) {
         User friend = UserManagement.getUser(friendID);
-        Window w = new MessageWindow(friend);
+        Window w = new MessageWindow(friend, friendController);
         UI.getCurrent().addWindow(w);
         w.focus();
     }

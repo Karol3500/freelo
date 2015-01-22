@@ -285,7 +285,7 @@ public final class DashboardMenu extends CustomComponent implements View {
 
 				@Override
                 public void buttonClick(final ClickEvent event) {
-                    MessageWindow.open(getCurrentUser(),friendID);
+                    MessageWindow.open(getCurrentUser(),friendID, friendController);
                 }
             });
 

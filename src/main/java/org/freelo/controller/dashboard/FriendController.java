@@ -7,6 +7,7 @@ import org.freelo.model.users.FriendsDAO;
 import org.freelo.model.users.User;
 import org.freelo.model.users.UserManagement;
 import org.freelo.view.Dashboard.DashboardMenu;
+import org.freelo.view.Dashboard.Subwindows.MessageWindow;
 import org.freelo.view.Dashboard.Subwindows.addFriendWindow;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public class FriendController {
 
     private addFriendWindow friendWindow;
     private DashboardMenu dashboardMenu;
+    private MessageWindow messageWindow;
 
     public FriendController(DashboardMenu dashboardMenu){
         this.dashboardMenu = dashboardMenu;
@@ -28,28 +30,38 @@ public class FriendController {
         this.friendWindow.addFriendButton.addClickListener(new addFriendButtonClickListenerEventHandler());
     }
 
+    public void addMessage(MessageWindow messageUI){
+        this.messageWindow = messageUI;
+        this.messageWindow.deleteButton.addClickListener(new deleteFriendButtonClickListenerEventHandler());
+    }
+
     class addFriendButtonClickListenerEventHandler implements Button.ClickListener {
 
         @Override
         public void buttonClick(Button.ClickEvent event) {
 
             if (friendWindow.friendField.getValue().isEmpty()) return;
-
             int friendID = UserManagement.getUserID(friendWindow.friendField.getValue());
-
             User user = (User) VaadinSession.getCurrent().getAttribute("userClass");
-
-            System.out.println("user: "+user.getEmail());
-            System.out.println("friend id: "+friendID);
-
             FriendsDAO.addFriend(user.getId(),friendID);
-
-            dashboardMenu.removeFriends();
-            showFriends();
+            updateFriends();
 
         }
     }
 
+    class deleteFriendButtonClickListenerEventHandler implements Button.ClickListener {
+
+        @Override
+        public void buttonClick(Button.ClickEvent event) {
+
+            User user = (User) VaadinSession.getCurrent().getAttribute("userClass");
+            FriendsDAO.deleteFriend(user.getId(),messageWindow.friend.getId());
+            updateFriends();
+            messageWindow.close();
+            messageWindow = null;
+
+        }
+    }
 
     public void showFriends(){
         User user = (User) VaadinSession.getCurrent().getAttribute("userClass");

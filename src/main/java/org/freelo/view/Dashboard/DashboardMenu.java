@@ -65,6 +65,7 @@ public final class DashboardMenu extends CustomComponent implements View {
         //friendPanel.setHeight("100px");
         menuContent.addComponent(friendPanel);
 
+        friendController.updateFriends();
     }
 
     private void buildContent() {

@@ -61,4 +61,9 @@ public class FriendController {
         }
     }
 
+    public void updateFriends(){
+        this.dashboardMenu.removeFriends();
+        showFriends();
+    }
+
 }

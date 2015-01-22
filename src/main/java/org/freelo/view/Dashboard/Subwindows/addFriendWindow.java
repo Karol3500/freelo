@@ -56,13 +56,15 @@ public class addFriendWindow extends Window {
 
         friendField = new TextField();
         friendField.setInputPrompt("eg. joe@email.com");
-        friendField.addValidator(new EmailValidator("Username must be an email!"));
-        friendField.addValidator(new UserValidator());
+        //friendField.addValidator(new UserValidator());
+        friendField.setValidationVisible(false);
         friendField.setWidth("100%");
 
         addFriendButton= new Button("+ Add Friend");
         addFriendButton.addStyleName(ValoTheme.BUTTON_PRIMARY);
         addFriendButton.setClickShortcut(ShortcutAction.KeyCode.ENTER);
+
+        /*
         addFriendButton.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
@@ -80,7 +82,7 @@ public class addFriendWindow extends Window {
                     friendField.setValidationVisible(true);
                 }
             }
-        });
+        });*/
 
         root.addComponents(friendField, addFriendButton);
 
@@ -88,19 +90,6 @@ public class addFriendWindow extends Window {
         root.setExpandRatio(addFriendButton, 1.0f);
 
         return root;
-    }
-
-    class UserValidator implements Validator {
-        private static final long serialVersionUID = 1L;
-
-        @Override
-        public void validate(Object value)
-                throws InvalidValueException {
-            if (!(value instanceof String &&
-                    ((String)value).equals(friendField.getValue())))
-                throw new InvalidValueException("User: " + friendField.getValue()
-                + " doesn't exists.");
-        }
     }
 
 }

@@ -60,6 +60,27 @@ public class UserManagement {
         return user;
     }
 
+    public static boolean checkUserID(String email){
+        Session session = HibernateSessionFactoryBean.getSession();
+        Integer user = null;
+        try{
+            session.beginTransaction();
+
+            List<User> users = session.createQuery("FROM User U WHERE U.email = '"+email+"'").list();
+            if (!users.isEmpty())
+                return true;
+
+            session.getTransaction().commit();
+        }catch (HibernateException e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+            return false;
+        }finally {
+            session.close();
+        }
+        return false;
+    }
+
     // returns User if found, null if user doesnt exist
     public static User getUser(String email){
         Session session = HibernateSessionFactoryBean.getSession();

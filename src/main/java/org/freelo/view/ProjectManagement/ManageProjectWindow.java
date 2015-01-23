@@ -15,13 +15,10 @@ import org.freelo.model.users.User;
  */
 public class ManageProjectWindow extends Window {
     private static final long serialVersionUID = 5683290459141040269L;
-    //        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-    //public Button createButton;
-    //public ProjectItem pi;
-    //CreateProjectSubwindowController c;
+
 
     User user;
-    //private final BeanFieldGroup<User> fieldGroup;
+
 
 
 
@@ -35,73 +32,39 @@ public class ManageProjectWindow extends Window {
         setCloseShortcut(ShortcutAction.KeyCode.ESCAPE, null);
         setResizable(false);
         setClosable(true);
-        setHeight("650px");
-        setWidth("700px");
-        //setHeight(50.0f, Unit.PERCENTAGE);
-        //setWidth(40.0f, Unit.PERCENTAGE);
-        //setPositionY(50);
-        //setPositionX(50);
+        setHeight("700px");
+        setWidth("730px");
 
         VerticalLayout content = new VerticalLayout();
         content.setSizeFull();
-        content.setMargin(new MarginInfo(true, false, false, false));
+        content.setMargin(new MarginInfo(false, false, false, false));
         setContent(content);
 
-        TabSheet detailsWrapper = new TabSheet();
-        detailsWrapper.setSizeFull();
-        detailsWrapper.addStyleName(ValoTheme.TABSHEET_PADDED_TABBAR);
-        detailsWrapper.addStyleName(ValoTheme.TABSHEET_ICONS_ON_TOP);
-        detailsWrapper.addStyleName(ValoTheme.TABSHEET_CENTERED_TABS);
-        content.addComponent(detailsWrapper);
-        content.setExpandRatio(detailsWrapper, 1f);
+        Component projectMembers = buildProjectMembersTab(name);
+        Component footer = buildFooter();
+        content.addComponent(projectMembers);
+        content.addComponent(footer);
+        content.setExpandRatio(projectMembers, 1);
 
-        detailsWrapper.addComponent(buildDetailsTab(name));
-        detailsWrapper.addComponent(buildProjectMembersTab());
-
-
-        content.addComponent(buildFooter());
-
-        //if (preferencesTabOpen) {
-        //    detailsWrapper.setSelectedTab(1);
-        //}
-        //fieldGroup = new BeanFieldGroup<User>(User.class);
-        //fieldGroup.bindMemberFields(this);
-        //fieldGroup.setItemDataSource(user);
     }
 
-    private Component buildDetailsTab(String name) {
-        VerticalLayout root = new VerticalLayout();
-        root.setCaption("Details");
-        root.setIcon(FontAwesome.EDIT);
+
+    private Component buildProjectMembersTab(String name) {
+        final VerticalLayout root = new VerticalLayout();
         root.setSpacing(true);
         root.setMargin(true);
         root.setSizeFull();
 
-        Label projectDetailsLabel = new Label("Project Details");
+        Label projectDetailsLabel = new Label("Project Name");
         projectDetailsLabel.addStyleName(ValoTheme.LABEL_H4);
         projectDetailsLabel.addStyleName(ValoTheme.LABEL_COLORED);
 
 
-        TextField projectNameField = new TextField("Project Name");
+        TextField projectNameField = new TextField();
         projectNameField.setValue(name);
 
 
-        root.addComponent(projectDetailsLabel);
-        root.addComponent(projectNameField);
-        root.setExpandRatio(projectNameField, 1);
 
-        return root;
-    }
-
-    private Component buildProjectMembersTab() {
-        final VerticalLayout root = new VerticalLayout();
-        root.setCaption("Project members");
-        root.setIcon(FontAwesome.USER);
-        root.setSpacing(true);
-        root.setMargin(true);
-        root.setSizeFull();
-
-        final String member = user.getFirstName()+ " " +user.getLastName();
 
         Label projectMembersLabel = new Label("Project Members");
         projectMembersLabel.addStyleName(ValoTheme.LABEL_H4);
@@ -185,6 +148,9 @@ public class ManageProjectWindow extends Window {
         addMemberContainer.addComponent(addMemberButton);
 
 
+
+        root.addComponent(projectDetailsLabel);
+        root.addComponent(projectNameField);
         root.addComponent(projectMembersLabel);
         root.addComponent(membersTable);
         root.addComponent(deleteMemberButton);

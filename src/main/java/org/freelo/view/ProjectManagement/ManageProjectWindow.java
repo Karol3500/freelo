@@ -26,18 +26,15 @@ public class ManageProjectWindow extends Window {
 
 
 
-
     public ManageProjectWindow(final User user, String name) {
         super("Project: " + name);
-        //c = new CreateProjectSubwindowController(this);
-
         this.user = user;
 
         center();
         setModal(true);
         setCloseShortcut(ShortcutAction.KeyCode.ESCAPE, null);
         setResizable(false);
-        setClosable(false);
+        setClosable(true);
         setHeight("650px");
         setWidth("700px");
         //setHeight(50.0f, Unit.PERCENTAGE);

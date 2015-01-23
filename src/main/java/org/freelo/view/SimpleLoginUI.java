@@ -35,6 +35,8 @@ public class SimpleLoginUI extends UI {
 	@Autowired
 	public Register registerView;
     @Autowired
+    public AdminPanel AdminPanelView;
+    @Autowired
     public ProjectManagementPage projectManagementView;
 
     public LoginController loginController;
@@ -60,6 +62,8 @@ public class SimpleLoginUI extends UI {
 
         //
         getNavigator().addView(Register.NAME, registerView);
+        //
+        getNavigator().addView(AdminPanel.NAME, AdminPanelView);
 
         getNavigator().addView("",loginView);
         
@@ -86,10 +90,11 @@ public class SimpleLoginUI extends UI {
                 boolean isLoggedIn = getSession().getAttribute("user") != null;
                 boolean isLoginView = event.getNewView() instanceof SimpleLoginView;
                 boolean isRegisterView = event.getNewView() instanceof Register;
+                boolean isAdminPanelView = event.getNewView() instanceof AdminPanel;
                 boolean isTaskView = event.getNewView() instanceof TaskPage;
                 boolean isProjectManagementView = event.getNewView() instanceof ProjectManagementPage;
 
-                if (!isLoggedIn && !isLoginView && !isRegisterView && (isTaskView || isProjectManagementView)) {
+                if (!isLoggedIn && !isLoginView && !isRegisterView && (isAdminPanelView || isTaskView || isProjectManagementView)) {
                     // Redirect to login view always if a user has not yet
                     // logged in
                     getNavigator().navigateTo(SimpleLoginView.NAME);
@@ -100,7 +105,7 @@ public class SimpleLoginUI extends UI {
                     // then cancel
                     return false;
 
-                } else if (!isRegisterView && !isLoginView && !isTaskView && !isProjectManagementView) {
+                } else if (!isRegisterView && !isLoginView && !isTaskView && !isProjectManagementView &&!isAdminPanelView) {
                     getNavigator().navigateTo(Register.NAME);
                     return false;
 

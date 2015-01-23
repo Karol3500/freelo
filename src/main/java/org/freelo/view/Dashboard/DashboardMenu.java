@@ -6,6 +6,7 @@ import java.util.List;
 import org.freelo.controller.dashboard.FriendController;
 import org.freelo.model.users.Friends;
 import org.freelo.model.users.User;
+import org.freelo.view.AdminPanel;
 import org.freelo.view.SimpleLoginUI;
 import org.freelo.view.Dashboard.Subwindows.MessageWindow;
 import org.freelo.view.Dashboard.Subwindows.ProfilePreferencesWindow;
@@ -173,7 +174,9 @@ public final class DashboardMenu extends CustomComponent implements View {
 
         for (final DashboardViewType view : DashboardViewType.values()) {
             Component menuItemComponent = new ValoMenuItemButton(view);
+            Component menuItem2Component = new ValoMenuItem2Button(view);
             menuItemsLayout.addComponent(menuItemComponent);
+            menuItemsLayout.addComponent(menuItem2Component);
         }
         return menuItemsLayout;
 
@@ -239,20 +242,40 @@ public final class DashboardMenu extends CustomComponent implements View {
     }
 
     public final class ValoMenuItemButton extends Button {
-		private static final long serialVersionUID = 1L;
+        private static final long serialVersionUID = 1L;
 
 
         public ValoMenuItemButton(final DashboardViewType view) {
             setPrimaryStyleName("valo-menu-item");
             setIcon(view.getIcon());
-            setCaption(view.getViewName().substring(0, 1).toUpperCase()
-                    + view.getViewName().substring(1));
+            setCaption("Project Management");
+            //setCaption(view.getViewName().substring(0, 1).toUpperCase()
+            //        + view.getViewName().substring(1));
             addClickListener(new ClickListener() {
-				private static final long serialVersionUID = 1L;
+                private static final long serialVersionUID = 1L;
 
-				@Override
+                @Override
                 public void buttonClick(final ClickEvent event) {
-					getUI().getNavigator().navigateTo(ProjectManagementPage.NAME);
+                    getUI().getNavigator().navigateTo(ProjectManagementPage.NAME);
+                }
+            });
+        }
+    }
+
+    public final class ValoMenuItem2Button extends Button {
+        private static final long serialVersionUID = 1L;
+
+
+        public ValoMenuItem2Button(final DashboardViewType view) {
+            setPrimaryStyleName("valo-menu-item");
+            setIcon(view.getIcon());
+            setCaption("Admin Panel");
+            addClickListener(new ClickListener() {
+                private static final long serialVersionUID = 1L;
+
+                @Override
+                public void buttonClick(final ClickEvent event) {
+                    getUI().getNavigator().navigateTo(AdminPanel.NAME);
                 }
             });
         }

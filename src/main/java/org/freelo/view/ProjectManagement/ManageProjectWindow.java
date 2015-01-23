@@ -33,7 +33,7 @@ public class ManageProjectWindow extends Window {
         setResizable(false);
         setClosable(true);
         setHeight("700px");
-        setWidth("730px");
+        setWidth("743px");
 
         VerticalLayout content = new VerticalLayout();
         content.setSizeFull();

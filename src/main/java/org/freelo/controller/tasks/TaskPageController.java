@@ -38,11 +38,6 @@ public class TaskPageController {
         tp.shoutBoxArea.setValue(s + "[" + ft.format(date) + "]" + " " + userName + ": " + shout + "\n");
     }
 
-    public void updateShoutFromDB(){
 
-        //String actualText = tp.shoutBoxArea.getValue();
-        //shout = get.from.database;
-        //tp.shoutBoxArea.setValue(actualText + shout);
-    }
 
 }

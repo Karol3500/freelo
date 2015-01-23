@@ -4,6 +4,9 @@ import org.freelo.model.sprints.Sprint;
 
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.ui.*;
+
+import java.util.Date;
+
 /**
  * Created by Konrad on 2015-01-13.
  */
@@ -27,6 +30,8 @@ public class AddSprintWindow extends Window {
 		// todo.add date
 		final PopupDateField startDatePicker = new PopupDateField("Start date");
 		final PopupDateField endDatePicker = new PopupDateField("End date");
+        startDatePicker.setValue(new Date());
+        endDatePicker.setValue(new Date());
 		Button createButton = new Button("Create", new Button.ClickListener() {
 			private static final long serialVersionUID = 2181474159749122119L;
 			@Override

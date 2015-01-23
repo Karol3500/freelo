@@ -44,7 +44,7 @@ public class SprintViewObject {
 
 		@Override
         public void layoutClick(LayoutEvents.LayoutClickEvent event) {
-    		TaskPage tp = new TaskPage();
+    		TaskPage tp = new TaskPage(sprintName, startDate, endDate);
     		tp.change_task_name(viewName);
 	        navi.addView(viewName, tp);
             navi.navigateTo(viewName);

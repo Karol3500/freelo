@@ -11,6 +11,9 @@ import com.vaadin.ui.VerticalLayout;
 
 public class TaskController {
     TaskCard tc;
+
+
+
     public TaskController(TaskCard tc){
         this.tc = tc;
         tc.rightButton.addClickListener(new RightMover());

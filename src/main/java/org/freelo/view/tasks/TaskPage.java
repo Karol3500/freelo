@@ -12,6 +12,7 @@ import org.freelo.model.files.FileManagement;
 import org.freelo.model.files.FileUploader;
 import org.freelo.model.files.UserFile;
 import org.freelo.model.users.User;
+import org.freelo.view.ProjectManagement.SprintViewObject;
 import org.freelo.view.SimpleLoginUI;
 import org.freelo.view.Dashboard.DashboardMenu;
 
@@ -68,16 +69,22 @@ public class TaskPage extends HorizontalLayout implements View {
 
     FileManagement fileManagement = new FileManagement();
     IndexedContainer fileContainer = createFileContainer();
-    private String projectName;
+    private String projectName, sprintName;
+    Calendar cal = new Calendar();
+    Date startDate, endDate;
     ////////////////////////
 
     TabSheet tabSheet = new TabSheet();
     DashboardMenu dashBoard;
 
-    public TaskPage() {
+    public TaskPage(String sprintName, Date startDate,Date endDate) {
 
         //todo set project name
-        projectName = "testProject";
+       //projectName = "testProject";
+        this.sprintName =  sprintName;
+        this.startDate =  startDate;
+        this.endDate =  endDate;
+
         setSizeFull();
         addStyleName("taskpage");
 
@@ -151,7 +158,7 @@ public class TaskPage extends HorizontalLayout implements View {
 
     @SuppressWarnings("unchecked")
 	public IndexedContainer updateFileContainer() {
-        List<UserFile> files = FileDAO.getFilesByProjectName(projectName);
+        List<UserFile> files = FileDAO.getFilesByProjectName(sprintName);
 
         if(files == null)
             return fileContainer;
@@ -238,7 +245,6 @@ public class TaskPage extends HorizontalLayout implements View {
 
     private Calendar buildCalendar(Date startdate, Date enddate) {
 
-        Calendar cal = new Calendar();
         cal.setWidth("100%");
         cal.setHeight("100%");
         cal.setFirstVisibleDayOfWeek(2);
@@ -252,10 +258,10 @@ public class TaskPage extends HorizontalLayout implements View {
 
         BasicEvent startDateEvent = new BasicEvent("Start",
                 "Sprint start date",
-                startdate, startdate);
+                startDate, startDate);
         BasicEvent endDateEvent = new BasicEvent("End",
                 "Sprint end date",
-                enddate, enddate);
+                endDate, endDate);
         startDateEvent.setAllDay(true);
         endDateEvent.setAllDay(true);
 
@@ -265,14 +271,12 @@ public class TaskPage extends HorizontalLayout implements View {
         return cal;
     }
 
-
-
     VerticalLayout buildTab2(){
         VerticalLayout tab2 = new VerticalLayout();
         tab2.setSpacing(true);
         tab2.setMargin(new MarginInfo(true, true, true, true));
         //Upload container
-        FileUploader fileUploader = new FileUploader(projectName);
+        FileUploader fileUploader = new FileUploader(sprintName);
 
         Upload upload = new Upload("Attach files to the project", fileUploader);
         upload.setButtonCaption("Upload");
@@ -377,10 +381,6 @@ public class TaskPage extends HorizontalLayout implements View {
 
         taskPageController = new TaskPageController(this);
     }
-
-
-
-
 
 
     @Override

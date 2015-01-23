@@ -104,12 +104,19 @@ public class User{
 		}
 	}
 
+	public boolean isPrivilegeExist(int privilegeID) {
+		for (Privilege element : privileges) {
+			if (element.getID() == privilegeID)
+				return true;
+		}
+		return false;
+	}
     public void addPrivilege(int privilegeID) {
         for (Privilege element : privileges) {
             if (element.getID() == privilegeID)
 				return;
         }
-		Privilege privilege = PrivilegeManagement.getPrivilege(1);
+		Privilege privilege = PrivilegeManagement.getPrivilege(privilegeID);
 		privileges.add(privilege);
     }
     public void deletePrivilege(int privilegeID) {

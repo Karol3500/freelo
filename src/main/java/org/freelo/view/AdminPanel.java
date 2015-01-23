@@ -2,12 +2,17 @@ package org.freelo.view;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
+import org.freelo.model.users.User;
+import org.freelo.model.users.UserManagement;
 import org.freelo.view.Dashboard.DashboardViewType;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 
 /**
@@ -40,7 +45,7 @@ public class AdminPanel extends VerticalLayout implements View {
         VerticalLayout layout = new VerticalLayout();
         layout.setSpacing(true);
         layout.setHeight("600");
-        layout.setWidth("825px");
+        layout.setWidth("875px");
         layout.setMargin(new MarginInfo(true, true, true, true));
         layout.setStyleName(ValoTheme.LAYOUT_CARD);
 
@@ -89,7 +94,7 @@ public class AdminPanel extends VerticalLayout implements View {
 
         //////////Members table
         final Table membersTable = new Table();
-        membersTable.setWidth("750px");
+        membersTable.setWidth("800px");
         membersTable.addStyleName("multirowheaders");
         membersTable.addContainerProperty("Name", String.class, null);
         membersTable.addContainerProperty("Admin", CheckBox.class,  null);
@@ -125,12 +130,9 @@ public class AdminPanel extends VerticalLayout implements View {
         membersTable.setSelectable(true);
         membersTable.setImmediate(true);
 
-        //todo: controller - method retrieving application members from database
-        String[] members = {"Jan Dziergwa", "Konrad Jażownik", "Karol Posiła", "Adrian Cyga", "Artur Wąż", "Piotr Bienias", "Rubens Diaz"};
-        int size =  members.length;
-
-        for (int i=0; i<size; i++){
-            getAppMembers(members[i], membersTable);
+        List<User> users = UserManagement.getUsers();
+        for (User element: users){
+            getAppMembers(element.getEmail(), membersTable);
         }
 
         Button deleteMemberButton = new Button("Delete user", new Button.ClickListener() {
@@ -138,6 +140,7 @@ public class AdminPanel extends VerticalLayout implements View {
             @Override
             public void buttonClick(Button.ClickEvent event) {
                 //todo: controller - method removing project members from database
+                //System.out.println(membersTable.getValue().toString());
                 membersTable.removeItem(membersTable.getValue());
             }
         });
@@ -190,6 +193,9 @@ public class AdminPanel extends VerticalLayout implements View {
     private void getAppMembers(String members, final Table membersTable){
 
         //todo: controller -  method retrieving permissions from database
+
+        // aaaa chuuuj niechce mi sie
+
         final CheckBox AdminCheckbox = new CheckBox();
         final CheckBox deletingProjectCheckbox = new CheckBox();
         final CheckBox managingSprintsCheckbox = new CheckBox();
@@ -199,12 +205,22 @@ public class AdminPanel extends VerticalLayout implements View {
         final CheckBox deletingTasksCheckbox = new CheckBox();
 
         AdminCheckbox.setValue(false);
-        deletingProjectCheckbox.setValue(true);
-        managingSprintsCheckbox.setValue(true);
-        addingMembersCheckbox.setValue(true);
-        deletingMembersCheckbox.setValue(true);
-        addingTasksCheckbox.setValue(true);
-        deletingTasksCheckbox.setValue(true);
+        deletingProjectCheckbox.setValue(false);
+        managingSprintsCheckbox.setValue(false);
+        addingMembersCheckbox.setValue(false);
+        deletingMembersCheckbox.setValue(false);
+        addingTasksCheckbox.setValue(false);
+        deletingTasksCheckbox.setValue(false);
+
+        if (members.equals("arturwaz@freelo.com")){
+            AdminCheckbox.setValue(true);
+            deletingProjectCheckbox.setValue(true);
+            managingSprintsCheckbox.setValue(true);
+            addingMembersCheckbox.setValue(true);
+            deletingMembersCheckbox.setValue(true);
+            addingTasksCheckbox.setValue(true);
+            deletingTasksCheckbox.setValue(true);
+        }
 
         membersTable.addItem(new Object[]{members, AdminCheckbox, deletingProjectCheckbox, managingSprintsCheckbox, addingMembersCheckbox,
                         deletingMembersCheckbox, addingTasksCheckbox, deletingTasksCheckbox},

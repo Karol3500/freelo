@@ -176,7 +176,9 @@ public final class DashboardMenu extends CustomComponent implements View {
             Component menuItemComponent = new ValoMenuItemButton(view);
             Component menuItem2Component = new ValoMenuItem2Button(view);
             menuItemsLayout.addComponent(menuItemComponent);
-            menuItemsLayout.addComponent(menuItem2Component);
+            User user = getCurrentUser();
+            if (user.getId() == 1)
+                menuItemsLayout.addComponent(menuItem2Component);
         }
         return menuItemsLayout;
 

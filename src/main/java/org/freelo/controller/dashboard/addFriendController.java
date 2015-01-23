@@ -41,6 +41,7 @@ public class addFriendController {
             //System.out.println("friend id: "+friendID);
 
             FriendsDAO.addFriend(user.getId(),friendID);
+            FriendsDAO.addFriend(friendID,user.getId());
 
             //DashboardMenu
 

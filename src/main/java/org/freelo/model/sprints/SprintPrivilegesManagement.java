@@ -17,9 +17,8 @@ public class SprintPrivilegesManagement {
         try {
             session.beginTransaction();
 
-            @SuppressWarnings("unchecked")
-			List<SprintPrivileges> privileges = session.createQuery("FROM SprintPrivileges P WHERE P.ID = '" + newSprintPrivileges.getID() + "'").list();
-            if (privileges.isEmpty())
+			//List<SprintPrivileges> privileges = session.createQuery("FROM SprintPrivileges P WHERE P.description = '" + newSprintPrivileges.getDescription() + "'").list();
+            //if (privileges.isEmpty())
                 ID = (Integer) session.save(newSprintPrivileges);
             session.getTransaction().commit();
         }

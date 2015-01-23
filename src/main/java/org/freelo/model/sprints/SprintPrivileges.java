@@ -18,6 +18,11 @@ public class SprintPrivileges {
     @Column
     private String description;
 
+    public SprintPrivileges(){}
+    public SprintPrivileges(String description){
+        this.description = description;
+    }
+
     public int getID() {
         return ID;
     }

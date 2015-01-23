@@ -1,5 +1,9 @@
 package org.freelo;
 
+import org.freelo.model.sprints.SprintPrivileges;
+import org.freelo.model.sprints.SprintPrivilegesManagement;
+import org.freelo.model.users.PrivilegeManagement;
+import org.freelo.model.users.User;
 import org.freelo.model.users.UserManagement;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.boot.SpringApplication;
@@ -8,6 +12,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.List;
 
 @Configurable
 @ComponentScan(basePackages="org.freelo")
@@ -25,8 +31,6 @@ public class Application {
 
         SpringApplication.run(Application.class, args);
 
-        //todo delete in final version
-        // do not delete this part, it is only for testing
         System.out.print("\n\n\n");
         UserManagement.userAdd("Artur","Waz","arturwaz@freelo.com","password");
         UserManagement.userAdd("Karol","Posila","karolposila@freelo.com","password");
@@ -36,26 +40,24 @@ public class Application {
         UserManagement.userAdd("Jan","Dziergwa","jandziergwa@freelo.com","password");
         UserManagement.userAdd("Ruben","Dias","rubendias@freelo.com","password");
 
+        PrivilegeManagement.addPrivilege("admin");
+        PrivilegeManagement.addPrivilege("project_deleting");
+        PrivilegeManagement.addPrivilege("sprint_managing");
+        PrivilegeManagement.addPrivilege("members_adding");
+        PrivilegeManagement.addPrivilege("members_deleting");
+        PrivilegeManagement.addPrivilege("task_adding");
+        PrivilegeManagement.addPrivilege("task_deleting");
 
+        /*SprintPrivilegesManagement.addSprintPrivileges(new SprintPrivileges("project_deleting"));
+        SprintPrivilegesManagement.addSprintPrivileges(new SprintPrivileges("sprint_managing"));
+        SprintPrivilegesManagement.addSprintPrivileges(new SprintPrivileges("members_adding"));
+        SprintPrivilegesManagement.addSprintPrivileges(new SprintPrivileges("members_deleting"));
+        SprintPrivilegesManagement.addSprintPrivileges(new SprintPrivileges("task_adding"));
+        SprintPrivilegesManagement.addSprintPrivileges(new SprintPrivileges("task_deleting"));*/
 
-//        // todo delete beforee commit
-//        System.out.print("\n\n\n\n\n\n\n\n\n\n");
-//
-//        int manageID = UserManagement.getUserID("arturwaz@freelo.com");
-//
-//        Project project = new Project();
-//        project.setManager(manageID);
-//
-//        ProjectManagement.addProject(project);
-//
-//
-//
-//        Project test = ProjectManagement.getProject(1);
-//        User manager = UserManagement.getUser(test.getManager());
-//        System.out.println(manager.getEmail());
+        User setAdmin = UserManagement.getUser(1);
+        setAdmin.addPrivilege(1);
+        UserManagement.userUpdate(setAdmin);
 
-
-
-        System.out.print("\n\n\n");
     }
 }

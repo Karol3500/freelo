@@ -1,6 +1,7 @@
 package org.freelo.model.users;
 
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -13,7 +14,7 @@ import org.hibernate.Session;
 public class UserManagement {
 
     // only for test do not use in final program !!!
-    public void testDisplay(){
+    public static void testDisplay(){
         Session session = HibernateSessionFactoryBean.getSession();
         try{
             session.beginTransaction();
@@ -125,6 +126,25 @@ public class UserManagement {
             session.close();
         }
         return user;
+    }
+    // returns User if found, null if user doesnt exist
+    public static List<User> getUsers(){
+        Session session = HibernateSessionFactoryBean.getSession();
+        List<User> users = null;
+        try{
+            session.beginTransaction();
+
+            List<User> tempUsers = session.createQuery("FROM User").list();
+            users = new ArrayList<>(tempUsers);
+
+            session.getTransaction().commit();
+        }catch (HibernateException e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        }finally {
+            session.close();
+        }
+        return users;
     }
 
     // add a new user, return user ID, null if adding user failed (eg. user with such email exist in DB)

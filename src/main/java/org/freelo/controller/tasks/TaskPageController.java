@@ -3,6 +3,8 @@ package org.freelo.controller.tasks;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.vaadin.ui.UI;
+import org.freelo.view.tasks.EventSubwindow;
 import org.freelo.view.tasks.TaskPage;
 
 import com.vaadin.ui.Button;
@@ -16,8 +18,18 @@ public class TaskPageController {
     public TaskPageController(TaskPage tp){
         this.tp = tp;
         tp.shoutButton.addClickListener(new AddShoutLine());
+        tp.createEventButton.addClickListener(new openSubwindow());
     }
 
+    class openSubwindow implements Button.ClickListener{
+
+        @Override
+        public void buttonClick(Button.ClickEvent event) {
+            EventSubwindow subWind = new EventSubwindow(tp);
+            UI.getCurrent().addWindow(subWind);
+        }
+
+    }
 
     class AddShoutLine implements Button.ClickListener{
 		private static final long serialVersionUID = 1L;

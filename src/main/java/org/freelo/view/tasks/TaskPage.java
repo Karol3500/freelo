@@ -55,6 +55,7 @@ public class TaskPage extends HorizontalLayout implements View {
     final Panel donepanel = new Panel("DONE");
     final VerticalLayout done = new VerticalLayout();
 
+    public Button createEventButton;
     public String userName = null;
     User user = null;
 
@@ -215,7 +216,7 @@ public class TaskPage extends HorizontalLayout implements View {
         final VerticalLayout sideLayout = new VerticalLayout();
         sideLayout.setSpacing(true);
         sideLayout.setHeight("100%");
-        sideLayout.setWidth("400px");
+        //sideLayout.setWidth("400px");
 
         Panel projectMembersPanel = new Panel("Project Members");
         VerticalLayout projectMembersLayout = new VerticalLayout();
@@ -236,9 +237,12 @@ public class TaskPage extends HorizontalLayout implements View {
             }
         });
 
-        //HorizontalLayout buttons = new HorizontalLayout();
+        createEventButton = new Button("Create New Event");
 
-        sideLayout.addComponents(calPanel, setMonthButton);
+        HorizontalLayout buttons = new HorizontalLayout();
+        buttons.setSpacing(true);
+        buttons.addComponents(createEventButton, setMonthButton);
+        sideLayout.addComponents(calPanel, buttons);
         sideLayout.addComponent(projectMembersPanel);
         sideLayout.setExpandRatio(projectMembersPanel, 1f);
         return sideLayout;
@@ -247,8 +251,8 @@ public class TaskPage extends HorizontalLayout implements View {
     private Panel buildCalendar() {
         final Panel calPanel = new Panel("Sprint Calendar");
         calPanel.setStyleName("Calendar");
-        calPanel.setWidth("400px");
-        calPanel.setHeight("350px");
+        //calPanel.setWidth("400px");
+        //calPanel.setHeight("400px");
 
         cal.setWidth("100%");
         cal.setHeight("100%");
@@ -272,7 +276,7 @@ public class TaskPage extends HorizontalLayout implements View {
         addEvent("End", "Sprint " + sprintName + " end date", endDate, true);
 
     }
-    private void addEvent(String eventName, String eventDescription, Date eventDate, boolean allDay){
+    public void addEvent(String eventName, String eventDescription, Date eventDate, boolean allDay){
         BasicEvent newEvent = new BasicEvent(eventName, eventDescription, eventDate);
         newEvent.setAllDay(allDay);
 
@@ -391,8 +395,8 @@ public class TaskPage extends HorizontalLayout implements View {
         container.setSpacing(true);
 
 
-        container.setExpandRatio(pagePanel, 1f);
-
+        container.setExpandRatio(pagePanel, 3f);
+        container.setExpandRatio(sidePanel, 1f);
 
         taskPageController = new TaskPageController(this);
     }

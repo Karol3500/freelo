@@ -225,50 +225,65 @@ public class TaskPage extends HorizontalLayout implements View {
         projectMembersPanel.setWidth("100%");
 
 
-        final Panel calPanel = new Panel("Sprint Calendar");
-        calPanel.setStyleName("Calendar");
-        calPanel.setWidth("400px");
-        calPanel.setHeight("350px");
+        final Panel calPanel = buildCalendar();
 
-        Date startDate = new Date(2015, 0, 1);
-        Date endDate =  new Date(2015, 0, 14);
-        final Calendar calendar = buildCalendar(startDate, endDate);
-        calPanel.setContent(calendar);
+        final Button setMonthButton = new Button("Monthly View");
+        setMonthButton.addClickListener(new Button.ClickListener() {
+            private static final long serialVersionUID = 2181474159749123339L;
 
+            public void buttonClick(Button.ClickEvent event) {
+                setMonthView();
+            }
+        });
 
+        //HorizontalLayout buttons = new HorizontalLayout();
 
-        sideLayout.addComponent(calPanel);
+        sideLayout.addComponents(calPanel, setMonthButton);
         sideLayout.addComponent(projectMembersPanel);
         sideLayout.setExpandRatio(projectMembersPanel, 1f);
         return sideLayout;
     }
 
-    private Calendar buildCalendar(Date startdate, Date enddate) {
+    private Panel buildCalendar() {
+        final Panel calPanel = new Panel("Sprint Calendar");
+        calPanel.setStyleName("Calendar");
+        calPanel.setWidth("400px");
+        calPanel.setHeight("350px");
 
         cal.setWidth("100%");
         cal.setHeight("100%");
-        cal.setFirstVisibleDayOfWeek(2);
-        cal.setLastVisibleDayOfWeek(6);
+
         cal.setLocale(new Locale("en", "US"));
 
-
+        Date startdate = new Date(115, 0, 10);
+        Date enddate =  new Date(115, 0, 30);
         cal.setStartDate(startdate);
         cal.setEndDate(enddate);
 
+        addSprintEvent(sprintName);
 
-        BasicEvent startDateEvent = new BasicEvent("Start",
-                "Sprint start date",
-                startDate, startDate);
-        BasicEvent endDateEvent = new BasicEvent("End",
-                "Sprint end date",
-                endDate, endDate);
-        startDateEvent.setAllDay(true);
-        endDateEvent.setAllDay(true);
+        calPanel.setContent(cal);
 
-        cal.addEvent(startDateEvent);
-        cal.addEvent(endDateEvent);
+        return calPanel;
+    }
 
-        return cal;
+    private void addSprintEvent(String sprintName){
+        addEvent("Start", "Sprint " + sprintName + " start date", startDate, true);
+        addEvent("End", "Sprint " + sprintName + " end date", endDate, true);
+
+    }
+    private void addEvent(String eventName, String eventDescription, Date eventDate, boolean allDay){
+        BasicEvent newEvent = new BasicEvent(eventName, eventDescription, eventDate);
+        newEvent.setAllDay(allDay);
+
+        cal.addEvent(newEvent);
+    }
+
+    private void setMonthView(){
+        Date startdate = new Date(115, 0, 10);
+        Date enddate =  new Date(115, 0, 30);
+        cal.setStartDate(startdate);
+        cal.setEndDate(enddate);
     }
 
     VerticalLayout buildTab2(){

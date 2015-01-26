@@ -19,10 +19,6 @@ public class ManageProjectWindow extends Window {
 
     User user;
 
-
-
-
-
     public ManageProjectWindow(final User user, String name) {
         super("Project: " + name);
         this.user = user;

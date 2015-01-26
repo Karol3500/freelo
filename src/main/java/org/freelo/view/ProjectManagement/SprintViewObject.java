@@ -1,5 +1,7 @@
 package org.freelo.view.ProjectManagement;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.freelo.view.tasks.TaskPage;
@@ -21,6 +23,8 @@ public class SprintViewObject {
     private Date startDate;
     private Date endDate;
     public Navigator navi = UI.getCurrent().getNavigator();
+
+    final DateFormat fmt = new SimpleDateFormat("dd.MM.yyyy");
 
     SprintViewObject(String projectName, String sprintName, Date start_date, Date end_date) {
         this.viewName = projectName+"_"+sprintName;
@@ -53,8 +57,8 @@ public class SprintViewObject {
 
     private void add_Labels(){
         Label Sprint_Name = new Label(this.sprintName);
-        Label Sprint_Start = new Label("Start: "+this.startDate);
-        Label Sprint_End = new Label("End: "+this.endDate);
+        Label Sprint_Start = new Label("Start: "+ fmt.format(this.startDate));
+        Label Sprint_End = new Label("End: "+ fmt.format(this.endDate));
         button.addComponent(Sprint_Name);
         button.addComponent(Sprint_Start);
         button.addComponent(Sprint_End);

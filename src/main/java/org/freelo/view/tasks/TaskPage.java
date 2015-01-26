@@ -251,9 +251,6 @@ public class TaskPage extends HorizontalLayout implements View {
     private Panel buildCalendar() {
         final Panel calPanel = new Panel("Sprint Calendar");
         calPanel.setStyleName("Calendar");
-        //calPanel.setWidth("400px");
-        //calPanel.setHeight("400px");
-
         cal.setWidth("100%");
         cal.setHeight("100%");
 
@@ -263,6 +260,8 @@ public class TaskPage extends HorizontalLayout implements View {
         Date enddate =  new Date(115, 0, 30);
         cal.setStartDate(startdate);
         cal.setEndDate(enddate);
+        cal.setFirstVisibleDayOfWeek(2);
+        cal.setLastVisibleDayOfWeek(6);
 
         addSprintEvent(sprintName);
 

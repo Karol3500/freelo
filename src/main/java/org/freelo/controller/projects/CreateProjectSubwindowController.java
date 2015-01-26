@@ -27,7 +27,6 @@ public class CreateProjectSubwindowController {
 
     private Project buildProjectFromProjectItem(ProjectItem pi) {
     	Project pr = new Project();
-        pi.sprintButton.addClickListener(new SprintCreationListener(pr));
         User theOneThatCreates = UserManagement.getUser(pi.manager);
         pr.setName(pi.name);
         pr.setManager(theOneThatCreates.getId());

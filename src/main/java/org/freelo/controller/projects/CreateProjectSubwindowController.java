@@ -32,7 +32,6 @@ public class CreateProjectSubwindowController {
         pr.setName(pi.name);
         pr.setManager(theOneThatCreates.getId());
         pr.addUser(theOneThatCreates);
-        pr.setSprints(new ArrayList<Sprint>());
         return pr;
     }
 }

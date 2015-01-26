@@ -3,6 +3,7 @@ package org.freelo.controller.projects;
 import com.vaadin.ui.Button;
 import org.freelo.model.projects.Project;
 import org.freelo.model.projects.ProjectManagement;
+import org.freelo.model.projects.SprintDAO;
 import org.freelo.model.sprints.Sprint;
 import org.freelo.model.users.UserManagement;
 
@@ -25,5 +26,6 @@ public class SprintCreationListener implements Button.ClickListener {
         Sprint s = new Sprint();
         s.setLeader(UserManagement.getUser(p.getManager()).getEmail());
         p.addSprint(s);
+        SprintDAO.saveOrUpdateSprint(s);
     }
 }

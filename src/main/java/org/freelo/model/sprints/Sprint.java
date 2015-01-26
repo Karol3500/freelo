@@ -1,5 +1,6 @@
 package org.freelo.model.sprints;
 
+import org.freelo.model.projects.Project;
 import org.freelo.model.tasks.Note;
 
 import javax.persistence.*;
@@ -16,6 +17,9 @@ public class Sprint {
     @GeneratedValue(strategy = GenerationType.TABLE)
     private int ID;
 
+    @ManyToOne
+    private Project project;
+
     @Column
     private Date endDate;
 
@@ -27,6 +31,9 @@ public class Sprint {
 
     @Column
     private int sprintId;
+
+    @Column
+    private String name;
 
     @OneToMany
     @JoinColumn(name="id")
@@ -87,4 +94,38 @@ public class Sprint {
         Done.add(note);
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
+
+    @Override
+    public int hashCode() {
+        return name.hashCode()+startDate.hashCode()+endDate.hashCode()+leader.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Sprint))
+            return false;
+        if (obj == this)
+            return true;
+        Sprint s = (Sprint) obj;
+        if(s.getStartDate()!=this.getStartDate() || s.getEndDate() != this.getEndDate()
+                || s.getName() != this.getName()){
+            return false;
+        }
+        return true;
+    }
 }

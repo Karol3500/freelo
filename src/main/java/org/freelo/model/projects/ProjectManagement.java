@@ -44,8 +44,7 @@ public class ProjectManagement {
 
             List<Project> projects = session.createQuery("FROM Project P WHERE P.manager = "+managerID+" AND P.name = '"+projectName+"'").list();
             if (!projects.isEmpty()) {
-                project = (Project) projects.get(0);
-                project.setSprints(project.getSprints());
+                project = projects.get(0);
             }
 
             session.getTransaction().commit();
@@ -67,10 +66,8 @@ public class ProjectManagement {
 
 			List<Project> projects = session.createQuery("FROM Project P WHERE P.id = "+ID).list();
             if (!projects.isEmpty()){
-                project = (Project) projects.get(0);
-            project.setSprints(project.getSprints());
+                project = projects.get(0);
         }
-
             session.getTransaction().commit();
         }catch (HibernateException e) {
             e.printStackTrace();
@@ -88,7 +85,7 @@ public class ProjectManagement {
         try{
             session.beginTransaction();
 
-            List<Project> projects = session.createQuery("FROM Project P WHERE 1 = "+1).list();
+            List<Project> projects = session.createQuery("FROM Project P WHERE 1 = 1").list();
             if (!projects.isEmpty()){
                 for(Project p : projects){
                     if(p.getUsers().contains(user))
@@ -132,15 +129,7 @@ public class ProjectManagement {
         Session session = HibernateSessionFactoryBean.getSession();
         Integer projectID = null;
         try{
-            List<Project> projects = session.createQuery("FROM Project P WHERE P.manager = "+project.getManager()+" AND P.name = '"+project.getName()+"'").list();
-            if (!projects.isEmpty()) {
-                Project p = (Project)projects.get(0);
-                p.setManager(project.getManager());
-                p.setUsers(project.getUsers());
-                p.setSprints(project.getSprints());
-                p.setName(project.getName());
-                session.update(p);
-            }
+            session.saveOrUpdate(project);
         }catch (HibernateException e) {
             e.printStackTrace();
         }finally {
@@ -148,43 +137,43 @@ public class ProjectManagement {
         }
         return projectID;
     }
-
-    // remove project from DB
-    public static void deleteProject(Integer managerID, String projectName){
-        Session session = HibernateSessionFactoryBean.getSession();
-        try{
-            session.beginTransaction();
-
-            List<Project> projects = session.createQuery("FROM Project P WHERE P.manager = "+managerID+" AND P.name = '"+projectName+"'").list();
-            if (!projects.isEmpty()) {
-                Project project = (Project)session.get(Project.class, ((Project) projects.get(0)).getId());
-                session.delete(project);
-            }
-
-            session.getTransaction().commit();
-        }catch (HibernateException e) {
-            e.printStackTrace();
-            session.getTransaction().rollback();
-        }finally {
-            session.close();
-        }
-    }
-
-    // remove project from DB
-    public static void deleteProject(Integer projectID){
-        Session session = HibernateSessionFactoryBean.getSession();
-        try{
-            session.beginTransaction();
-
-            Project project = (Project)session.get(Project.class, projectID);
-            session.delete(project);
-
-            session.getTransaction().commit();
-        }catch (HibernateException e) {
-            e.printStackTrace();
-            session.getTransaction().rollback();
-        }finally {
-            session.close();
-        }
-    }
+//
+//    // remove project from DB
+//    public static void deleteProject(Integer managerID, String projectName){
+//        Session session = HibernateSessionFactoryBean.getSession();
+//        try{
+//            session.beginTransaction();
+//
+//            List<Project> projects = session.createQuery("FROM Project P WHERE P.manager = "+managerID+" AND P.name = '"+projectName+"'").list();
+//            if (!projects.isEmpty()) {
+//                Project project = (Project)session.get(Project.class, ((Project) projects.get(0)).getId());
+//                session.delete(project);
+//            }
+//
+//            session.getTransaction().commit();
+//        }catch (HibernateException e) {
+//            e.printStackTrace();
+//            session.getTransaction().rollback();
+//        }finally {
+//            session.close();
+//        }
+//    }
+//
+//    // remove project from DB
+//    public static void deleteProject(Integer projectID){
+//        Session session = HibernateSessionFactoryBean.getSession();
+//        try{
+//            session.beginTransaction();
+//
+//            Project project = (Project)session.get(Project.class, projectID);
+//            session.delete(project);
+//
+//            session.getTransaction().commit();
+//        }catch (HibernateException e) {
+//            e.printStackTrace();
+//            session.getTransaction().rollback();
+//        }finally {
+//            session.close();
+//        }
+//    }
 }

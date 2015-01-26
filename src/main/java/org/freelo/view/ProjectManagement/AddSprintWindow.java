@@ -36,8 +36,8 @@ public class AddSprintWindow extends Window {
 			private static final long serialVersionUID = 2181474159749122119L;
 			@Override
 			public void buttonClick(Button.ClickEvent event) {
-				Sprint s = controller.persistSprint(projectName,projectManager, startDatePicker.getValue(),endDatePicker.getValue());
-				SprintViewObject sprint = new SprintViewObject(projectName, String.valueOf(s.getId()),
+				Sprint s = controller.persistSprint(projectName,sprintNameTextField.getValue(),projectManager, startDatePicker.getValue(),endDatePicker.getValue());
+				SprintViewObject sprint = new SprintViewObject(projectName, sprintNameTextField.getValue(),
 						s.getStartDate(),s.getEndDate());
 				nextcontainer.addComponent(sprint.button);
 				close();

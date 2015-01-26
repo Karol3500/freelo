@@ -5,10 +5,12 @@ import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.server.FontIcon;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 import org.freelo.model.users.User;
+import sun.font.Font2D;
 
 /**
  * Created by Konrad on 2015-01-13.
@@ -16,7 +18,7 @@ import org.freelo.model.users.User;
 public class ManageProjectWindow extends Window {
     private static final long serialVersionUID = 5683290459141040269L;
 
-
+    Table membersTable;
     User user;
 
     public ManageProjectWindow(final User user, String name) {
@@ -29,7 +31,7 @@ public class ManageProjectWindow extends Window {
         setResizable(false);
         setClosable(true);
         setHeight("700px");
-        setWidth("743px");
+        setWidth("823px");
 
         VerticalLayout content = new VerticalLayout();
         content.setSizeFull();
@@ -48,7 +50,7 @@ public class ManageProjectWindow extends Window {
     private Component buildProjectMembersTab(String name) {
         final VerticalLayout root = new VerticalLayout();
         root.setSpacing(true);
-        root.setMargin(true);
+        root.setMargin(new MarginInfo(false, true, false, true));
         root.setSizeFull();
 
         Label projectDetailsLabel = new Label("Project Name");
@@ -59,18 +61,13 @@ public class ManageProjectWindow extends Window {
         TextField projectNameField = new TextField();
         projectNameField.setValue(name);
 
-
-
-
-        Label projectMembersLabel = new Label("Project Members");
+        Label projectMembersLabel = new Label("Project Members Privileges");
         projectMembersLabel.addStyleName(ValoTheme.LABEL_H4);
         projectMembersLabel.addStyleName(ValoTheme.LABEL_COLORED);
 
-
-
         //////////Members table
-        final Table membersTable = new Table();
-        membersTable.setWidth("670px");
+        membersTable = new Table();
+        membersTable.setWidth("100%");
         membersTable.addStyleName("multirowheaders");
         membersTable.addContainerProperty("Name", String.class, null);
         membersTable.addContainerProperty("Deleting project", CheckBox.class,  null);
@@ -78,28 +75,24 @@ public class ManageProjectWindow extends Window {
         membersTable.addContainerProperty("Adding members", CheckBox.class,  null);
         membersTable.addContainerProperty("Deleting members", CheckBox.class,  null);
         membersTable.addContainerProperty("Adding tasks", CheckBox.class,  null);
-        membersTable.addContainerProperty("Deleting tasks", CheckBox.class,  null);
+        membersTable.addContainerProperty("Deleting tasks", CheckBox.class, null);
+        membersTable.addContainerProperty("Delete Member", Button.class,  null);
+
         membersTable.setColumnHeader("Deleting project", "<div>Deleting</div><br/>project");
         membersTable.setColumnHeader("Managing sprints", "<div>Managing</div><br/>sprints");
         membersTable.setColumnHeader("Adding members", "<div>Adding</div><br/>members");
         membersTable.setColumnHeader("Deleting members", "<div>Deleting</div><br/>members");
         membersTable.setColumnHeader("Adding tasks", "<div>Adding</div><br/>tasks");
         membersTable.setColumnHeader("Deleting tasks", "<div>Deleting</div><br/>tasks");
-        /**
-        membersTable.setColumnAlignment("Deleting project",
-                Table.ALIGN_CENTER);
-        membersTable.setColumnAlignment("Managing sprints",
-                Table.ALIGN_CENTER);
-        membersTable.setColumnAlignment("Adding members",
-                Table.ALIGN_CENTER);
-        membersTable.setColumnAlignment("Deleting members",
-                Table.ALIGN_CENTER);
-        membersTable.setColumnAlignment("Adding tasks",
-                Table.ALIGN_CENTER);
-        membersTable.setColumnAlignment("Deleting tasks",
-                Table.ALIGN_CENTER);
-        **/
+        membersTable.setColumnHeader("Delete Member", "<div>Delete</div><br/>member");
 
+        membersTable.setColumnAlignment("Deleting project", Table.ALIGN_CENTER);
+        membersTable.setColumnAlignment("Managing sprints", Table.ALIGN_CENTER);
+        membersTable.setColumnAlignment("Adding members",   Table.ALIGN_CENTER);
+        membersTable.setColumnAlignment("Deleting members", Table.ALIGN_CENTER);
+        membersTable.setColumnAlignment("Adding tasks",     Table.ALIGN_CENTER);
+        membersTable.setColumnAlignment("Deleting tasks",   Table.ALIGN_CENTER);
+        membersTable.setColumnAlignment("Delete Member",    Table.ALIGN_CENTER);
 
         membersTable.setPageLength(6);
         membersTable.setSelectable(true);
@@ -114,20 +107,12 @@ public class ManageProjectWindow extends Window {
             getProjectMembers(members[i], membersTable);
         }
 
-                Button deleteMemberButton = new Button("Delete member", new Button.ClickListener() {
-            private static final long serialVersionUID = 2181474159749122119L;
-            @Override
-            public void buttonClick(Button.ClickEvent event) {
-                //todo: controller - method removing project members from database
-                membersTable.removeItem(membersTable.getValue());
-            }
-        });
-
 
         //////////Adding user field
         HorizontalLayout addMemberContainer = new HorizontalLayout();
-        final ComboBox addMemberBox = new ComboBox();
-
+        addMemberContainer.setSpacing(true);
+        final ComboBox addMemberBox = new ComboBox("Add new member:");
+        addMemberBox.setInputPrompt("Choose..");
         for (int i=0; i<size; i++){
             addMemberBox.addItem(members[i]);
         }
@@ -142,14 +127,12 @@ public class ManageProjectWindow extends Window {
 
         addMemberContainer.addComponent(addMemberBox);
         addMemberContainer.addComponent(addMemberButton);
-
-
+        addMemberContainer.setComponentAlignment(addMemberButton, Alignment.BOTTOM_LEFT);
 
         root.addComponent(projectDetailsLabel);
         root.addComponent(projectNameField);
         root.addComponent(projectMembersLabel);
         root.addComponent(membersTable);
-        root.addComponent(deleteMemberButton);
         root.addComponent(addMemberContainer);
         root.setExpandRatio(addMemberContainer, 1);
         root.setComponentAlignment(projectMembersLabel, Alignment.TOP_LEFT);
@@ -158,11 +141,28 @@ public class ManageProjectWindow extends Window {
         return root;
     }
 
+    private void updateMembers(){
+
+        membersTable.removeAllItems();
+        String[] members = {"Jan Dziergwa", "Karol Posiła", "Adrian Cyga", "Artur Wąż", "Piotr Bienias", "Rubens Diaz"};
+        int size =  members.length;
+
+        for (int i=0; i<size; i++){
+            getProjectMembers(members[i], membersTable);
+        }
+    }
 
     private void addProjectMember(final Table membersTable, ComboBox addMemberBox) {
         //Adding user to table
 
+        final Button deleteMemberButton = new Button("Delete");
+        deleteMemberButton.addClickListener(new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
+            public void buttonClick(Button.ClickEvent event) {
+                ;
+            }
+        });
 
         final CheckBox deletingProjectCheckbox = new CheckBox();
         final CheckBox managingSprintsCheckbox = new CheckBox();
@@ -180,12 +180,25 @@ public class ManageProjectWindow extends Window {
 
         //todo: controller - method adding member to project database
         membersTable.addItem(new Object[]{addMemberBox.getValue().toString(), deletingProjectCheckbox, managingSprintsCheckbox, addingMembersCheckbox,
-                        deletingMembersCheckbox, addingTasksCheckbox, deletingTasksCheckbox},
+                        deletingMembersCheckbox, addingTasksCheckbox, deletingTasksCheckbox, deleteMemberButton},
                 null);
 
     }
     private void getProjectMembers(String members, final Table membersTable){
 
+        final Button deleteMemberButton = new Button("Delete Member");
+
+        //todo add controller to delete member, (similar to file delete)
+        deleteMemberButton.addClickListener(new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
+
+            public void buttonClick(Button.ClickEvent event) {
+                updateMembers();
+            }
+        });
+
+        deleteMemberButton.addStyleName(ValoTheme.BUTTON_ICON_ONLY);
+        deleteMemberButton.setIcon(FontAwesome.TRASH_O);
         //todo: controller -  method retrieving permissions from database
         final CheckBox deletingProjectCheckbox = new CheckBox();
         final CheckBox managingSprintsCheckbox = new CheckBox();
@@ -202,7 +215,7 @@ public class ManageProjectWindow extends Window {
         deletingTasksCheckbox.setValue(true);
 
         membersTable.addItem(new Object[]{members, deletingProjectCheckbox, managingSprintsCheckbox, addingMembersCheckbox,
-                        deletingMembersCheckbox, addingTasksCheckbox, deletingTasksCheckbox},
+                        deletingMembersCheckbox, addingTasksCheckbox, deletingTasksCheckbox, deleteMemberButton},
                 null);
     }
 
@@ -214,13 +227,12 @@ public class ManageProjectWindow extends Window {
         Button deleteButton = new Button("Delete Project");
         deleteButton.setStyleName(ValoTheme.BUTTON_DANGER);
 
-
         Button updateButton = new Button("Update", new Button.ClickListener() {
             private static final long serialVersionUID = 2181474159749122119L;
 
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                close();
+                updateMembers();
             }
         });
 

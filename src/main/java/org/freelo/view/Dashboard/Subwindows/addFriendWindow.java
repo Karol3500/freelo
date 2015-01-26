@@ -30,15 +30,9 @@ public class addFriendWindow extends Window {
         main.setSizeFull();
         setContent(main);
         setHeight("150px");
-        setWidth("590px");
+        setWidth("700px");
 
         main.addComponent(buildFriendField());
-        //VerticalLayout content = new VerticalLayout();
-        //content.setSizeFull();
-        //content.setMargin(new MarginInfo(true, true, true, true));
-        //setContent(content);
-
-        //content.addComponent(buildUserField());
     }
 
     public String getUserName() {
@@ -94,7 +88,7 @@ public class addFriendWindow extends Window {
         });*/
 
         root.addComponents(friendField,friendSelect, addFriendButton);
-        root.setExpandRatio(friendSelect,2.0f);
+        root.setExpandRatio(friendSelect,3.0f);
         root.setExpandRatio(friendField, 2.0f);
         root.setExpandRatio(addFriendButton, 1.0f);
 

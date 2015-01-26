@@ -10,7 +10,11 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 import org.freelo.model.users.User;
+import org.freelo.model.users.UserManagement;
 import sun.font.Font2D;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Konrad on 2015-01-13.
@@ -102,7 +106,16 @@ public class ManageProjectWindow extends Window {
         //todo: controller - method retrieving project members from database
         String[] members = {"Jan Dziergwa", "Konrad Jażownik", "Karol Posiła", "Adrian Cyga", "Artur Wąż", "Piotr Bienias", "Rubens Diaz"};
         int size =  members.length;
+/*
+        Project proj = ProjectMembersManagement.getProject();
 
+        List<User> projectMembersList = proj.getUsers();
+        ArrayList<String> appMembers = extractName(projectMembersList);
+
+        String[] appMembersStringList = new String[appMembers.size()];
+        appMembersStringList = appMembers.toArray(appMembersStringList);
+        System.out.println(appMembersStringList);
+  */
         for (int i=0; i<size; i++){
             getProjectMembers(members[i], membersTable);
         }
@@ -113,8 +126,15 @@ public class ManageProjectWindow extends Window {
         addMemberContainer.setSpacing(true);
         final ComboBox addMemberBox = new ComboBox("Add new member:");
         addMemberBox.setInputPrompt("Choose..");
+        List<User> membersList = UserManagement.getUsers();
+        ArrayList<String> projectMembers = extractName(membersList);
+
+        String[] projectMembersStringList = new String[projectMembers.size()];
+        projectMembersStringList = projectMembers.toArray(projectMembersStringList);
+
+
         for (int i=0; i<size; i++){
-            addMemberBox.addItem(members[i]);
+            addMemberBox.addItem(projectMembersStringList[i]);
         }
 
         Button addMemberButton = new Button("Add member", new Button.ClickListener() {
@@ -139,6 +159,14 @@ public class ManageProjectWindow extends Window {
         root.setComponentAlignment(membersTable, Alignment.TOP_LEFT);
         root.setComponentAlignment(addMemberContainer, Alignment.TOP_LEFT);
         return root;
+    }
+    private ArrayList<String> extractName(List <User> members) {
+        int l = members.size();
+        ArrayList<String> appMembers = new ArrayList<String>();
+        for(int u=0; u<l; u++) {
+            appMembers.add(u,members.get(u).getFirstName()+" "+members.get(u).getLastName());
+        }
+        return appMembers;
     }
 
     private void updateMembers(){

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Locale;
 
 import com.vaadin.server.FontAwesome;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.freelo.controller.tasks.TaskPageController;
 import org.freelo.model.HibernateSessionFactoryBean;
@@ -138,14 +139,27 @@ public class TaskPage extends HorizontalLayout implements View {
         pagePanel.setSpacing(true);
         pagePanel.setStyleName(ValoTheme.LAYOUT_WELL);
 
+        Label title = new Label(" Project: <strong>" + sprint.getProject().getName() + "</strong> Sprint: <strong>" +
+                sprint.getName() + "</strong>", ContentMode.HTML);
+        title.setSizeUndefined();
+
+        title.setStyleName(ValoTheme.LABEL_NO_MARGIN);
+        //title.setStyleName(ValoTheme.LABEL_BOLD);
+        //title.setStyleName(ValoTheme.LABEL_COLORED);
+       //title.setStyleName(ValoTheme.LABEL_H3);
+
+        //title.setSizeFull();
+
         taskPanelContainer.setHeight("100%");
         taskPanelContainer.setWidth("100%");
+        pagePanel.addComponent(title);
         pagePanel.addComponent(taskPanelContainer);
         pagePanel.addComponent(bottomPanel);
 
         pagePanel.setExpandRatio(taskPanelContainer, 2);
         pagePanel.setExpandRatio(bottomPanel, 1);
         pagePanel.setComponentAlignment(bottomPanel, Alignment.BOTTOM_LEFT);
+        pagePanel.setComponentAlignment(title, Alignment.TOP_CENTER);
         return pagePanel;
     }
 
@@ -292,7 +306,7 @@ public class TaskPage extends HorizontalLayout implements View {
     }
 
     private Panel buildCalendar() {
-        final Panel calPanel = new Panel("Sprint Calendar" + sprint.getName());
+        final Panel calPanel = new Panel("Sprint Calendar");
         calPanel.setStyleName("Calendar");
         cal.setWidth("100%");
         cal.setHeight("100%");

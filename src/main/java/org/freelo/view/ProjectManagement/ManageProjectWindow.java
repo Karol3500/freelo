@@ -37,7 +37,7 @@ public class ManageProjectWindow extends Window {
         setResizable(false);
         setClosable(true);
         setHeight("700px");
-        setWidth("823px");
+        setWidth("853px");
 
         VerticalLayout content = new VerticalLayout();
         content.setSizeFull();
@@ -53,7 +53,7 @@ public class ManageProjectWindow extends Window {
     }
 
 
-    private Component buildProjectMembersTab(String name, String manager) {
+    private Component buildProjectMembersTab(final String name, final String manager) {
         final VerticalLayout root = new VerticalLayout();
         root.setSpacing(true);
         root.setMargin(new MarginInfo(false, true, false, true));
@@ -127,7 +127,7 @@ public class ManageProjectWindow extends Window {
             private static final long serialVersionUID = 2181474159749122119L;
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                addProjectMember(membersTable, addMemberBox);
+                addProjectMember(membersTable, addMemberBox, name);
             }
         });
 
@@ -164,7 +164,9 @@ public class ManageProjectWindow extends Window {
         int l = members.size();
         ArrayList<String> Members = new ArrayList<String>();
         for(int u=0; u<l; u++) {
-            Members.add(u,members.get(u).getFirstName()+" "+members.get(u).getLastName());
+            //Members.add(u,members.get(u).getFirstName()+" "+members.get(u).getLastName());
+            Members.add(u,members.get(u).getEmail());
+
         }
         return Members;
     }
@@ -174,7 +176,7 @@ public class ManageProjectWindow extends Window {
         fillTableWithProjectMembers(name);
     }
 
-    private void addProjectMember(final Table membersTable, ComboBox addMemberBox) {
+    private void addProjectMember(final Table membersTable, ComboBox addMemberBox, String name) {
         //Adding user to table
 
         final Button deleteMemberButton = new Button("Delete");
@@ -201,9 +203,15 @@ public class ManageProjectWindow extends Window {
         deletingTasksCheckbox.setValue(false);
 
         //todo: controller - method adding member to project database
+        int managerID = UserManagement.getUserID(manager);
+        Project p = ProjectManagement.getProject(managerID,name);
+        User u =  UserManagement.getUser(addMemberBox.getValue().toString());
+        p.addUser(u);
+
         membersTable.addItem(new Object[]{addMemberBox.getValue().toString(), deletingProjectCheckbox, managingSprintsCheckbox, addingMembersCheckbox,
                         deletingMembersCheckbox, addingTasksCheckbox, deletingTasksCheckbox, deleteMemberButton},
                 null);
+
 
     }
     private void getProjectMembers(String members, final Table membersTable, final String name){

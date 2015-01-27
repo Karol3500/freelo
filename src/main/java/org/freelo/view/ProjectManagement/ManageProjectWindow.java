@@ -6,6 +6,8 @@ import com.vaadin.data.Property;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.FontIcon;
+import com.vaadin.server.Page;
+import com.vaadin.shared.Position;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
@@ -176,7 +178,7 @@ public class ManageProjectWindow extends Window {
         fillTableWithProjectMembers(name);
     }
 
-    private void addProjectMember(final Table membersTable, ComboBox addMemberBox, String name) {
+    private void addProjectMember(final Table membersTable, ComboBox addMemberBox, final String name) {
         //Adding user to table
 
         final Button deleteMemberButton = new Button("Delete");
@@ -184,9 +186,12 @@ public class ManageProjectWindow extends Window {
             private static final long serialVersionUID = 1L;
 
             public void buttonClick(Button.ClickEvent event) {
-                ;
+                updateMembers(name);
             }
         });
+
+        deleteMemberButton.addStyleName(ValoTheme.BUTTON_ICON_ONLY);
+        deleteMemberButton.setIcon(FontAwesome.TRASH_O);
 
         final CheckBox deletingProjectCheckbox = new CheckBox();
         final CheckBox managingSprintsCheckbox = new CheckBox();
@@ -262,7 +267,14 @@ public class ManageProjectWindow extends Window {
 
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                updateMembers(name);
+                //updateMembers(name);
+                close();
+                Notification success = new Notification(
+                        "Project updated successfully");
+                success.setDelayMsec(2000);
+                success.setStyleName("bar success small");
+                success.setPosition(Position.BOTTOM_CENTER);
+                success.show(Page.getCurrent());
             }
         });
 

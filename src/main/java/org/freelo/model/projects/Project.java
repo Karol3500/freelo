@@ -75,4 +75,22 @@ public class Project {
     public void removeUser(User u){
         users.remove(u);
     }
+
+
+    @Override
+    public boolean equals(Object obj){
+        if(obj instanceof Project){
+            Project pr = (Project) obj;
+            if((this.getName() == pr.getName() &&
+                    this.getManager() == pr.getManager() &&
+                    this.getUsers().hashCode() == pr.getUsers().hashCode()))
+                return true;
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return this.getName().hashCode() + getUsers().hashCode() + getSprints().hashCode();
+    }
 }

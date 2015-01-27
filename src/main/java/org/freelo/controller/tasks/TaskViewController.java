@@ -37,11 +37,7 @@ public class TaskViewController {
 
     void removeFromDb(TaskCard tc) {
         s=SprintDAO.getSprint(s.getId());
-        Note n = new Note();
-        n.setPriority(tc.priorityString);
-        n.setTaskName(tc.getTaskName());
-        n.setText(tc.taskNote);
-        n.setUser(UserManagement.getUser(tc.getUser()));
+        Note n = TaskCreationController.createNoteFromTaskCard(tc);
         List<Note> notes = null;
         int columnId = tc.columns.indexOf(tc.currentContainer);
         if(columnId==0){
@@ -54,6 +50,6 @@ public class TaskViewController {
             notes = s.getDone();
         }
         notes.remove(n);
-        SprintDAO.saveOrUpdateSprint(s);
+        SprintDAO.merge(s);
     }
 }

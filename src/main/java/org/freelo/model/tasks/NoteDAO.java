@@ -30,15 +30,6 @@ public class NoteDAO {
         }
     }
 
-
-    public static void saveTaskCard(TaskCard tc) {
-        Note n = new Note();
-        n.setPriority(tc.priorityString);
-        n.setTaskName(tc.getTaskName());
-        n.setText(tc.taskNote);
-        n.setUser(UserManagement.getUser(tc.getUser()));
-    }
-
     public static void update(Note n) {
         Session session = HibernateSessionFactoryBean.getSession();
         try{

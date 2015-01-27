@@ -29,6 +29,24 @@ public class SprintDAO {
         return sprintId;
     }
 
+    public static Integer merge(Sprint sprint) {
+        Session session = HibernateSessionFactoryBean.getSession();
+        Integer sprintId = null;
+        try{
+            session.beginTransaction();
+
+            session.merge(sprint);
+
+            session.getTransaction().commit();
+        }catch (HibernateException e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        }finally {
+            session.close();
+        }
+        return sprintId;
+    }
+
     public static Sprint getSprint(int id){
         Session session = HibernateSessionFactoryBean.getSession();
         Sprint s = null;

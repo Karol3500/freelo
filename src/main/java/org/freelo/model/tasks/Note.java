@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Embeddable
 public class Note {
 
-	@OneToOne
+	@OneToOne(fetch = FetchType.EAGER)
 	private User user;
 	
 	@Column
@@ -52,5 +52,24 @@ public class Note {
 
 	public void setTaskName(String taskName) {
 		this.taskName = taskName;
+	}
+
+	@Override
+	public int hashCode() {
+		return user.getEmail().hashCode()+taskName.hashCode()+text.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof Note))
+			return false;
+		if (obj == this)
+			return true;
+		Note n = (Note) obj;
+		if(n.getUser().getId()!=this.getUser().getId()||
+				n.getTaskName()!=this.getTaskName()){
+			return false;
+		}
+		return true;
 	}
 }

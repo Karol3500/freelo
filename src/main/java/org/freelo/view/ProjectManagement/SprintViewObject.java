@@ -75,17 +75,17 @@ public class SprintViewObject {
         TaskPage tp = new TaskPage(sprint);
         for(Note n : sprint.getToDo()){
             TaskCard tc = new TaskCard(n.getTaskName(), n.getPriority(), n.getText(),sprint);
-            tp.getTaskCreationWindowWithoutController().createTask(tc,0);
+            tp.getTaskCreationWindowWithoutController(sprint).createTask(tc,0);
         }
 
         for(Note n : sprint.getOnGoing()){
             TaskCard tc = new TaskCard(n.getTaskName(), n.getPriority(), n.getText(),sprint);
-            tp.getTaskCreationWindowWithoutController().createTask(tc,1);
+            tp.getTaskCreationWindowWithoutController(sprint).createTask(tc,1);
         }
 
         for(Note n : sprint.getDone()){
             TaskCard tc = new TaskCard(n.getTaskName(), n.getPriority(), n.getText(),sprint);
-            tp.getTaskCreationWindowWithoutController().createTask(tc,2);
+            tp.getTaskCreationWindowWithoutController(sprint).createTask(tc,2);
         }
 
         return tp;

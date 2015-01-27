@@ -2,11 +2,11 @@ package org.freelo.model.sprints;
 
 import org.freelo.model.projects.Project;
 import org.freelo.model.tasks.Note;
-import org.freelo.model.tasks.NoteDAO;
 
 import javax.persistence.*;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 /**
  * Created by piotr on 2014-12-08.
  */
@@ -37,12 +37,15 @@ public class Sprint {
     private String name;
 
     @ElementCollection(fetch = FetchType.EAGER)
+    @OrderColumn
     private List<Note> toDo = new ArrayList<>();
 
     @ElementCollection(fetch = FetchType.EAGER)
+    @OrderColumn
     private List<Note> onGoing = new ArrayList<>();
 
     @ElementCollection(fetch = FetchType.EAGER)
+    @OrderColumn
     private List<Note> done = new ArrayList<>();
 
     public void addTask(int taskID) {}

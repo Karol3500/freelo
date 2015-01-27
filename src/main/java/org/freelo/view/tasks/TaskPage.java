@@ -400,7 +400,7 @@ public class TaskPage extends HorizontalLayout implements View {
         return writingArea;
     }
 
-    public TaskCreationWindow getTaskCreationWindowWithoutController(){
+    public TaskCreationWindow getTaskCreationWindowWithoutController(Sprint sprint){
         TaskCreationWindow tcw = new TaskCreationWindow(columns,userName,sprint);
         tcw.controller = null;
         return tcw;

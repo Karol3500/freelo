@@ -29,7 +29,8 @@ public class TaskCreationController {
 		@Override
         public void buttonClick(Button.ClickEvent event) {
             try {
-                TaskCard tc = createAndPersistTaskAfterCreateButtonClicked();
+                persist(window.createTask(sprint));
+                window.close();
             }
             catch(Exception ex){
                 ex.printStackTrace();
@@ -42,21 +43,19 @@ public class TaskCreationController {
         }
     }
 
-    private TaskCard createAndPersistTaskAfterCreateButtonClicked() {
-        TaskCard tc = window.createTask(sprint);
-        persist(tc);
-        window.close();
-        return tc;
-    }
-
     private void persist(TaskCard tc){
         sprint = SprintDAO.getSprint(sprint.getId());
+        Note n = createNoteFromTaskCard(tc);
+        sprint.addNoteToDo(n);
+        SprintDAO.merge(sprint);
+    }
+
+    public static Note createNoteFromTaskCard(TaskCard tc) {
         Note n = new Note();
         n.setPriority(tc.priorityString);
         n.setTaskName(tc.getTaskName());
         n.setText(tc.taskNote);
         n.setUser(UserManagement.getUser(tc.getUser()));
-        sprint.addNoteToDo(n);
-        SprintDAO.saveOrUpdateSprint(sprint);
+        return n;
     }
 }

@@ -88,7 +88,7 @@ public class TaskCreationWindow extends Window {
         tc.currentContainer = columns.get(0);
         tc.currentContainer.addComponent(tc);
         tc.taskList.add(tc);
-        new TaskController(tc);
+        new TaskController(tc,sprint);
         return tc;
     }
 
@@ -98,6 +98,6 @@ public class TaskCreationWindow extends Window {
         tc.currentContainer = columns.get(column);
         tc.currentContainer.addComponent(tc);
         tc.taskList.add(tc);
-        new TaskController(tc);
+        new TaskController(tc,sprint);
     }
 }

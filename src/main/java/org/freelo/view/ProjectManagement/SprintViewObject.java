@@ -13,6 +13,8 @@ import org.freelo.model.tasks.Note;
 import org.freelo.view.tasks.TaskCard;
 import org.freelo.view.tasks.TaskPage;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -28,6 +30,8 @@ public class SprintViewObject {
     private Project project;
     private Sprint sprint;
     private TaskPage tp;
+
+    final DateFormat fmt = new SimpleDateFormat("dd.MM.yyyy");
 
     public Navigator navi = UI.getCurrent().getNavigator();
 
@@ -96,8 +100,8 @@ public class SprintViewObject {
 
     private void add_Labels(){
         Label Sprint_Name = new Label(this.sprintName);
-        Label Sprint_Start = new Label("Start: "+this.startDate);
-        Label Sprint_End = new Label("End: "+this.endDate);
+        Label Sprint_Start = new Label("Start: "+ fmt.format(this.startDate));
+        Label Sprint_End = new Label("End: "+ fmt.format(this.endDate));
         button.addComponent(Sprint_Name);
         button.addComponent(Sprint_Start);
         button.addComponent(Sprint_End);

@@ -78,7 +78,6 @@ public class TaskPage extends HorizontalLayout implements View {
     FileManagement fileManagement = new FileManagement();
     IndexedContainer fileContainer = createFileContainer();
     Calendar cal = new Calendar();
-    Date startDate, endDate;
     String projectManager;
     String projectName;
     ////////////////////////
@@ -100,7 +99,7 @@ public class TaskPage extends HorizontalLayout implements View {
         finally{
             session.close();
         }
-        //todo set project name
+
 
         setSizeFull();
         addStyleName("taskpage");
@@ -293,7 +292,7 @@ public class TaskPage extends HorizontalLayout implements View {
     }
 
     private Panel buildCalendar() {
-        final Panel calPanel = new Panel("Sprint Calendar");
+        final Panel calPanel = new Panel("Sprint Calendar" + sprint.getName());
         calPanel.setStyleName("Calendar");
         cal.setWidth("100%");
         cal.setHeight("100%");
@@ -315,8 +314,8 @@ public class TaskPage extends HorizontalLayout implements View {
     }
 
     private void addSprintEvent(String sprintName){
-        addEvent("Start", "Sprint " + sprintName + " start date", startDate, true);
-        addEvent("End", "Sprint " + sprintName + " end date", endDate, true);
+        addEvent("Start", "Sprint " + sprintName + " start date", sprint.getStartDate(), true);
+        addEvent("End", "Sprint " + sprintName + " end date", sprint.getEndDate(), true);
 
     }
     public void addEvent(String eventName, String eventDescription, Date eventDate, boolean allDay){

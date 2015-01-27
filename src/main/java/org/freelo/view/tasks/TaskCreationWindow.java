@@ -3,6 +3,8 @@ package org.freelo.view.tasks;
 import com.vaadin.ui.*;
 import org.freelo.controller.tasks.TaskController;
 import org.freelo.controller.tasks.TaskCreationController;
+import org.freelo.model.projects.SprintDAO;
+import org.freelo.model.sprints.Sprint;
 
 import java.util.List;
 
@@ -22,17 +24,19 @@ public class TaskCreationWindow extends Window {
     public List<VerticalLayout> columns;
     String userName;
     public Button createTaskButton;
+    Sprint sprint;
 
-    public TaskCreationWindow(List<VerticalLayout> columns, String userName) {
+    public TaskCreationWindow(List<VerticalLayout> columns, String userName, Sprint sprint) {
         //Appearance of the popup window
         super("Task Creation Window");
+        this.sprint = sprint;
         this.columns = columns;
         this.userName = userName;
         setupPosition();
         setupPrioritySpinner();
         setupOtherComponents();
         setupMenu();
-        controller = new TaskCreationController(this);
+        controller = new TaskCreationController(this,sprint);
     }
 
     void setupMenu(){
@@ -88,10 +92,10 @@ public class TaskCreationWindow extends Window {
         return tc;
     }
 
-    public void createTask(TaskCard tc) {
+    public void createTask(TaskCard tc,int column) {
         tc.setColumns(columns);
         tc.creator = userName;
-        tc.currentContainer = columns.get(0);
+        tc.currentContainer = columns.get(column);
         tc.currentContainer.addComponent(tc);
         tc.taskList.add(tc);
         new TaskController(tc);

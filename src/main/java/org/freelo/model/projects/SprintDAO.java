@@ -28,4 +28,21 @@ public class SprintDAO {
         }
         return sprintId;
     }
+
+    public static Sprint getSprint(int id){
+        Session session = HibernateSessionFactoryBean.getSession();
+        Sprint s = null;
+        try{
+            session.beginTransaction();
+            s = (Sprint)session.get(Sprint.class,id);
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+            session.getTransaction().rollback();
+        }
+        finally{
+            session.close();
+        }
+        return s;
+    }
 }

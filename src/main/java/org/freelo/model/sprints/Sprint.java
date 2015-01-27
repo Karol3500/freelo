@@ -2,6 +2,7 @@ package org.freelo.model.sprints;
 
 import org.freelo.model.projects.Project;
 import org.freelo.model.tasks.Note;
+import org.freelo.model.tasks.NoteDAO;
 
 import javax.persistence.*;
 
@@ -35,21 +36,14 @@ public class Sprint {
     @Column
     private String name;
 
-    @OneToMany
-    @JoinColumn(name="id")
+    @OneToMany(targetEntity=Note.class, mappedBy = "sprint", cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+    private List<Note> toDo = new ArrayList<>();
 
-     private List<Note> toDo = new ArrayList<>();
-
-    @OneToMany
-    @JoinColumn(name="id")
-
+    @OneToMany(targetEntity=Note.class, mappedBy = "sprint", cascade = CascadeType.ALL, fetch=FetchType.EAGER)
     private List<Note> onGoing = new ArrayList<>();
 
-    @OneToMany
-    @JoinColumn(name="id")
-    private List<Note> Done = new ArrayList<>();
-
-
+    @OneToMany(targetEntity=Note.class, mappedBy = "sprint", cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+    private List<Note> done = new ArrayList<>();
 
     public void addTask(int taskID) {}
     public void deleteTask(int taskID) {}
@@ -88,10 +82,26 @@ public class Sprint {
     }
 
     public List<Note> getDone() {
-        return Done;
+        return done;
     }
     public void addDone(Note note){
-        Done.add(note);
+        done.add(note);
+    }
+
+    public void addNoteToDo(Note n){
+        toDo.add(n);
+        n.setSprint(this);
+        NoteDAO.update(n);
+    }
+
+    public void addNoteOngoing(Note n){
+        onGoing.add(n);
+        n.setSprint(this);
+    }
+
+    public void addNoteDone(Note n){
+        done.add(n);
+        n.setSprint(this);
     }
 
     public String getName() {

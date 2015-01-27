@@ -1,5 +1,6 @@
 package org.freelo.model.tasks;
 
+import org.freelo.model.sprints.Sprint;
 import org.freelo.model.users.User;
 
 import javax.persistence.*;
@@ -9,6 +10,9 @@ public class Note {
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE)
 	private int id;
+
+	@ManyToOne
+	Sprint sprint;
 	
 	@OneToOne
 	private User user;
@@ -64,4 +68,11 @@ public class Note {
 		this.taskName = taskName;
 	}
 
+	public Sprint getSprint() {
+		return sprint;
+	}
+
+	public void setSprint(Sprint sprint) {
+		this.sprint = sprint;
+	}
 }

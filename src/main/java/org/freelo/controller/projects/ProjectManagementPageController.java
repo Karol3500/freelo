@@ -36,7 +36,7 @@ public class ProjectManagementPageController {
 
 	private void populateSprintButtons(ProjectItem p, Project proj) {
 		for(Sprint s : proj.getSprints()){
-			p.addSprint(s,proj.getName());
+			p.addSprint(s,proj);
 		}
 	}
 }

@@ -8,12 +8,14 @@ import java.util.Locale;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import org.freelo.controller.tasks.TaskPageController;
+import org.freelo.model.HibernateSessionFactoryBean;
 import org.freelo.model.files.FileDAO;
 import org.freelo.model.files.FileManagement;
 import org.freelo.model.files.FileUploader;
 import org.freelo.model.files.UserFile;
 import org.freelo.model.projects.Project;
 import org.freelo.model.projects.ProjectManagement;
+import org.freelo.model.sprints.Sprint;
 import org.freelo.model.users.User;
 import org.freelo.model.users.UserManagement;
 import org.freelo.view.ProjectManagement.SprintViewObject;
@@ -28,6 +30,7 @@ import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.components.calendar.event.BasicEvent;
 import com.vaadin.ui.themes.ValoTheme;
+import org.hibernate.Session;
 
 
 /**
@@ -74,26 +77,30 @@ public class TaskPage extends HorizontalLayout implements View {
 
     FileManagement fileManagement = new FileManagement();
     IndexedContainer fileContainer = createFileContainer();
-    private String sprintName;
     Calendar cal = new Calendar();
     Date startDate, endDate;
     String projectManager;
     String projectName;
     ////////////////////////
+    public Sprint sprint;
 
     TabSheet tabSheet = new TabSheet();
     DashboardMenu dashBoard;
 
-    public TaskPage(String sprintName, Date startDate,Date endDate, String projectManager, String projectName) {
-
+    public TaskPage(Sprint sprint) {
+        this.sprint = sprint;
+        Session session = HibernateSessionFactoryBean.getSession();
+        try {
+            session.getTransaction().begin();
+            Project pr = sprint.getProject();
+            this.projectName = pr.getName();
+            this.projectManager = UserManagement.getUser(pr.getManager()).getEmail();
+        }
+        catch(Exception ex){}
+        finally{
+            session.close();
+        }
         //todo set project name
-       //projectName = "testProject";
-        this.sprintName =  sprintName;
-        this.startDate =  startDate;
-        this.endDate =  endDate;
-        this.projectManager = projectManager;
-        this.projectName = projectName;
-
 
         setSizeFull();
         addStyleName("taskpage");
@@ -168,7 +175,7 @@ public class TaskPage extends HorizontalLayout implements View {
 
     @SuppressWarnings("unchecked")
 	public IndexedContainer updateFileContainer() {
-        List<UserFile> files = FileDAO.getFilesByProjectName(sprintName);
+        List<UserFile> files = FileDAO.getFilesByProjectName(sprint.getName());
 
         if(files == null)
             return fileContainer;
@@ -300,7 +307,7 @@ public class TaskPage extends HorizontalLayout implements View {
         cal.setFirstVisibleDayOfWeek(2);
         cal.setLastVisibleDayOfWeek(6);
 
-        addSprintEvent(sprintName);
+        addSprintEvent(sprint.getName());
 
         calPanel.setContent(cal);
 
@@ -331,7 +338,7 @@ public class TaskPage extends HorizontalLayout implements View {
         tab2.setSpacing(true);
         tab2.setMargin(new MarginInfo(true, true, true, true));
         //Upload container
-        FileUploader fileUploader = new FileUploader(sprintName);
+        FileUploader fileUploader = new FileUploader(sprint.getName());
 
         Upload upload = new Upload("Attach files to the project", fileUploader);
         upload.setButtonCaption("Upload");
@@ -393,6 +400,12 @@ public class TaskPage extends HorizontalLayout implements View {
         return writingArea;
     }
 
+    public TaskCreationWindow getTaskCreationWindowWithoutController(){
+        TaskCreationWindow tcw = new TaskCreationWindow(columns,userName,sprint);
+        tcw.controller = null;
+        return tcw;
+    }
+
     private void setup(){
 
         taskPanelContainer.addComponent(todopanel);
@@ -413,7 +426,7 @@ public class TaskPage extends HorizontalLayout implements View {
 
             public void buttonClick(Button.ClickEvent event) {
                 TaskCreationWindow taskCreationWindow=
-                        new TaskCreationWindow(columns, userName);
+                        new TaskCreationWindow(columns, userName,sprint);
                 UI.getCurrent().addWindow(taskCreationWindow);
             }
         });

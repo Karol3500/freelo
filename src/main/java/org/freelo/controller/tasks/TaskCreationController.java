@@ -2,6 +2,8 @@ package org.freelo.controller.tasks;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Notification;
+import org.freelo.model.projects.SprintDAO;
+import org.freelo.model.sprints.Sprint;
 import org.freelo.model.tasks.*;
 import org.freelo.view.tasks.TaskCard;
 import org.freelo.view.tasks.TaskCreationWindow;
@@ -12,8 +14,10 @@ import org.freelo.view.tasks.TaskCreationWindow;
  */
 public class TaskCreationController {
     TaskCreationWindow window;
+    Sprint sprint;
 
-    public TaskCreationController(TaskCreationWindow window){
+    public TaskCreationController(TaskCreationWindow window, Sprint s){
+        this.sprint = s;
         this.window = window;
         this.window.createTaskButton.addClickListener(new CreateTaskButtonOnClickListener());
     }
@@ -46,7 +50,7 @@ public class TaskCreationController {
 
     private TaskCard createAndPersistTaskAfterCreateButtonClicked() {
         TaskCard tc = window.createTask();
-        tc.setDbId(persist(tc));
+        persist(tc);
         window.close();
         return tc;
     }
@@ -54,7 +58,7 @@ public class TaskCreationController {
 
     public void createTask(Note n){
         TaskCard tc = new TaskCard(n.getTaskName(), n.getPriority(), n.getText());
-        window.createTask(tc);
+        window.createTask(tc,0);
     }
 
     void deleteTaskFromView(TaskCard tc){
@@ -62,7 +66,11 @@ public class TaskCreationController {
         tc.currentContainer.removeComponent(tc);
     }
 
-    private Integer persist(TaskCard tc){
-        return NoteDAO.saveTaskCard(tc);
+    private void persist(TaskCard tc){
+        sprint = SprintDAO.getSprint(sprint.getId());
+        tc.setDbId(NoteDAO.saveTaskCard(tc));
+        Note n = NoteDAO.getNote(tc.getDbId());
+        sprint.addNoteToDo(n);
+        SprintDAO.saveOrUpdateSprint(sprint);
     }
 }

@@ -1,12 +1,8 @@
 package org.freelo.view.ProjectManagement;
 
 import com.vaadin.server.VaadinSession;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Panel;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
-
+import com.vaadin.ui.*;
+import org.freelo.model.projects.Project;
 import org.freelo.model.sprints.Sprint;
 import org.freelo.model.users.User;
 
@@ -68,14 +64,13 @@ public class ProjectItem extends ProjectManagementPage {
     }
 
 	void displayProjectCreationPopup() {
-        //final User user = getCurrentUser();
+        final User user = getCurrentUser();
 		manageProject = new ManageProjectWindow(manager, name);
 		UI.getCurrent().addWindow(manageProject);
 	}
 
-	public void addSprint(Sprint s, String projectName) {
-        SprintViewObject sprint = new SprintViewObject(projectName,
-        		String.valueOf(s.getId()),s.getStartDate(), s.getEndDate(), manager);
-        nextcontainer.addComponent(sprint.button);		
+	public void addSprint(Sprint s, Project p) {
+        SprintViewObject sprint = new SprintViewObject(p, s);
+        nextcontainer.addComponent(sprint.button);
 	}
 }

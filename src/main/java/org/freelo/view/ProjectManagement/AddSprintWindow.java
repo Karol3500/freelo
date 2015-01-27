@@ -1,9 +1,13 @@
 package org.freelo.view.ProjectManagement;
-import org.freelo.controller.projects.AddSprintController;
-import org.freelo.model.sprints.Sprint;
 
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.ui.*;
+import org.freelo.controller.projects.AddSprintController;
+import org.freelo.model.projects.Project;
+import org.freelo.model.projects.ProjectManagement;
+import org.freelo.model.sprints.Sprint;
+import org.freelo.model.users.User;
+import org.freelo.model.users.UserManagement;
 
 import java.util.Date;
 
@@ -37,8 +41,9 @@ public class AddSprintWindow extends Window {
 			@Override
 			public void buttonClick(Button.ClickEvent event) {
 				Sprint s = controller.persistSprint(projectName,sprintNameTextField.getValue(),projectManager, startDatePicker.getValue(),endDatePicker.getValue());
-				SprintViewObject sprint = new SprintViewObject(projectName, sprintNameTextField.getValue(),
-						s.getStartDate(),s.getEndDate(), projectManager);
+				User manager = UserManagement.getUser(projectManager);
+				Project p = ProjectManagement.getProject(manager.getId(), projectName);
+				SprintViewObject sprint = new SprintViewObject(p, s);
 				nextcontainer.addComponent(sprint.button);
 				close();
 			}

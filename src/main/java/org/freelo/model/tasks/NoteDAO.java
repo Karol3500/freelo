@@ -90,5 +90,21 @@ public class NoteDAO {
         n.setUser(UserManagement.getUser(tc.getUser()));
         return saveNote(n);
     }
+
+    public static void update(Note n) {
+        Session session = HibernateSessionFactoryBean.getSession();
+        try{
+            session.beginTransaction();
+            session.saveOrUpdate(n);
+            session.getTransaction().commit();
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+            session.getTransaction().rollback();
+        }
+        finally{
+            session.close();
+        }
+    }
 }
 

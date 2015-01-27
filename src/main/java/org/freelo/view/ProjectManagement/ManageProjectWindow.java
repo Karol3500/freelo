@@ -1,11 +1,9 @@
 package org.freelo.view.ProjectManagement;
 
-import com.vaadin.data.Item;
-
-import com.vaadin.data.Property;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.server.FontIcon;
+import com.vaadin.server.Page;
+import com.vaadin.shared.Position;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
@@ -13,7 +11,6 @@ import org.freelo.model.projects.Project;
 import org.freelo.model.projects.ProjectManagement;
 import org.freelo.model.users.User;
 import org.freelo.model.users.UserManagement;
-import sun.font.Font2D;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,10 +23,16 @@ public class ManageProjectWindow extends Window {
 
     Table membersTable;
     String manager;
+    Project thisProject;
+    String projectName;
 
-    public ManageProjectWindow(String manager, String name) {
-        super("Project: " + name);
+    public ManageProjectWindow(String manager, String projectName) {
+        super("Project: " + projectName);
         this.manager = manager;
+        this.projectName = projectName;
+
+        int managerID = UserManagement.getUserID(manager);
+        this.thisProject = ProjectManagement.getProject(managerID, projectName);
 
         center();
         setModal(true);
@@ -44,8 +47,8 @@ public class ManageProjectWindow extends Window {
         content.setMargin(new MarginInfo(false, false, false, false));
         setContent(content);
 
-        Component projectMembers = buildProjectMembersTab(name, manager);
-        Component footer = buildFooter(name);
+        Component projectMembers = buildProjectMembersTab();
+        Component footer = buildFooter(projectName);
         content.addComponent(projectMembers);
         content.addComponent(footer);
         content.setExpandRatio(projectMembers, 1);
@@ -53,7 +56,7 @@ public class ManageProjectWindow extends Window {
     }
 
 
-    private Component buildProjectMembersTab(final String name, final String manager) {
+    private Component buildProjectMembersTab() {
         final VerticalLayout root = new VerticalLayout();
         root.setSpacing(true);
         root.setMargin(new MarginInfo(false, true, false, true));
@@ -65,7 +68,7 @@ public class ManageProjectWindow extends Window {
 
 
         TextField projectNameField = new TextField();
-        projectNameField.setValue(name);
+        projectNameField.setValue(projectName);
 
         Label projectMembersLabel = new Label("Project Members Privileges");
         projectMembersLabel.addStyleName(ValoTheme.LABEL_H4);
@@ -105,13 +108,14 @@ public class ManageProjectWindow extends Window {
         membersTable.setImmediate(true);
 
 
-        fillTableWithProjectMembers(name);
+        fillTableWithProjectMembers();
 
         //////////Adding user field
         HorizontalLayout addMemberContainer = new HorizontalLayout();
         addMemberContainer.setSpacing(true);
         final ComboBox addMemberBox = new ComboBox("Add new member:");
         addMemberBox.setInputPrompt("Choose..");
+        addMemberBox.setWidth("300px");
         List<User> membersList = UserManagement.getUsers();
         ArrayList<String> appMembers = extractName(membersList);
 
@@ -127,7 +131,9 @@ public class ManageProjectWindow extends Window {
             private static final long serialVersionUID = 2181474159749122119L;
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                addProjectMember(membersTable, addMemberBox, name);
+                final User u =  UserManagement.getUser(addMemberBox.getValue().toString());
+                thisProject.addUser(u);
+                updateProjectMember(membersTable, addMemberBox.getValue().toString(), projectName);
             }
         });
 
@@ -147,16 +153,16 @@ public class ManageProjectWindow extends Window {
         return root;
     }
 
-    private void fillTableWithProjectMembers(String name) {
-        int managerID = UserManagement.getUserID(manager);
-        Project proj = ProjectManagement.getProject(managerID, name);
-        List<User> projectMembersList = proj.getUsers();
+    private void fillTableWithProjectMembers() {
+        List<User> projectMembersList = thisProject.getUsers();
+
         ArrayList<String> projectMembers = extractName(projectMembersList);
         String[] projectMembersStringList = new String[projectMembers.size()];
         projectMembersStringList = projectMembers.toArray(projectMembersStringList);
+
         int projectMemberListSize = projectMembersStringList.length;
         for (int i = 0; i < projectMemberListSize; i++) {
-            getProjectMembers(projectMembersStringList[i], membersTable, name);
+            updateProjectMember(membersTable, projectMembersStringList[i], projectName);
         }
     }
 
@@ -171,22 +177,28 @@ public class ManageProjectWindow extends Window {
         return Members;
     }
 
-    private void updateMembers(String name){
+    private void updateMembers(){
         membersTable.removeAllItems();
-        fillTableWithProjectMembers(name);
+        fillTableWithProjectMembers();
     }
 
-    private void addProjectMember(final Table membersTable, ComboBox addMemberBox, String name) {
+    private void updateProjectMember(final Table membersTable, String memberName, final String projectName) {
         //Adding user to table
+
+        final User u =  UserManagement.getUser(memberName);
 
         final Button deleteMemberButton = new Button("Delete");
         deleteMemberButton.addClickListener(new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 
             public void buttonClick(Button.ClickEvent event) {
-                ;
+                thisProject.removeUser(u);
+                updateMembers();
             }
         });
+
+        deleteMemberButton.addStyleName(ValoTheme.BUTTON_ICON_ONLY);
+        deleteMemberButton.setIcon(FontAwesome.TRASH_O);
 
         final CheckBox deletingProjectCheckbox = new CheckBox();
         final CheckBox managingSprintsCheckbox = new CheckBox();
@@ -202,6 +214,7 @@ public class ManageProjectWindow extends Window {
         addingTasksCheckbox.setValue(true);
         deletingTasksCheckbox.setValue(false);
 
+        membersTable.addItem(new Object[]{memberName, deletingProjectCheckbox, managingSprintsCheckbox, addingMembersCheckbox,
         //todo: controller - method adding member to project database
         int managerID = UserManagement.getUserID(manager);
         Project p = ProjectManagement.getProject(managerID,name);
@@ -213,45 +226,9 @@ public class ManageProjectWindow extends Window {
         membersTable.addItem(new Object[]{addMemberBox.getValue().toString(), deletingProjectCheckbox, managingSprintsCheckbox, addingMembersCheckbox,
                         deletingMembersCheckbox, addingTasksCheckbox, deletingTasksCheckbox, deleteMemberButton},
                 null);
-
-
-    }
-    private void getProjectMembers(String members, final Table membersTable, final String name){
-
-        final Button deleteMemberButton = new Button("Delete Member");
-
-        //todo add controller to delete member, (similar to file delete)
-        deleteMemberButton.addClickListener(new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            public void buttonClick(Button.ClickEvent event) {
-                updateMembers(name);
-            }
-        });
-
-        deleteMemberButton.addStyleName(ValoTheme.BUTTON_ICON_ONLY);
-        deleteMemberButton.setIcon(FontAwesome.TRASH_O);
-        //todo: controller -  method retrieving permissions from database
-        final CheckBox deletingProjectCheckbox = new CheckBox();
-        final CheckBox managingSprintsCheckbox = new CheckBox();
-        final CheckBox addingMembersCheckbox = new CheckBox();
-        final CheckBox deletingMembersCheckbox = new CheckBox();
-        final CheckBox addingTasksCheckbox = new CheckBox();
-        final CheckBox deletingTasksCheckbox = new CheckBox();
-
-        deletingProjectCheckbox.setValue(true);
-        managingSprintsCheckbox.setValue(true);
-        addingMembersCheckbox.setValue(true);
-        deletingMembersCheckbox.setValue(true);
-        addingTasksCheckbox.setValue(true);
-        deletingTasksCheckbox.setValue(true);
-
-        membersTable.addItem(new Object[]{members, deletingProjectCheckbox, managingSprintsCheckbox, addingMembersCheckbox,
-                        deletingMembersCheckbox, addingTasksCheckbox, deletingTasksCheckbox, deleteMemberButton},
-                null);
     }
 
-    private Component buildFooter(final String name) {
+    private Component buildFooter(final String projectName) {
         HorizontalLayout footer = new HorizontalLayout();
         footer.addStyleName(ValoTheme.WINDOW_BOTTOM_TOOLBAR);
         footer.setWidth(100.0f, Unit.PERCENTAGE);
@@ -264,7 +241,14 @@ public class ManageProjectWindow extends Window {
 
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                updateMembers(name);
+                //updateMembers(projectName);
+                close();
+                Notification success = new Notification(
+                        "Project updated successfully");
+                success.setDelayMsec(2000);
+                success.setStyleName("bar success small");
+                success.setPosition(Position.BOTTOM_CENTER);
+                success.show(Page.getCurrent());
             }
         });
 

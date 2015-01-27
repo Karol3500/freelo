@@ -27,7 +27,7 @@ public class Project {
     @OneToMany(targetEntity=Sprint.class, mappedBy = "project", cascade = CascadeType.ALL, fetch=FetchType.EAGER)
     private List<Sprint> sprints = new ArrayList<Sprint>();
 
-    @OneToMany(fetch=FetchType.EAGER)
+    @ManyToMany(fetch=FetchType.EAGER)
     private List<User> users = new ArrayList<User>();
 
 
@@ -70,11 +70,9 @@ public class Project {
 
     public void addUser(User u){
         users.add(u);
-        ProjectManagement.updateProject(this);
     }
 
     public void removeUser(User u){
         users.remove(u);
-        ProjectManagement.updateProject(this);
     }
 }

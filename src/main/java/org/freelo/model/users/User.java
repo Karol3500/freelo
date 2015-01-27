@@ -1,5 +1,6 @@
 package org.freelo.model.users;
 
+import org.freelo.model.projects.Project;
 import org.freelo.model.tasks.Note;
 
 import javax.persistence.*;
@@ -16,6 +17,9 @@ public class User{
 	@GeneratedValue(strategy = GenerationType.TABLE)
 	@Column(name = "USER_ID")
 	private int id;
+
+	@ManyToMany(fetch = FetchType.EAGER)
+	private List<Project> projectList = new ArrayList<>();
 
 	@Column
 	private String email;
@@ -102,6 +106,14 @@ public class User{
 				}
 			}
 		}
+	}
+
+	public List<Project> getProjectList() {
+		return projectList;
+	}
+
+	public void setProjectList(List<Project> projectList) {
+		this.projectList = projectList;
 	}
 
 	public boolean isPrivilegeExist(int privilegeID) {

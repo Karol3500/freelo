@@ -10,13 +10,12 @@ import org.freelo.controller.projects.CreateProjectSubwindowController;
  */
 public class Subwindow extends Window {
     private static final long serialVersionUID = 5678234591401040269L;
-    public Button createButton;
-    public ProjectItem pi;
-    CreateProjectSubwindowController c;
+    CreateProjectSubwindowController contoller;
 
     public Subwindow(final VerticalLayout container2) {
         super("New project");
-        c = new CreateProjectSubwindowController(this);
+        contoller = new CreateProjectSubwindowController(this);
+        VerticalLayout container = container2;
         center();
         HorizontalLayout main = new HorizontalLayout();
         main.addStyleName("projectpopup");
@@ -27,36 +26,40 @@ public class Subwindow extends Window {
         setPositionY(50);
         setPositionX(50);
 
-        final TextField ProjectName = new TextField("Enter project name");
-        ProjectName.focus();
+        final TextField projectName = new TextField("Enter project name");
+        projectName.focus();
         // todo.add date
-        createButton = new Button("Create", new Button.ClickListener() {
-            private static final long serialVersionUID = 2181474159749122119L;
-            @Override
-            public void buttonClick(Button.ClickEvent event) {
-                pi = createProject(ProjectName, container2);
-                close();
-                c.createProject(pi);
-            }
-        });
+        Button createButton = new Button("Create");
+        createButton.addClickListener(new CreateProjectButtonClickListener(projectName,container2));
         createButton.setClickShortcut(ShortcutAction.KeyCode.ENTER);
         VerticalLayout itemplacement = new VerticalLayout();
         itemplacement.setSizeFull();
-        itemplacement.addComponent(ProjectName);
+        itemplacement.addComponent(projectName);
         itemplacement.addComponent(createButton);
         main.addComponent(itemplacement);
+    }
+    class CreateProjectButtonClickListener implements Button.ClickListener {
+        private static final long serialVersionUID = 2181474159749122119L;
+        TextField projectName;
+        VerticalLayout container;
 
+        public CreateProjectButtonClickListener(TextField projectName, VerticalLayout container){
+            this.projectName = projectName;
+            this.container = container;
+        }
+
+        @Override
+        public void buttonClick(Button.ClickEvent event) {
+            contoller.createProject(createProjectItem(projectName, container));
+            close();
+        }
     }
 
-
-
-    public ProjectItem createProject(TextField projectName, VerticalLayout container2) {
+    public ProjectItem createProjectItem(TextField projectName, VerticalLayout container2) {
         final String name = projectName.getValue();
         String manager = (String) VaadinSession.getCurrent().getAttribute("user");
         ProjectItem pi = new ProjectItem(name, manager);
         container2.addComponent(pi);
         return pi;
     }
-
-
 }

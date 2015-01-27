@@ -7,6 +7,7 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import org.freelo.model.projects.Project;
+import org.freelo.model.projects.SprintDAO;
 import org.freelo.model.sprints.Sprint;
 import org.freelo.model.tasks.Note;
 import org.freelo.view.tasks.TaskCard;
@@ -60,6 +61,7 @@ public class SprintViewObject {
             }
             tp = getTaskPageFromDb();
             if(tp==null){
+                sprint = SprintDAO.getSprint(sprint.getId());
                 tp = new TaskPage(sprint);
                 tp.change_task_name(viewName);
             }
@@ -72,6 +74,7 @@ public class SprintViewObject {
         if(project == null || sprint == null){
             return null;
         }
+        sprint = SprintDAO.getSprint(sprint.getId());
         TaskPage tp = new TaskPage(sprint);
         for(Note n : sprint.getToDo()){
             TaskCard tc = new TaskCard(n.getTaskName(), n.getPriority(), n.getText(),sprint);

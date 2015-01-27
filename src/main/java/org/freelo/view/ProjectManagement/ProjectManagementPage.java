@@ -24,7 +24,6 @@ public class ProjectManagementPage extends VerticalLayout implements View{
     private static final long serialVersionUID = -9002670791091569418L;
     public static final String NAME = "Project_management";
     public ProjectManagementPageController pageController;
-    public Subwindow createNewProj;
     public AddSprintWindow createNewSprint;
     public ManageProjectWindow manageProject;
 
@@ -67,8 +66,7 @@ public class ProjectManagementPage extends VerticalLayout implements View{
 			@Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 //Method to display project creation popup called here
-                createNewProj = new Subwindow(container2);
-                UI.getCurrent().addWindow(createNewProj);
+                UI.getCurrent().addWindow(new Subwindow(container2));
             }
         });
         container2.addComponent(addProjectButton);

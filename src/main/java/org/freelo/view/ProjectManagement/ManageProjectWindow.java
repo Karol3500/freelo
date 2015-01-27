@@ -207,6 +207,8 @@ public class ManageProjectWindow extends Window {
         Project p = ProjectManagement.getProject(managerID,name);
         User u =  UserManagement.getUser(addMemberBox.getValue().toString());
         p.addUser(u);
+        u.getProjectList().add(p);
+        ProjectManagement.updateProject(p);
 
         membersTable.addItem(new Object[]{addMemberBox.getValue().toString(), deletingProjectCheckbox, managingSprintsCheckbox, addingMembersCheckbox,
                         deletingMembersCheckbox, addingTasksCheckbox, deletingTasksCheckbox, deleteMemberButton},

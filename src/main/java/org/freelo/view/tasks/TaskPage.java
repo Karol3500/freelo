@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import org.freelo.controller.tasks.TaskPageController;
 import org.freelo.model.files.FileDAO;
@@ -210,6 +211,28 @@ public class TaskPage extends HorizontalLayout implements View {
         tabSheet.setSizeFull();
         return bottomPanel;
     }
+    private com.vaadin.ui.Component buildMembersTable(){
+        Table membersTable = new Table();
+        membersTable.setWidth("100%");
+        membersTable.addContainerProperty("Name", String.class, null);
+        String[] members = {"Jan Dziergwa", "Konrad Jażownik", "Karol Posiła", "Adrian Cyga", "Artur Wąż", "Piotr Bienias", "Rubens Diaz"};
+        int size =  members.length;
+/*
+        Project proj = ProjectMembersManagement.getProject();
+
+        List<User> projectMembersList = proj.getUsers();
+        ArrayList<String> appMembers = extractName(projectMembersList);
+
+        String[] appMembersStringList = new String[appMembers.size()];
+        appMembersStringList = appMembers.toArray(appMembersStringList);
+        System.out.println(appMembersStringList);
+  */
+        for (int i=0; i<size; i++){
+            membersTable.addItem(new Object[]{members[i]}, null);
+        }
+        return membersTable;
+    }
+
 
     @SuppressWarnings("deprecation")
 	private com.vaadin.ui.Component buildSideForm(){
@@ -224,7 +247,7 @@ public class TaskPage extends HorizontalLayout implements View {
         projectMembersPanel.setStyleName("ProjectMembersPanel");
         projectMembersPanel.setHeight("100%");
         projectMembersPanel.setWidth("100%");
-
+        projectMembersLayout.addComponent(buildMembersTable());
 
         final Panel calPanel = buildCalendar();
 

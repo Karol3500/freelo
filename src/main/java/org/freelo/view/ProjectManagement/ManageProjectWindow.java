@@ -127,14 +127,14 @@ public class ManageProjectWindow extends Window {
         final ComboBox addMemberBox = new ComboBox("Add new member:");
         addMemberBox.setInputPrompt("Choose..");
         List<User> membersList = UserManagement.getUsers();
-        ArrayList<String> projectMembers = extractName(membersList);
+        ArrayList<String> appMembers = extractName(membersList);
 
-        String[] projectMembersStringList = new String[projectMembers.size()];
-        projectMembersStringList = projectMembers.toArray(projectMembersStringList);
+        String[] appMembersStringList = new String[appMembers.size()];
+        appMembersStringList = appMembers.toArray(appMembersStringList);
 
-
-        for (int i=0; i<size; i++){
-            addMemberBox.addItem(projectMembersStringList[i]);
+        int appMemberListSize =  appMembersStringList.length;
+        for (int i=0; i<appMemberListSize; i++){
+            addMemberBox.addItem(appMembersStringList[i]);
         }
 
         Button addMemberButton = new Button("Add member", new Button.ClickListener() {

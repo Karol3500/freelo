@@ -5,6 +5,7 @@ import com.vaadin.ui.Notification;
 import org.freelo.model.projects.SprintDAO;
 import org.freelo.model.sprints.Sprint;
 import org.freelo.model.tasks.*;
+import org.freelo.model.users.UserManagement;
 import org.freelo.view.tasks.TaskCard;
 import org.freelo.view.tasks.TaskCreationWindow;
 
@@ -29,7 +30,6 @@ public class TaskCreationController {
         public void buttonClick(Button.ClickEvent event) {
             try {
                 TaskCard tc = createAndPersistTaskAfterCreateButtonClicked();
-                deleteTaskCardFromViewAndSubstituteItWithVersionTakenFromDb(tc);
             }
             catch(Exception ex){
                 ex.printStackTrace();
@@ -42,34 +42,20 @@ public class TaskCreationController {
         }
     }
 
-    private void deleteTaskCardFromViewAndSubstituteItWithVersionTakenFromDb(TaskCard tc) {
-        deleteTaskFromView(tc);
-        Note n = NoteDAO.getNote(tc.getDbId());
-        createTask(n);
-    }
-
     private TaskCard createAndPersistTaskAfterCreateButtonClicked() {
-        TaskCard tc = window.createTask();
+        TaskCard tc = window.createTask(sprint);
         persist(tc);
         window.close();
         return tc;
     }
 
-
-    public void createTask(Note n){
-        TaskCard tc = new TaskCard(n.getTaskName(), n.getPriority(), n.getText());
-        window.createTask(tc,0);
-    }
-
-    void deleteTaskFromView(TaskCard tc){
-        tc.taskList.remove(tc);
-        tc.currentContainer.removeComponent(tc);
-    }
-
     private void persist(TaskCard tc){
         sprint = SprintDAO.getSprint(sprint.getId());
-        tc.setDbId(NoteDAO.saveTaskCard(tc));
-        Note n = NoteDAO.getNote(tc.getDbId());
+        Note n = new Note();
+        n.setPriority(tc.priorityString);
+        n.setTaskName(tc.getTaskName());
+        n.setText(tc.taskNote);
+        n.setUser(UserManagement.getUser(tc.getUser()));
         sprint.addNoteToDo(n);
         SprintDAO.saveOrUpdateSprint(sprint);
     }

@@ -3,6 +3,7 @@ package org.freelo.view.tasks;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.freelo.controller.tasks.TaskViewController;
+import org.freelo.model.sprints.Sprint;
 
 /**
  * Created by karol on 16.12.14.
@@ -15,7 +16,7 @@ public class TaskViewWindow extends Window {
     VerticalLayout menu;
     Label taskNote;
 
-    public TaskViewWindow(TaskCard tc) {
+    public TaskViewWindow(TaskCard tc,Sprint sprint) {
         super(tc.getTaskName() + " by " + tc.getUser());
         this.tc = tc;
         deleteTaskButton = new Button("Delete");
@@ -23,7 +24,7 @@ public class TaskViewWindow extends Window {
         setupTaskNoteText(tc);
         setupMenu();
         this.setContent(menu);
-        controller = new TaskViewController(this);
+        controller = new TaskViewController(this,sprint);
     }
     void setupPosition(){
         center();

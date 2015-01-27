@@ -78,11 +78,11 @@ public class TaskCreationWindow extends Window {
 
     }
 
-    public TaskCard createTask() {
+    public TaskCard createTask(Sprint sprint) {
         String task_data = data.getValue();
         String T_name = taskName.getValue();
         TaskCard tc = new TaskCard(T_name, prioritySpinner.getValue() != null ?
-                                           prioritySpinner.getValue().toString() : "", task_data);
+                                           prioritySpinner.getValue().toString() : "", task_data,sprint);
         tc.setColumns(columns);
         tc.creator = userName;
         tc.currentContainer = columns.get(0);

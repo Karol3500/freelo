@@ -36,13 +36,13 @@ public class Sprint {
     @Column
     private String name;
 
-    @OneToMany(targetEntity=Note.class, mappedBy = "sprint", cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+    @ElementCollection(fetch = FetchType.EAGER)
     private List<Note> toDo = new ArrayList<>();
 
-    @OneToMany(targetEntity=Note.class, mappedBy = "sprint", cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+    @ElementCollection(fetch = FetchType.EAGER)
     private List<Note> onGoing = new ArrayList<>();
 
-    @OneToMany(targetEntity=Note.class, mappedBy = "sprint", cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+    @ElementCollection(fetch = FetchType.EAGER)
     private List<Note> done = new ArrayList<>();
 
     public void addTask(int taskID) {}
@@ -90,18 +90,14 @@ public class Sprint {
 
     public void addNoteToDo(Note n){
         toDo.add(n);
-        n.setSprint(this);
-        NoteDAO.update(n);
     }
 
     public void addNoteOngoing(Note n){
         onGoing.add(n);
-        n.setSprint(this);
     }
 
     public void addNoteDone(Note n){
         done.add(n);
-        n.setSprint(this);
     }
 
     public String getName() {

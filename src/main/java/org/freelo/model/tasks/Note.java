@@ -5,15 +5,9 @@ import org.freelo.model.users.User;
 
 import javax.persistence.*;
 
-@Entity
+@Embeddable
 public class Note {
-	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE)
-	private int id;
 
-	@ManyToOne
-	Sprint sprint;
-	
 	@OneToOne
 	private User user;
 	
@@ -25,14 +19,6 @@ public class Note {
 
     @Lob
     private String text;
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	public User getUser() {
 		return user;
@@ -66,13 +52,5 @@ public class Note {
 
 	public void setTaskName(String taskName) {
 		this.taskName = taskName;
-	}
-
-	public Sprint getSprint() {
-		return sprint;
-	}
-
-	public void setSprint(Sprint sprint) {
-		this.sprint = sprint;
 	}
 }

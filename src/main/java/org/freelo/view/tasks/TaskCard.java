@@ -4,6 +4,7 @@ package org.freelo.view.tasks;
 import com.vaadin.event.LayoutEvents;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
+import org.freelo.model.sprints.Sprint;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,10 +25,8 @@ public class TaskCard extends VerticalLayout {
     public String priorityString;
     public List<VerticalLayout> columns;
     public final ArrayList<TaskCard> taskList = new ArrayList<>();
-    private Integer dbId;
 
-    public TaskCard(final String name, String priorityString, final String data) {
-        dbId = null;
+    public TaskCard(final String name, String priorityString, final String data, final Sprint sprint) {
         taskName = name;
         taskNote = data;
         this.priorityString = priorityString;
@@ -40,7 +39,7 @@ public class TaskCard extends VerticalLayout {
 
 			@Override
             public void layoutClick(LayoutEvents.LayoutClickEvent event) {
-                Window CreateComponent = new TaskViewWindow(TaskCard.this);
+                Window CreateComponent = new TaskViewWindow(TaskCard.this, sprint);
                 UI.getCurrent().addWindow(CreateComponent);
             }
         });
@@ -88,13 +87,5 @@ public class TaskCard extends VerticalLayout {
 
     public String getTaskNote() {
         return taskNote;
-    }
-
-    public Integer getDbId() {
-        return dbId;
-    }
-
-    public void setDbId(int dbId) {
-        this.dbId = dbId;
     }
 }

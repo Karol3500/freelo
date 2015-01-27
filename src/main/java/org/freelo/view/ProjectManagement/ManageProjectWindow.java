@@ -6,10 +6,13 @@ import com.vaadin.shared.Position;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
+import org.freelo.model.HibernateSessionFactoryBean;
 import org.freelo.model.projects.Project;
 import org.freelo.model.projects.ProjectManagement;
 import org.freelo.model.users.User;
 import org.freelo.model.users.UserManagement;
+import org.hibernate.Session;
+
 import java.util.ArrayList;
 import java.util.List;
 /**
@@ -105,9 +108,24 @@ public class ManageProjectWindow extends Window {
             private static final long serialVersionUID = 2181474159749122119L;
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                final User u = UserManagement.getUser(addMemberBox.getValue().toString());
+                User u = UserManagement.getUser(addMemberBox.getValue().toString());
                 thisProject.addUser(u);
                 u.getProjectList().add(thisProject);
+                Session session = HibernateSessionFactoryBean.getSession();
+                try{
+                    session.getTransaction().begin();
+                    session.update(thisProject);
+                    session.update(u);
+                    session.getTransaction().commit();
+                }
+                catch(Exception ex){
+                    ex.printStackTrace();
+                    session.getTransaction().rollback();
+                }
+                finally{
+                    session.close();
+                }
+
                 updateProjectMember(membersTable, addMemberBox.getValue().toString(), projectName);
             }
         });
@@ -157,6 +175,20 @@ public class ManageProjectWindow extends Window {
             public void buttonClick(Button.ClickEvent event) {
                 thisProject.removeUser(u);
                 u.getProjectList().remove(thisProject);
+                Session s = HibernateSessionFactoryBean.getSession();
+                try{
+                    s.getTransaction().begin();
+                    s.update(u);
+                    s.update(thisProject);
+                    s.getTransaction().commit();
+                }
+                catch(Exception ex){
+                    ex.printStackTrace();
+                    s.getTransaction().rollback();
+                }
+                finally{
+                    s.close();
+                }
                 updateMembers();
             }
         });

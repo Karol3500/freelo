@@ -68,14 +68,14 @@ public class ProjectItem extends ProjectManagementPage {
     }
 
 	void displayProjectCreationPopup() {
-        final User user = getCurrentUser();
-		manageProject = new ManageProjectWindow(user, name);
+        //final User user = getCurrentUser();
+		manageProject = new ManageProjectWindow(manager, name);
 		UI.getCurrent().addWindow(manageProject);
 	}
 
 	public void addSprint(Sprint s, String projectName) {
         SprintViewObject sprint = new SprintViewObject(projectName,
-        		String.valueOf(s.getId()),s.getStartDate(), s.getEndDate());
+        		String.valueOf(s.getId()),s.getStartDate(), s.getEndDate(), manager);
         nextcontainer.addComponent(sprint.button);		
 	}
 }

@@ -9,6 +9,8 @@ import com.vaadin.server.FontIcon;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
+import org.freelo.model.projects.Project;
+import org.freelo.model.projects.ProjectManagement;
 import org.freelo.model.users.User;
 import org.freelo.model.users.UserManagement;
 import sun.font.Font2D;
@@ -23,11 +25,11 @@ public class ManageProjectWindow extends Window {
     private static final long serialVersionUID = 5683290459141040269L;
 
     Table membersTable;
-    User user;
+    String manager;
 
-    public ManageProjectWindow(final User user, String name) {
+    public ManageProjectWindow(String manager, String name) {
         super("Project: " + name);
-        this.user = user;
+        this.manager = manager;
 
         center();
         setModal(true);
@@ -42,8 +44,8 @@ public class ManageProjectWindow extends Window {
         content.setMargin(new MarginInfo(false, false, false, false));
         setContent(content);
 
-        Component projectMembers = buildProjectMembersTab(name);
-        Component footer = buildFooter();
+        Component projectMembers = buildProjectMembersTab(name, manager);
+        Component footer = buildFooter(name);
         content.addComponent(projectMembers);
         content.addComponent(footer);
         content.setExpandRatio(projectMembers, 1);
@@ -51,7 +53,7 @@ public class ManageProjectWindow extends Window {
     }
 
 
-    private Component buildProjectMembersTab(String name) {
+    private Component buildProjectMembersTab(String name, String manager) {
         final VerticalLayout root = new VerticalLayout();
         root.setSpacing(true);
         root.setMargin(new MarginInfo(false, true, false, true));
@@ -102,24 +104,8 @@ public class ManageProjectWindow extends Window {
         membersTable.setSelectable(true);
         membersTable.setImmediate(true);
 
-        //todo: controller - method retrieving application members from database
-        //todo: controller - method retrieving project members from database
-        String[] members = {"Jan Dziergwa", "Konrad Jażownik", "Karol Posiła", "Adrian Cyga", "Artur Wąż", "Piotr Bienias", "Rubens Diaz"};
-        int size =  members.length;
-/*
-        Project proj = ProjectMembersManagement.getProject();
 
-        List<User> projectMembersList = proj.getUsers();
-        ArrayList<String> appMembers = extractName(projectMembersList);
-
-        String[] appMembersStringList = new String[appMembers.size()];
-        appMembersStringList = appMembers.toArray(appMembersStringList);
-        System.out.println(appMembersStringList);
-  */
-        for (int i=0; i<size; i++){
-            getProjectMembers(members[i], membersTable);
-        }
-
+        fillTableWithProjectMembers(name);
 
         //////////Adding user field
         HorizontalLayout addMemberContainer = new HorizontalLayout();
@@ -160,24 +146,32 @@ public class ManageProjectWindow extends Window {
         root.setComponentAlignment(addMemberContainer, Alignment.TOP_LEFT);
         return root;
     }
-    private ArrayList<String> extractName(List <User> members) {
-        int l = members.size();
-        ArrayList<String> appMembers = new ArrayList<String>();
-        for(int u=0; u<l; u++) {
-            appMembers.add(u,members.get(u).getFirstName()+" "+members.get(u).getLastName());
+
+    private void fillTableWithProjectMembers(String name) {
+        int managerID = UserManagement.getUserID(manager);
+        Project proj = ProjectManagement.getProject(managerID, name);
+        List<User> projectMembersList = proj.getUsers();
+        ArrayList<String> projectMembers = extractName(projectMembersList);
+        String[] projectMembersStringList = new String[projectMembers.size()];
+        projectMembersStringList = projectMembers.toArray(projectMembersStringList);
+        int projectMemberListSize = projectMembersStringList.length;
+        for (int i = 0; i < projectMemberListSize; i++) {
+            getProjectMembers(projectMembersStringList[i], membersTable, name);
         }
-        return appMembers;
     }
 
-    private void updateMembers(){
-
-        membersTable.removeAllItems();
-        String[] members = {"Jan Dziergwa", "Karol Posiła", "Adrian Cyga", "Artur Wąż", "Piotr Bienias", "Rubens Diaz"};
-        int size =  members.length;
-
-        for (int i=0; i<size; i++){
-            getProjectMembers(members[i], membersTable);
+    private ArrayList<String> extractName(List <User> members) {
+        int l = members.size();
+        ArrayList<String> Members = new ArrayList<String>();
+        for(int u=0; u<l; u++) {
+            Members.add(u,members.get(u).getFirstName()+" "+members.get(u).getLastName());
         }
+        return Members;
+    }
+
+    private void updateMembers(String name){
+        membersTable.removeAllItems();
+        fillTableWithProjectMembers(name);
     }
 
     private void addProjectMember(final Table membersTable, ComboBox addMemberBox) {
@@ -212,7 +206,7 @@ public class ManageProjectWindow extends Window {
                 null);
 
     }
-    private void getProjectMembers(String members, final Table membersTable){
+    private void getProjectMembers(String members, final Table membersTable, final String name){
 
         final Button deleteMemberButton = new Button("Delete Member");
 
@@ -221,7 +215,7 @@ public class ManageProjectWindow extends Window {
             private static final long serialVersionUID = 1L;
 
             public void buttonClick(Button.ClickEvent event) {
-                updateMembers();
+                updateMembers(name);
             }
         });
 
@@ -247,7 +241,7 @@ public class ManageProjectWindow extends Window {
                 null);
     }
 
-    private Component buildFooter() {
+    private Component buildFooter(final String name) {
         HorizontalLayout footer = new HorizontalLayout();
         footer.addStyleName(ValoTheme.WINDOW_BOTTOM_TOOLBAR);
         footer.setWidth(100.0f, Unit.PERCENTAGE);
@@ -260,7 +254,7 @@ public class ManageProjectWindow extends Window {
 
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                updateMembers();
+                updateMembers(name);
             }
         });
 

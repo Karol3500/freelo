@@ -12,7 +12,10 @@ import org.freelo.model.files.FileDAO;
 import org.freelo.model.files.FileManagement;
 import org.freelo.model.files.FileUploader;
 import org.freelo.model.files.UserFile;
+import org.freelo.model.projects.Project;
+import org.freelo.model.projects.ProjectManagement;
 import org.freelo.model.users.User;
+import org.freelo.model.users.UserManagement;
 import org.freelo.view.ProjectManagement.SprintViewObject;
 import org.freelo.view.SimpleLoginUI;
 import org.freelo.view.Dashboard.DashboardMenu;
@@ -71,21 +74,26 @@ public class TaskPage extends HorizontalLayout implements View {
 
     FileManagement fileManagement = new FileManagement();
     IndexedContainer fileContainer = createFileContainer();
-    private String projectName, sprintName;
+    private String sprintName;
     Calendar cal = new Calendar();
     Date startDate, endDate;
+    String projectManager;
+    String projectName;
     ////////////////////////
 
     TabSheet tabSheet = new TabSheet();
     DashboardMenu dashBoard;
 
-    public TaskPage(String sprintName, Date startDate,Date endDate) {
+    public TaskPage(String sprintName, Date startDate,Date endDate, String projectManager, String projectName) {
 
         //todo set project name
        //projectName = "testProject";
         this.sprintName =  sprintName;
         this.startDate =  startDate;
         this.endDate =  endDate;
+        this.projectManager = projectManager;
+        this.projectName = projectName;
+
 
         setSizeFull();
         addStyleName("taskpage");
@@ -215,24 +223,30 @@ public class TaskPage extends HorizontalLayout implements View {
         Table membersTable = new Table();
         membersTable.setWidth("100%");
         membersTable.addContainerProperty("Name", String.class, null);
-        String[] members = {"Jan Dziergwa", "Konrad Jażownik", "Karol Posiła", "Adrian Cyga", "Artur Wąż", "Piotr Bienias", "Rubens Diaz"};
-        int size =  members.length;
-/*
-        Project proj = ProjectMembersManagement.getProject();
 
-        List<User> projectMembersList = proj.getUsers();
-        ArrayList<String> appMembers = extractName(projectMembersList);
-
-        String[] appMembersStringList = new String[appMembers.size()];
-        appMembersStringList = appMembers.toArray(appMembersStringList);
-        System.out.println(appMembersStringList);
-  */
-        for (int i=0; i<size; i++){
-            membersTable.addItem(new Object[]{members[i]}, null);
-        }
+        fillTableWithProjectMembers(projectName, projectManager, membersTable);
         return membersTable;
     }
-
+    private void fillTableWithProjectMembers(String name, String manager, Table membersTable) {
+        int managerID = UserManagement.getUserID(manager);
+        Project proj = ProjectManagement.getProject(managerID, name);
+        List<User> projectMembersList = proj.getUsers();
+        ArrayList<String> projectMembers = extractName(projectMembersList);
+        String[] projectMembersStringList = new String[projectMembers.size()];
+        projectMembersStringList = projectMembers.toArray(projectMembersStringList);
+        int projectMemberListSize = projectMembersStringList.length;
+        for (int i = 0; i < projectMemberListSize; i++) {
+            membersTable.addItem(new Object[]{projectMembersStringList[i]}, null);
+        }
+    }
+    private ArrayList<String> extractName(List <User> members) {
+        int l = members.size();
+        ArrayList<String> Members = new ArrayList<String>();
+        for(int u=0; u<l; u++) {
+            Members.add(u,members.get(u).getFirstName()+" "+members.get(u).getLastName());
+        }
+        return Members;
+    }
 
     @SuppressWarnings("deprecation")
 	private com.vaadin.ui.Component buildSideForm(){

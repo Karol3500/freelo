@@ -22,15 +22,19 @@ public class SprintViewObject {
     private String sprintName;
     private Date startDate;
     private Date endDate;
+    private String projectName;
+    String manager;
     public Navigator navi = UI.getCurrent().getNavigator();
 
     final DateFormat fmt = new SimpleDateFormat("dd.MM.yyyy");
 
-    SprintViewObject(String projectName, String sprintName, Date start_date, Date end_date) {
+    SprintViewObject(String projectName, String sprintName, Date start_date, Date end_date, String manager) {
         this.viewName = projectName+"_"+sprintName;
         this.sprintName = sprintName;
         this.startDate = start_date;
         this.endDate = end_date;
+        this.manager = manager;
+        this.projectName = projectName;
         init_button();
     }
     private void init_button() {
@@ -48,7 +52,7 @@ public class SprintViewObject {
 
 		@Override
         public void layoutClick(LayoutEvents.LayoutClickEvent event) {
-    		TaskPage tp = new TaskPage(sprintName, startDate, endDate);
+    		TaskPage tp = new TaskPage(sprintName, startDate, endDate, manager, projectName);
     		tp.change_task_name(viewName);
 	        navi.addView(viewName, tp);
             navi.navigateTo(viewName);

@@ -38,7 +38,7 @@ public class AddSprintWindow extends Window {
 			public void buttonClick(Button.ClickEvent event) {
 				Sprint s = controller.persistSprint(projectName,sprintNameTextField.getValue(),projectManager, startDatePicker.getValue(),endDatePicker.getValue());
 				SprintViewObject sprint = new SprintViewObject(projectName, sprintNameTextField.getValue(),
-						s.getStartDate(),s.getEndDate());
+						s.getStartDate(),s.getEndDate(), projectManager);
 				nextcontainer.addComponent(sprint.button);
 				close();
 			}

@@ -40,6 +40,9 @@ public class Application {
         UserManagement.userAdd("Jan","Dziergwa","jandziergwa@freelo.com","password");
         UserManagement.userAdd("Ruben","Dias","rubendias@freelo.com","password");
 
+
+
+
         PrivilegeManagement.addPrivilege("admin");
         PrivilegeManagement.addPrivilege("project_deleting");
         PrivilegeManagement.addPrivilege("sprint_managing");
